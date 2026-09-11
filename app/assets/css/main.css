@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  /* Paleta tomada de ahorasoypapademispapas — solo los tonos que usa el test */
+  --color-papel: #fbf6ef;
+  --color-papel-alto: #f3ead9;
+  --color-tinta: #2b2420;
+  --color-tinta-suave: #5a5044;
+  --color-terracota: #c1592c;
+  --color-terracota-alto: #a2461f;
+  --color-salvia-alto: #55624a;
+  --color-ocre: #d9a441;
+  --color-amarillo-alto: #d99715;
+  --color-linea: #e4d9c7;
+
+  --font-display: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --font-body: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --font-mono: Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+  --radius-editorial: 0.5rem;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-papel);
+    color: var(--color-tinta);
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: var(--color-ocre);
+    color: var(--color-tinta);
+  }
+}
+
+@layer utilities {
+  .kicker {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+}
