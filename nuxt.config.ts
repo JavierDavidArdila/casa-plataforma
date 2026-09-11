@@ -18,12 +18,20 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'es-CO' },
-      title: 'Test de Bienestar C.A.S.A.',
+      title: 'C.A.S.A. — Del Cuidado a Distancia',
       meta: [
         {
           name: 'description',
           content:
-            'Un test breve, no clínico, para ubicar tu nivel de esfuerzo como cuidador a distancia y en qué área necesitas más apoyo.',
+            'Plataforma C.A.S.A.: test de bienestar, contenidos y acompañamiento para quienes cuidan a distancia.',
+        },
+      ],
+      link: [
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap',
         },
       ],
     },

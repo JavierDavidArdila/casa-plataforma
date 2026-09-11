@@ -1,6 +1,9 @@
 // Endpoint del mismo Worker del sitio (gracias al preset 'cloudflare_module').
 // Recalcula el puntaje en servidor (no confía en el valor que mande el cliente)
-// y lo guarda en la base D1 `casa-test-bienestar-db`.
+// y lo guarda en la base D1 `casa-test-bienestar-db`, enlazado al usuario de
+// la sesión (creada en /api/lead con la pre-inscripción).
+
+import { COOKIE_SESION, obtenerUsuarioDeSesion } from '../utils/auth'
 
 interface CloudflareEnv {
   DB: D1Database
@@ -57,14 +60,18 @@ export default defineEventHandler(async (event) => {
     return { ok: true, guardado: false, puntajeIecd, resultado, pilarPrincipal }
   }
 
+  const token = getCookie(event, COOKIE_SESION)
+  const usuario = await obtenerUsuarioDeSesion(env.DB, token)
+
   await env.DB.prepare(
     `INSERT INTO respuestas_test
-      (anios_cuidando, mayor_aporte, interlocutores, comunicacion,
+      (usuario_id, anios_cuidando, mayor_aporte, interlocutores, comunicacion,
        p5, p6, p7, p8, p9, naturaleza_relacion, p11, p12, p13, p14, p15,
        puntaje_iecd, resultado, pilar_principal)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   )
     .bind(
+      usuario?.id ?? null,
       String(respuestas['1'] ?? ''),
       String(respuestas['2'] ?? ''),
       JSON.stringify(respuestas['3'] ?? []),
