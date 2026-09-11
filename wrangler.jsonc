@@ -1,5 +1,5 @@
 {
-  "name": "casa-test-bienestar",
+  "name": "casa-plataforma",
   "compatibility_date": "2025-07-15",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./.output/server/index.mjs",
