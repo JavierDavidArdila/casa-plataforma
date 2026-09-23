@@ -1,26 +1,21 @@
 <script setup lang="ts">
-const ASPP = 'https://ahorasoypapademispapas.david-ardila.workers.dev'
-
-// Contenidos vive en esta plataforma; Prensa/Libros/Quiénes somos/Comuniquémonos
-// ya existen, bien construidos, en el sitio principal — en vez de duplicarlos
-// a medio hacer aquí, se enlaza directo allá (mantiene la "cercanía" de marca).
 const items = [
-  { grupo: 'Menú', links: [{ to: '/contenidos', label: 'Contenidos', icon: 'video', externo: false }] },
+  { grupo: 'Menú', links: [{ to: '/contenidos', label: 'Contenidos', icon: 'video' }] },
   {
     grupo: 'Noticias',
     links: [
-      { to: `${ASPP}/prensa`, label: 'Prensa', icon: 'mic', externo: true },
-      { to: `${ASPP}/libro`, label: 'Libros', icon: 'book', externo: true },
+      { to: '/prensa', label: 'Prensa', icon: 'mic' },
+      { to: '/libros', label: 'Libros', icon: 'book' },
     ],
   },
   {
     grupo: 'Nosotros',
     links: [
-      { to: `${ASPP}/biografia`, label: 'Quiénes Somos', icon: 'mano', externo: true },
-      { to: `${ASPP}/contacto`, label: 'Comuniquémonos', icon: 'chat', externo: true },
+      { to: '/quienes-somos', label: 'Quiénes Somos', icon: 'mano' },
+      { to: '/#comuniquemonos', label: 'Comuniquémonos', icon: 'chat' },
     ],
   },
-]
+] as const
 </script>
 
 <template>
@@ -44,27 +39,16 @@ const items = [
       <nav class="flex flex-col gap-6">
         <div v-for="grupo in items" :key="grupo.grupo" class="flex flex-col gap-2">
           <p class="kicker text-[var(--color-texto-suave)]">{{ grupo.grupo }}</p>
-          <template v-for="link in grupo.links" :key="link.to">
-            <a
-              v-if="link.externo"
-              :href="link.to"
-              target="_blank"
-              rel="noopener"
-              class="flex items-center gap-3 rounded-[var(--radius-editorial)] px-2 py-2 text-sm text-[var(--color-texto)] hover:bg-[var(--color-fondo)]"
-            >
-              <IconoNav :nombre="link.icon" />
-              {{ link.label }}
-            </a>
-            <NuxtLink
-              v-else
-              :to="link.to"
-              class="flex items-center gap-3 rounded-[var(--radius-editorial)] px-2 py-2 text-sm text-[var(--color-texto)] hover:bg-[var(--color-fondo)]"
-              active-class="text-[var(--color-azul)] font-medium"
-            >
-              <IconoNav :nombre="link.icon" />
-              {{ link.label }}
-            </NuxtLink>
-          </template>
+          <NuxtLink
+            v-for="link in grupo.links"
+            :key="link.to"
+            :to="link.to"
+            class="flex items-center gap-3 rounded-[var(--radius-editorial)] px-2 py-2 text-sm text-[var(--color-texto)] hover:bg-[var(--color-fondo)]"
+            active-class="text-[var(--color-azul)] font-medium"
+          >
+            <IconoNav :nombre="link.icon" />
+            {{ link.label }}
+          </NuxtLink>
         </div>
       </nav>
     </div>

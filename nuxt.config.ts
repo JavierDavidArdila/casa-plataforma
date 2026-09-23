@@ -7,8 +7,19 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  runtimeConfig: {
+    public: {
+      // Clave gratuita de https://web3forms.com — usada por el formulario "Comuniquémonos".
+      web3formsKey: '',
+    },
+  },
+
   nitro: {
     preset: 'cloudflare_module',
+    // Emula los bindings de Cloudflare (D1 incluido) en `nuxt dev`, contra una
+    // base local en .wrangler/state — sin esto, /api/lead, /api/login, etc.
+    // no tienen `event.context.cloudflare.env.DB` y fallan en desarrollo.
+    modules: ['nitro-cloudflare-dev'],
   },
 
   vite: {

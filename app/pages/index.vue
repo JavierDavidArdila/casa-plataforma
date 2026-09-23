@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { PRENSA } from '~/data/prensa'
+import { LIBRO } from '~/data/libro'
+
 useSeoMeta({
   title: 'C.A.S.A. — Del Cuidado a Distancia',
   description: 'Plataforma C.A.S.A.: test de bienestar, contenidos y acompañamiento para quienes cuidan a distancia.',
@@ -10,6 +13,11 @@ const videosTemporada1 = [
   { titulo: 'Video Sostener', descripcion: 'Dependencia excesiva, red familiar, organización del cuidado.' },
   { titulo: 'Video Aliviar', descripcion: 'Sobrecarga general, equilibrio entre cuidado y vida propia.' },
 ]
+
+// Los dos medios más recientes, como vitrina hacia la página completa de Prensa.
+const prensaDestacada = PRENSA.slice()
+  .sort((a, b) => b.fecha.localeCompare(a.fecha))
+  .slice(0, 2)
 </script>
 
 <template>
@@ -48,67 +56,73 @@ const videosTemporada1 = [
     <section class="flex flex-col gap-6">
       <h2 class="text-xl font-bold text-[var(--color-azul)]">Primera temporada</h2>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <NuxtLink
-          v-for="video in videosTemporada1"
-          :key="video.titulo"
-          to="/contenidos"
-          class="flex flex-col gap-3 rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-3 transition-shadow hover:shadow-md"
-        >
-          <ImagenPlaceholder :etiqueta="video.titulo" />
-          <div>
-            <p class="font-semibold">{{ video.titulo }}</p>
-            <p class="text-sm text-[var(--color-texto-suave)]">{{ video.descripcion }}</p>
-          </div>
+        <NuxtLink v-for="video in videosTemporada1" :key="video.titulo" to="/contenidos" class="block">
+          <VideoCard :titulo="video.titulo" :descripcion="video.descripcion" />
         </NuxtLink>
       </div>
     </section>
 
     <!-- Prensa -->
     <section class="flex flex-col gap-6">
-      <h2 class="text-xl font-bold text-[var(--color-azul)]">Prensa</h2>
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-[var(--color-azul)]">Prensa</h2>
+        <NuxtLink to="/prensa" class="text-sm font-medium text-[var(--color-azul)] hover:underline">Ver todo →</NuxtLink>
+      </div>
       <div class="grid gap-6 sm:grid-cols-2">
-        <a
-          v-for="item in [{ medio: 'TV', href: 'https://ahorasoypapademispapas.david-ardila.workers.dev/prensa' }, { medio: 'Radio', href: 'https://ahorasoypapademispapas.david-ardila.workers.dev/prensa' }]"
-          :key="item.medio"
-          :href="item.href"
-          target="_blank"
-          rel="noopener"
-          class="flex flex-col gap-3 rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-4"
-        >
-          <ImagenPlaceholder :etiqueta="`Prensa — ${item.medio}`" />
-          <div>
-            <p class="font-semibold">{{ item.medio }}</p>
-            <p class="text-sm text-[var(--color-texto-suave)]">Entrevistas y apariciones en {{ item.medio }}.</p>
-          </div>
-          <span class="inline-flex w-fit items-center gap-1 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-4 py-2 text-sm font-medium text-white">
-            Conoce más ↗
-          </span>
-        </a>
+        <VideoCard
+          v-for="item in prensaDestacada"
+          :key="item.url"
+          :titulo="item.medio"
+          :descripcion="item.titular"
+          :imagen="item.imagen"
+          href="/prensa"
+          texto-boton="Conoce más"
+        />
       </div>
     </section>
 
     <!-- Libros -->
     <section class="flex flex-col gap-6">
-      <h2 class="text-xl font-bold text-[var(--color-azul)]">Libros</h2>
-      <div class="grid gap-6 sm:grid-cols-2">
-        <a
-          v-for="n in [1, 2]"
-          :key="n"
-          href="https://ahorasoypapademispapas.david-ardila.workers.dev/libro"
-          target="_blank"
-          rel="noopener"
-          class="flex items-center gap-4 rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-4"
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-[var(--color-azul)]">Libros</h2>
+        <NuxtLink to="/libros" class="text-sm font-medium text-[var(--color-azul)] hover:underline">Ver todo →</NuxtLink>
+      </div>
+      <NuxtLink to="/libros" class="flex items-center gap-4 rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-4">
+        <img :src="LIBRO.imagen" :alt="LIBRO.titulo" class="h-28 w-auto rounded-[var(--radius-editorial)] object-contain" loading="lazy" />
+        <div class="flex flex-col gap-2">
+          <p class="font-semibold">{{ LIBRO.titulo }}</p>
+          <p class="text-sm text-[var(--color-texto-suave)]">De {{ LIBRO.autor }}.</p>
+          <span class="inline-flex w-fit items-center gap-1 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-4 py-2 text-sm font-medium text-white">
+            Conoce más ↗
+          </span>
+        </div>
+      </NuxtLink>
+    </section>
+
+    <!-- Quiénes somos -->
+    <section class="grid gap-8 md:grid-cols-2 md:items-center">
+      <img
+        src="/images/bio/home-bio.png"
+        alt="Equipo C.A.S.A."
+        class="aspect-video w-full rounded-[var(--radius-card)] object-cover md:aspect-auto md:h-full"
+        loading="lazy"
+      />
+      <div class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-[var(--color-azul)]">Quiénes somos</h2>
+        <p class="text-[var(--color-texto-suave)]">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus sodales justo, ac suscipit nulla
+          aliquam et. Integer ac pharetra magna, id ultricies est
+        </p>
+        <NuxtLink
+          to="/quienes-somos"
+          class="inline-flex w-fit items-center gap-2 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-6 py-3 font-medium text-white transition-colors hover:bg-[var(--color-naranja-alto)]"
         >
-          <ImagenPlaceholder aspecto="aspect-[3/4] w-28" :etiqueta="`Libro 0${n}`" />
-          <div class="flex flex-col gap-2">
-            <p class="font-semibold">Libro 0{{ n }}</p>
-            <p class="text-sm text-[var(--color-texto-suave)]">"¡Ahora soy papá de mis papás!", de Fernando Roca Correa.</p>
-            <span class="inline-flex w-fit items-center gap-1 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-4 py-2 text-sm font-medium text-white">
-              Conoce más ↗
-            </span>
-          </div>
-        </a>
+          Conoce más ↗
+        </NuxtLink>
       </div>
     </section>
+
+    <!-- Comuniquémonos -->
+    <ComuniquemonosForm />
   </div>
 </template>

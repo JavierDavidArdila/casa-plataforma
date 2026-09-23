@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { VIDEOS } from '~/data/videos'
+
 useSeoMeta({ title: 'Contenidos — C.A.S.A.' })
 
 const { sesion, cargarSesion } = useAuth()
@@ -8,13 +10,6 @@ onMounted(async () => {
   await cargarSesion()
   verificando.value = false
 })
-
-const videos = [
-  { titulo: 'Video Comprender', descripcion: 'Culpa, sensación de insuficiencia, aceptación del nuevo rol.' },
-  { titulo: 'Video Acompañar', descripcion: 'Comunicación, tensión emocional, calidad del vínculo.' },
-  { titulo: 'Video Sostener', descripcion: 'Dependencia excesiva, red familiar, organización del cuidado.' },
-  { titulo: 'Video Aliviar', descripcion: 'Sobrecarga general, equilibrio entre cuidado y vida propia.' },
-]
 
 const rutaSuscripcion = computed(() => (sesion.value.tieneCuenta ? '/pago' : sesion.value.autenticado ? '/crear-cuenta' : '/registrarse'))
 </script>
@@ -35,21 +30,20 @@ const rutaSuscripcion = computed(() => (sesion.value.tieneCuenta ? '/pago' : ses
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <div v-for="video in videos" :key="video.titulo" class="flex flex-col gap-3 rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-3">
-        <div class="relative">
-          <ImagenPlaceholder :etiqueta="sesion.suscrito ? video.titulo : `Trailer — ${video.titulo}`" />
-          <span
-            v-if="!sesion.suscrito"
-            class="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-1 text-[10px] font-medium text-white"
-          >
-            🔒 Solo suscriptores
-          </span>
-        </div>
-        <div>
-          <p class="font-semibold">{{ video.titulo }}</p>
-          <p class="text-sm text-[var(--color-texto-suave)]">{{ video.descripcion }}</p>
-        </div>
-      </div>
+      <component
+        :is="sesion.suscrito ? 'NuxtLink' : 'div'"
+        v-for="video in VIDEOS"
+        :key="video.slug"
+        :to="sesion.suscrito ? `/contenidos/${video.slug}` : undefined"
+      >
+        <VideoCard
+          :titulo="video.titulo"
+          :descripcion="video.descripcion"
+          :etiqueta="sesion.suscrito ? video.titulo : `Trailer — ${video.titulo}`"
+          :bloqueado="!sesion.suscrito"
+          :texto-boton="sesion.suscrito ? 'Ver video' : 'Ver trailer'"
+        />
+      </component>
     </div>
   </div>
 </template>

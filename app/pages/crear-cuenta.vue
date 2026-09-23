@@ -62,8 +62,8 @@ async function crear() {
 .campo {
   border: 1px solid var(--color-borde);
   background: var(--color-superficie);
-  border-radius: 0.5rem;
-  padding: 0.6rem 0.9rem;
+  border-radius: 9999px;
+  padding: 0.65rem 1.25rem;
   outline: none;
 }
 .campo:focus {

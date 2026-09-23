@@ -13,10 +13,17 @@ Worker y base D1.
 
 ```bash
 pnpm install
+pnpm run db:local:setup   # solo la primera vez: crea el esquema en la D1 local (.wrangler/state)
 pnpm dev
 ```
 
-Abre `http://localhost:3000`.
+Abre la URL que imprima `pnpm dev` (usa 3000 si está libre; si no, el siguiente puerto disponible).
+
+El módulo `nitro-cloudflare-dev` emula los bindings de Cloudflare (D1 incluido)
+en desarrollo local — sin él, `nuxt dev` no tiene `event.context.cloudflare.env`
+y los endpoints que dependen de la base de datos (registro, login, test,
+pago) fallan. Esa base local es independiente de la remota (no comparte
+datos ni esquema versionado — ver sección "Base de datos" abajo).
 
 ## Deploy
 
@@ -53,7 +60,19 @@ Pendiente / no incluido todavía:
 Usa la base D1 `casa-test-bienestar-db` (nombre heredado del módulo original;
 no se renombró porque ya tiene respuestas reales de usuarios y D1 no soporta
 renombrar bases in situ). Tablas: `usuarios`, `sesiones`, `respuestas_test`
-(ver `server/utils/auth.ts` y `server/api/test-bienestar.post.ts`).
+(ver `server/utils/auth.ts` y `server/api/test-bienestar.post.ts`), más
+`comparte_respuestas` (ver `server/api/comparte.post.ts`).
+
+El esquema real de la base remota no está versionado en este repo (se creó a
+mano antes de tener migraciones). `migrations/0000_schema_local.sql` es una
+reconstrucción de las columnas que el código usa, solo para desarrollo local
+(`--local`) — **no correrla con `--remote`**, la base remota ya existe y tiene
+datos reales. `migrations/0001_comparte.sql` sí es nueva y falta aplicarla
+también en remoto:
+
+```bash
+npx wrangler d1 execute casa-test-bienestar-db --remote --file=migrations/0001_comparte.sql
+```
 
 Consultar datos guardados:
 

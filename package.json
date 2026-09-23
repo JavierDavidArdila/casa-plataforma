@@ -9,7 +9,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "deploy": "nuxt build && wrangler deploy"
+    "deploy": "nuxt build && wrangler deploy",
+    "db:local:setup": "wrangler d1 execute casa-test-bienestar-db --local --file=migrations/0000_schema_local.sql && wrangler d1 execute casa-test-bienestar-db --local --file=migrations/0001_comparte.sql"
   },
   "dependencies": {
     "nuxt": "^4.5.2",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "nitro-cloudflare-dev": "^0.2.2",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.3.10",
