@@ -1,13 +1,17 @@
 <script setup lang="ts">
-defineProps<{
-  nombre: 'video' | 'mic' | 'book' | 'mano' | 'chat' | 'persona' | 'casa' | 'buscar' | 'play'
-}>()
+withDefaults(
+  defineProps<{
+    nombre: 'video' | 'mic' | 'book' | 'mano' | 'chat' | 'persona' | 'casa' | 'buscar' | 'play'
+    size?: number
+  }>(),
+  { size: 18 }
+)
 </script>
 
 <template>
   <svg
-    width="18"
-    height="18"
+    :width="size"
+    :height="size"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"

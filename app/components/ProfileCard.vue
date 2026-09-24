@@ -8,24 +8,16 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-3 rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-6 text-center">
-    <div class="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-fondo)] text-[var(--color-texto-suave)]">
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+  <div class="flex min-h-[370px] flex-col items-center gap-[15px] rounded-[30px] bg-white p-[30px] text-center">
+    <div class="flex size-[100px] items-center justify-center rounded-full bg-[var(--color-fondo)] text-[var(--color-gris-md)]">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
         <circle cx="12" cy="8" r="4" />
         <path d="M4 20a8 8 0 0 1 16 0" />
       </svg>
     </div>
-    <p class="font-semibold text-[var(--color-texto)]">{{ nombre }}</p>
-    <p v-if="cargo" class="-mt-2 text-sm italic text-[var(--color-texto-suave)]">{{ cargo }}</p>
-    <p v-if="descripcion" class="text-sm text-[var(--color-texto-suave)]">{{ descripcion }}</p>
-    <a
-      v-if="href"
-      :href="href"
-      target="_blank"
-      rel="noopener"
-      class="mt-1 inline-flex w-fit items-center gap-1 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-4 py-2 text-sm font-medium text-white"
-    >
-      Ver Web ↗
-    </a>
+    <p class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">{{ nombre }}</p>
+    <p v-if="cargo" class="text-[16px] leading-none text-[var(--color-secundario)]">{{ cargo }}</p>
+    <p v-if="descripcion" class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.05]">{{ descripcion }}</p>
+    <BotonCasa v-if="href" :href="href" class="mt-auto">Ver Web</BotonCasa>
   </div>
 </template>

@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
   const token = getCookie(event, COOKIE_SESION)
   const usuario = await obtenerUsuarioDeSesion(env.DB, token)
-  if (!usuario) throw createError({ statusCode: 401, statusMessage: 'Sesión no encontrada, vuelve a empezar el test' })
+  if (!usuario) throw createError({ statusCode: 401, statusMessage: 'Sesión no encontrada, vuelve a empezar el cuestionario' })
 
   const { hash, salt } = await hashPassword(body.password)
   await env.DB.prepare('UPDATE usuarios SET password_hash = ?, password_salt = ? WHERE id = ?')

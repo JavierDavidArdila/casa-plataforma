@@ -34,7 +34,7 @@ export default defineNuxtConfig({
         {
           name: 'description',
           content:
-            'Plataforma C.A.S.A.: test de bienestar, contenidos y acompañamiento para quienes cuidan a distancia.',
+            'Plataforma C.A.S.A.: Cuestionario de Bienestar, contenidos y acompañamiento para quienes cuidan a distancia.',
         },
       ],
       link: [
@@ -42,7 +42,7 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=swap',
         },
       ],
     },

@@ -29,50 +29,38 @@ async function confirmarPago() {
 </script>
 
 <template>
-  <div class="mx-auto flex max-w-md flex-col gap-6 px-6 py-16">
+  <div class="flex flex-col items-center gap-[30px] px-[30px] py-[30px]">
     <template v-if="!codigoUsuario">
-      <h1 class="text-center text-2xl font-bold text-[var(--color-azul)]">Activa tu suscripción</h1>
-      <p class="rounded-[var(--radius-editorial)] bg-[var(--color-fondo)] px-4 py-2 text-center text-xs text-[var(--color-texto-suave)]">
+      <h1 class="titulo-seccion">Activa tu suscripción</h1>
+      <p class="rounded-[10px] bg-white px-4 py-2 text-center text-[14px] text-[var(--color-gris-dk)]">
         Pago de prueba — todavía no está conectada una pasarela real de pago.
       </p>
 
-      <div class="flex flex-col gap-3 rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-5">
+      <div class="flex w-full max-w-[497px] flex-col gap-[15px] rounded-[30px] bg-white p-[30px] text-[var(--color-gris-dk)]">
         <div class="flex items-center justify-between">
-          <span class="font-medium">Suscripción C.A.S.A.</span>
-          <span class="font-semibold">$—</span>
+          <span class="text-[16px] font-bold">Suscripción C.A.S.A.</span>
+          <span class="text-[16px] font-bold">$—</span>
         </div>
-        <label class="flex items-center gap-2 text-sm text-[var(--color-texto-suave)]">
-          <input v-model="incluyeLibro" type="checkbox" />
+        <label class="flex items-center gap-2 text-[16px]">
+          <input v-model="incluyeLibro" type="checkbox" class="accent-[var(--color-primario)]" />
           Incluir libro "¡Ahora soy papá de mis papás!" (opcional)
         </label>
       </div>
 
-      <p v-if="error" class="text-sm text-[var(--color-terracota)]">{{ error }}</p>
+      <p v-if="error" class="text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ error }}</p>
 
-      <button
-        type="button"
-        :disabled="enviando"
-        class="inline-flex items-center justify-center gap-2 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-6 py-3 font-medium text-white disabled:opacity-50"
-        @click="confirmarPago"
-      >
+      <BotonCasa :disabled="enviando" sin-flecha @click="confirmarPago">
         {{ enviando ? 'Procesando...' : 'Confirmar pago (simulado)' }}
-      </button>
+      </BotonCasa>
     </template>
 
     <template v-else>
-      <div class="flex flex-col items-center gap-4 text-center">
-        <h1 class="text-2xl font-bold text-[var(--color-azul)]">¡Listo! Tu suscripción está activa</h1>
-        <p class="text-sm text-[var(--color-texto-suave)]">Este es tu número de usuario. Lo necesitas para iniciar sesión.</p>
-        <p class="rounded-[var(--radius-card)] bg-[var(--color-fondo)] px-8 py-4 text-4xl font-bold tracking-widest text-[var(--color-azul)]">
-          {{ codigoUsuario }}
-        </p>
-        <NuxtLink
-          to="/contenidos"
-          class="inline-flex items-center gap-2 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-6 py-3 font-medium text-white"
-        >
-          Ir a Contenidos →
-        </NuxtLink>
-      </div>
+      <h1 class="titulo-seccion">¡Listo! Tu suscripción está activa</h1>
+      <p class="text-[16px] text-[var(--color-gris-dk)]">Este es tu número de usuario. Lo necesitas para iniciar sesión.</p>
+      <p class="rounded-[30px] bg-white px-[40px] py-[20px] text-[36px] font-bold tracking-widest text-[var(--color-secundario)]">
+        {{ codigoUsuario }}
+      </p>
+      <BotonCasa to="/contenidos">Ir a Contenidos</BotonCasa>
     </template>
   </div>
 </template>

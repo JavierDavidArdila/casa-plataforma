@@ -5,35 +5,53 @@ useSeoMeta({
   title: 'Libros — C.A.S.A.',
   description: LIBRO.intro,
 })
+
+// Figma: dos filas en zigzag — imagen del libro en tarjeta blanca (509×419) y texto + botón al lado.
+const libros = [
+  { titulo: 'Libro 1', imagen: '/images/figma/libro-1.png', invertido: false, recorte: false },
+  { titulo: 'Libro 2', imagen: '/images/figma/libro-2.png', invertido: true, recorte: true },
+]
 </script>
 
 <template>
-  <div class="flex flex-col gap-10 px-6 py-10 md:px-10">
-    <section class="relative flex min-h-[260px] flex-col justify-end overflow-hidden rounded-[var(--radius-card)] p-10 text-white">
-      <div class="absolute inset-0 bg-[var(--color-azul-alto)]" />
-      <div class="relative flex flex-col gap-2">
-        <h1 class="text-3xl font-bold text-[var(--color-naranja)] md:text-4xl">Libros</h1>
-        <p class="text-sm text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  <div>
+    <section class="p-[30px]">
+      <ImagenPlaceholder aspecto="h-[440px] w-full" etiqueta="Imagen principal de Libros (pendiente del Figma)" />
+    </section>
+
+    <section class="flex flex-col gap-[60px] border-t border-[#dcdcdc] px-[30px] py-[50px]">
+      <div
+        v-for="libro in libros"
+        :key="libro.titulo"
+        class="grid items-center gap-[40px] lg:grid-cols-2"
+      >
+        <div class="flex h-[419px] items-center justify-center overflow-hidden rounded-[30px] bg-white p-[30px]" :class="libro.invertido ? 'lg:order-2' : ''">
+          <img
+            :src="libro.imagen"
+            :alt="libro.titulo"
+            class="max-h-full w-auto max-w-full object-contain"
+            :class="libro.recorte ? 'h-[125%] max-w-none object-cover' : ''"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex flex-col items-start gap-[15px]" :class="libro.invertido ? 'lg:order-1' : ''">
+          <h2 class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">{{ libro.titulo }}</h2>
+          <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.2]">
+            {{ LIBRO.intro }}
+            <template v-for="(item, i) in LIBRO.bullets" :key="item">{{ item }}{{ i < LIBRO.bullets.length - 1 ? ' · ' : '.' }}</template>
+            {{ LIBRO.cierre }}
+          </p>
+          <BotonCasa :href="LIBRO.comprarHref">Comprar libro</BotonCasa>
+        </div>
       </div>
     </section>
 
-    <div class="grid gap-6 lg:grid-cols-2">
-      <LibroCard
-        :titulo="LIBRO.titulo"
-        :imagen="LIBRO.imagen"
-        :intro="LIBRO.intro"
-        :bullets="LIBRO.bullets"
-        :cierre="LIBRO.cierre"
-        :comprar-href="LIBRO.comprarHref"
-      />
-      <LibroCard titulo="Próximo libro" :disponible="false" intro="Estamos preparando un nuevo título — muy pronto más detalles." />
-    </div>
-
-    <section class="flex flex-col gap-10 rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-8">
-      <div class="grid gap-10 md:grid-cols-2">
-        <div class="flex flex-col items-center gap-4 text-center">
-          <h2 class="font-bold text-[var(--color-azul)]">En Colombia:</h2>
-          <p class="text-sm text-[var(--color-texto-suave)]">
+    <section class="border-t border-[#dcdcdc] px-[30px] py-[50px]">
+     <div class="flex flex-col gap-[40px] rounded-[30px] bg-[var(--color-terciario)] p-[50px] text-white">
+      <div class="grid gap-[40px] md:grid-cols-2">
+        <div class="flex flex-col items-center gap-[15px] text-center">
+          <h2 class="text-[24px] font-bold leading-none text-[var(--color-primario)]">En Colombia:</h2>
+          <p class="text-[16px]">
             ¡Ahora soy papá de mis papás! está en las principales cadenas de librerías de Colombia, así como en
             los puntos Brit de los aeropuertos y en la mayoría de las librerías independientes desde la costa
             norte hasta Nariño y desde el Valle hasta Boyacá.
@@ -52,9 +70,9 @@ useSeoMeta({
           </div>
         </div>
 
-        <div class="flex flex-col items-center gap-4 text-center">
-          <h2 class="font-bold text-[var(--color-azul)]">Fuera de Colombia:</h2>
-          <p class="text-sm text-[var(--color-texto-suave)]">
+        <div class="flex flex-col items-center gap-[15px] text-center">
+          <h2 class="text-[24px] font-bold leading-none text-[var(--color-primario)]">Fuera de Colombia:</h2>
+          <p class="text-[16px]">
             En Ecuador está disponible en LibriMundi, Librería Española y Mr. Books, y en toda la región a través
             de Buscalibre.
           </p>
@@ -73,8 +91,10 @@ useSeoMeta({
         </div>
       </div>
 
-      <div class="flex flex-col items-center gap-4 border-t border-[var(--color-borde)] pt-8 text-center">
-        <p class="font-bold text-[var(--color-azul)]">En versión E-Book se encuentra en Amazon, Apple y Google a nivel mundial.</p>
+      <div class="flex flex-col items-center gap-[15px] border-t border-white/20 pt-[40px] text-center">
+        <p class="text-[16px] font-bold text-white">
+          En versión E-Book se encuentra en Amazon, Apple y Google a nivel mundial.
+        </p>
         <div class="flex flex-wrap items-center justify-center gap-10">
           <component
             :is="tienda.url ? 'a' : 'span'"
@@ -88,6 +108,7 @@ useSeoMeta({
           </component>
         </div>
       </div>
+     </div>
     </section>
   </div>
 </template>

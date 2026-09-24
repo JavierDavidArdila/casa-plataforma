@@ -23,48 +23,29 @@ async function entrar() {
 </script>
 
 <template>
-  <div class="flex flex-col items-center px-6 py-16">
-    <div class="w-full max-w-sm">
-      <h1 class="mb-8 text-center text-2xl font-bold text-[var(--color-azul)]">Iniciar sesión</h1>
+  <div class="flex flex-col items-center gap-[50px] px-[30px] py-[30px]">
+    <h1 class="titulo-seccion">Iniciar sesión</h1>
 
-      <form class="flex flex-col gap-5" @submit.prevent="entrar">
-        <label class="flex flex-col gap-1.5 text-sm">
-          <span class="font-medium text-[var(--color-azul)]">Usuario</span>
-          <input
-            v-model="usuario"
-            type="text"
-            required
-            placeholder="Nombre usuario"
-            class="rounded-full border border-[var(--color-borde)] bg-[var(--color-superficie)] px-4 py-2.5 outline-none focus:border-[var(--color-azul)]"
-          />
+    <form class="flex w-full max-w-[497px] flex-col items-center gap-[50px]" @submit.prevent="entrar">
+      <div class="flex w-full flex-col gap-[10px]">
+        <label class="flex flex-col gap-[10px]">
+          <span class="etiqueta-casa">Usuario</span>
+          <input v-model="usuario" type="text" required placeholder="Nombre usuario" class="campo-casa" />
         </label>
 
-        <label class="flex flex-col gap-1.5 text-sm">
-          <span class="font-medium text-[var(--color-azul)]">Contraseña</span>
-          <input
-            v-model="password"
-            type="password"
-            required
-            placeholder="Tu contraseña"
-            class="rounded-full border border-[var(--color-borde)] bg-[var(--color-superficie)] px-4 py-2.5 outline-none focus:border-[var(--color-azul)]"
-          />
+        <label class="mt-[10px] flex flex-col gap-[10px]">
+          <span class="etiqueta-casa">Contraseña</span>
+          <input v-model="password" type="password" required placeholder="Tu contraseña" class="campo-casa" />
         </label>
 
-        <p v-if="error" class="text-sm text-[var(--color-terracota)]">{{ error }}</p>
-
-        <div class="flex items-center justify-between">
-          <span />
-          <button type="button" class="text-xs text-[var(--color-texto-suave)]" disabled>Recuperar contraseña</button>
+        <div class="flex justify-end">
+          <button type="button" class="text-[12px] font-semibold text-[var(--color-gris-dk)]" disabled>Recuperar contraseña</button>
         </div>
 
-        <button
-          type="submit"
-          :disabled="enviando"
-          class="mx-auto inline-flex items-center gap-2 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-8 py-2.5 font-medium text-white disabled:opacity-50"
-        >
-          {{ enviando ? 'Entrando...' : 'Entrar' }} →
-        </button>
-      </form>
-    </div>
+        <p v-if="error" class="text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ error }}</p>
+      </div>
+
+      <BotonCasa type="submit" :disabled="enviando">{{ enviando ? 'Entrando...' : 'Entrar' }}</BotonCasa>
+    </form>
   </div>
 </template>

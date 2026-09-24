@@ -65,46 +65,39 @@ async function enviarFormulario() {
 </script>
 
 <template>
-  <section id="comuniquemonos" class="scroll-mt-6 overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-azul-alto)] p-8 text-white md:p-12">
-    <div class="grid gap-10 md:grid-cols-2">
-      <div class="flex flex-col gap-4">
-        <h2 class="text-2xl font-bold md:text-3xl">Comuniquémonos</h2>
-        <p class="text-sm text-white/85">
-          Queremos escucharte y te presentamos las diferentes vías para que interactuemos: escríbenos ahora en
-          el formulario o por WhatsApp.
+  <section id="comuniquemonos" class="scroll-mt-6 border-t border-[#dcdcdc] p-[50px] text-[var(--color-gris-dk)]">
+    <div class="grid gap-[50px] lg:grid-cols-[497px_497px] lg:justify-between">
+      <div class="flex flex-col gap-[30px]">
+        <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Comuniquémonos</h2>
+        <p class="text-[16px] leading-[1.75]">
+          Queremos escucharte y te presentamos las diferentes vías para que interactuemos: Escríbenos ahora en el
+          formulario o por WhatsApp. Nos encuentras en:<br />
+          <a href="mailto:fernando@ahorasoypapademispapas.com" class="hover:underline">fernando@ahorasoypapademispapas.com</a><br />
+          <a href="https://wa.me/573153350785" target="_blank" rel="noopener" class="hover:underline">+57 315 335 0785</a>
         </p>
-        <p class="text-sm text-white/85">
-          Nos encuentras en:
-          <a href="mailto:fernando@ahorasoypapademispapas.com" class="underline">fernando@ahorasoypapademispapas.com</a>
-        </p>
-        <a href="tel:+573153350785" class="text-sm font-semibold text-white/95">+57 315 335 0785</a>
       </div>
 
-      <form v-if="estado !== 'exito'" class="flex flex-col gap-4" @submit.prevent="enviarFormulario">
+      <form v-if="estado !== 'exito'" class="flex flex-col gap-[25px]" @submit.prevent="enviarFormulario">
         <div class="grid gap-4 sm:grid-cols-2">
-          <input v-model="nombre" type="text" required placeholder="Nombre*" class="campo-oscuro" />
-          <input v-model="apellido" type="text" required placeholder="Apellido*" class="campo-oscuro" />
+          <input v-model="nombre" type="text" required placeholder="Nombre*" class="campo-casa" />
+          <input v-model="apellido" type="text" required placeholder="Apellido*" class="campo-casa" />
         </div>
-        <input v-model="email" type="email" required placeholder="Email*" class="campo-oscuro" />
-        <input v-model="telefono" type="tel" required placeholder="Teléfono*" class="campo-oscuro" />
-        <input v-model="empresa" type="text" placeholder="Empresa" class="campo-oscuro" />
-        <select v-model="asunto" class="campo-oscuro">
+        <input v-model="email" type="email" required placeholder="Email*" class="campo-casa" />
+        <input v-model="telefono" type="tel" required placeholder="Teléfono*" class="campo-casa" />
+        <input v-model="empresa" type="text" placeholder="Empresa" class="campo-casa" />
+        <select v-model="asunto" required class="campo-casa" :class="{ vacio: !asunto }">
           <option value="" disabled>Selecciona el asunto</option>
           <option v-for="opcion in asuntos" :key="opcion" :value="opcion">{{ opcion }}</option>
         </select>
-        <textarea v-model="mensaje" rows="3" placeholder="Escribe el mensaje" class="campo-oscuro resize-none" />
+        <textarea v-model="mensaje" rows="3" placeholder="Escribe el mensaje" style="height:89px;font-size:16px" class="campo-casa" />
 
         <input v-model="honeypot" type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
 
-        <button
-          type="submit"
-          :disabled="estado === 'enviando'"
-          class="inline-flex w-fit items-center gap-2 rounded-[10px] bg-[var(--color-naranja)] px-6 py-3 text-sm font-bold text-white disabled:opacity-50"
-        >
-          {{ estado === 'enviando' ? 'Enviando...' : 'Enviar mensaje' }} →
-        </button>
+        <BotonCasa type="submit" :disabled="estado === 'enviando'">
+          {{ estado === 'enviando' ? 'Enviando...' : 'Enviar mensaje' }}
+        </BotonCasa>
 
-        <p v-if="estado === 'error'" class="text-sm text-[var(--color-naranja)]">
+        <p v-if="estado === 'error'" class="text-sm text-[var(--color-gris-dk)]">
           <template v-if="!claveConfigurada">
             El formulario aún no tiene configurada la clave de Web3Forms
             (variable <code>NUXT_PUBLIC_WEB3FORMS_KEY</code>).
@@ -116,23 +109,9 @@ async function enviarFormulario() {
       </form>
 
       <div v-else class="flex flex-col justify-center gap-2">
-        <p class="text-xl font-bold">¡Gracias por escribirnos!</p>
-        <p class="text-sm text-white/85">Te responderemos lo antes posible.</p>
+        <p class="text-[24px] font-bold text-[var(--color-secundario)]">¡Gracias por escribirnos!</p>
+        <p class="text-[16px]">Te responderemos lo antes posible.</p>
       </div>
     </div>
   </section>
 </template>
-
-<style scoped>
-.campo-oscuro {
-  border-radius: 0.5rem;
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--color-texto);
-  padding: 0.65rem 1rem;
-  font-size: 0.875rem;
-  outline: none;
-}
-.campo-oscuro::placeholder {
-  color: var(--color-texto-suave);
-}
-</style>

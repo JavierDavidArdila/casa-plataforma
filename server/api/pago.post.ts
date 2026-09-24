@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
 
   const token = getCookie(event, COOKIE_SESION)
   const usuario = await obtenerUsuarioDeSesion(env.DB, token)
-  if (!usuario) throw createError({ statusCode: 401, statusMessage: 'Sesión no encontrada, vuelve a empezar el test' })
+  if (!usuario) throw createError({ statusCode: 401, statusMessage: 'Sesión no encontrada, vuelve a empezar el cuestionario' })
 
   let codigoUsuario = usuario.codigo_usuario as string | null
   if (!codigoUsuario) {

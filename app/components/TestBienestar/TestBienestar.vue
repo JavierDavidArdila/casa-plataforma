@@ -59,7 +59,7 @@ async function manejarSiguiente() {
         <button
           type="button"
           :disabled="!puedeAvanzar || enviando"
-          class="inline-flex items-center gap-2 rounded-[var(--radius-editorial)] px-6 py-3 font-medium transition-colors duration-150 bg-[var(--color-ocre)] text-[var(--color-tinta)] hover:bg-[var(--color-amarillo-alto)] disabled:opacity-40 disabled:pointer-events-none"
+          class="inline-flex items-center gap-2 rounded-[var(--radius-editorial)] px-6 py-3 font-medium transition-colors duration-150 bg-[var(--color-primario)] text-white font-bold hover:bg-[var(--color-primario-alto)] disabled:opacity-40 disabled:pointer-events-none"
           @click="manejarSiguiente"
         >
           {{ enviando ? 'Guardando...' : esUltimaPregunta ? 'Ver mi resultado' : 'Siguiente' }}
@@ -68,7 +68,7 @@ async function manejarSiguiente() {
     </div>
 
     <div v-else class="flex flex-col gap-4">
-      <p v-if="errorEnvio" class="text-sm text-center text-[var(--color-terracota)]">{{ errorEnvio }}</p>
+      <p v-if="errorEnvio" class="text-sm text-center font-semibold text-[var(--color-gris-dk)]">{{ errorEnvio }}</p>
       <TestBienestarResultado :resultado="resultado" @reiniciar="reiniciar" />
     </div>
   </div>

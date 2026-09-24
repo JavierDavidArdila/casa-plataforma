@@ -1,35 +1,43 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta editorial (test de bienestar) — heredada de ahorasoypapademispapas */
-  --color-papel: #fbf6ef;
-  --color-papel-alto: #f3ead9;
-  --color-tinta: #2b2420;
-  --color-tinta-suave: #5a5044;
-  --color-terracota: #c1592c;
-  --color-terracota-alto: #a2461f;
-  --color-salvia-alto: #55624a;
-  --color-ocre: #d9a441;
-  --color-amarillo-alto: #d99715;
-  --color-linea: #e4d9c7;
+  /* Paleta oficial C.A.S.A. (Figma "CASA Web", página DS) */
+  --color-primario: #ffb100;
+  --color-primario-alto: #e09c00;
+  --color-secundario: #0078cc;
+  --color-terciario: #0e3a67;
+  --color-gris-md: #bfbfbf;
+  --color-gris-dk: #494949;
 
-  /* Paleta corporativa (sitio, según moodboard) */
-  --color-azul: #1c5fb0;
-  --color-azul-alto: #12417d;
-  --color-naranja: #f5a623;
-  --color-naranja-alto: #d98c0f;
-  --color-fondo: #f4f5f6;
+  /* Alias históricos: todas las páginas heredan la paleta oficial */
+  --color-azul: #0078cc;
+  --color-azul-alto: #0e3a67;
+  --color-naranja: #ffb100;
+  --color-naranja-alto: #e09c00;
+  --color-fondo: #f2f2f2;
   --color-superficie: #ffffff;
-  --color-borde: #e3e6ea;
-  --color-texto: #1f2430;
-  --color-texto-suave: #6b7280;
+  --color-borde: #bfbfbf;
+  --color-texto: #494949;
+  --color-texto-suave: #494949;
 
-  --font-display: "Montserrat", Arial, "Helvetica Neue", Helvetica, sans-serif;
-  --font-body: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  --font-mono: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  /* Cuestionario de Bienestar: misma paleta */
+  --color-papel: #f2f2f2;
+  --color-papel-alto: #ffffff;
+  --color-tinta: #494949;
+  --color-tinta-suave: #6b6b6b;
+  --color-terracota: #ffb100;
+  --color-terracota-alto: #e09c00;
+  --color-salvia-alto: #0e3a67;
+  --color-ocre: #ffb100;
+  --color-amarillo-alto: #e09c00;
+  --color-linea: #bfbfbf;
 
-  --radius-editorial: 0.5rem;
-  --radius-card: 0.75rem;
+  --font-display: "Cabin", Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --font-body: "Cabin", Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --font-mono: "Cabin", Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+  --radius-editorial: 10px;
+  --radius-card: 30px;
 }
 
 @layer base {
@@ -41,13 +49,62 @@
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 700;
   }
 
   ::selection {
     background-color: var(--color-naranja);
     color: var(--color-texto);
+  }
+}
+
+@layer components {
+  /* Campos de formulario del Figma: 48px de alto, borde gris medio, texto 16px. */
+  .campo-casa {
+    width: 100%;
+    height: 48px;
+    border: 1px solid var(--color-gris-md);
+    border-radius: 20px;
+    background: transparent;
+    padding: 0 20px;
+    font-size: 16px;
+    color: var(--color-gris-dk);
+    outline: none;
+  }
+  .campo-casa::placeholder {
+    color: var(--color-gris-md);
+  }
+  .campo-casa:focus {
+    border-color: var(--color-secundario);
+  }
+  textarea.campo-casa {
+    height: 62px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    font-size: 12px;
+    resize: none;
+  }
+  select.campo-casa {
+    appearance: none;
+    padding-right: 52px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23bfbfbf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+  }
+  select.campo-casa:invalid,
+  select.campo-casa.vacio {
+    color: var(--color-gris-md);
+  }
+  .etiqueta-casa {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-gris-dk);
+  }
+  .titulo-seccion {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-secundario);
   }
 }
 

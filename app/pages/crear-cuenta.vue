@@ -21,7 +21,7 @@ async function crear() {
     await $fetch('/api/cuenta', { method: 'POST', body: { password: password.value } })
     await navigateTo('/pago')
   } catch {
-    error.value = 'No pudimos crear tu cuenta. Si no has hecho el test, empieza por ahí.'
+    error.value = 'No pudimos crear tu cuenta. Si no has hecho el cuestionario, empieza por ahí.'
   } finally {
     enviando.value = false
   }
@@ -29,44 +29,19 @@ async function crear() {
 </script>
 
 <template>
-  <div class="mx-auto flex max-w-sm flex-col gap-6 px-6 py-16">
-    <h1 class="text-center text-2xl font-bold text-[var(--color-azul)]">Crea tu cuenta</h1>
-    <p class="text-center text-sm text-[var(--color-texto-suave)]">
+  <div class="flex flex-col items-center gap-[30px] px-[30px] py-[30px]">
+    <h1 class="titulo-seccion">Crea tu cuenta</h1>
+    <p class="max-w-[497px] text-center text-[16px] text-[var(--color-gris-dk)]">
       Con esto podrás iniciar sesión más adelante. El siguiente paso es activar tu suscripción.
     </p>
 
-    <form class="flex flex-col gap-4" @submit.prevent="crear">
-      <label class="flex flex-col gap-1.5 text-sm">
-        <span class="font-medium">Contraseña</span>
-        <input v-model="password" type="password" required class="campo" />
-      </label>
-      <label class="flex flex-col gap-1.5 text-sm">
-        <span class="font-medium">Confirmar contraseña</span>
-        <input v-model="confirmar" type="password" required class="campo" />
-      </label>
-
-      <p v-if="error" class="text-sm text-[var(--color-terracota)]">{{ error }}</p>
-
-      <button
-        type="submit"
-        :disabled="enviando"
-        class="mt-2 inline-flex items-center justify-center gap-2 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-6 py-3 font-medium text-white disabled:opacity-50"
-      >
-        {{ enviando ? 'Creando...' : 'Continuar al pago' }} →
-      </button>
+    <form class="flex w-full max-w-[497px] flex-col items-center gap-[30px]" @submit.prevent="crear">
+      <div class="flex w-full flex-col gap-[25px]">
+        <input v-model="password" type="password" required placeholder="Contraseña" aria-label="Contraseña" class="campo-casa" />
+        <input v-model="confirmar" type="password" required placeholder="Confirmar contraseña" aria-label="Confirmar contraseña" class="campo-casa" />
+        <p v-if="error" class="text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ error }}</p>
+      </div>
+      <BotonCasa type="submit" :disabled="enviando">{{ enviando ? 'Creando...' : 'Continuar al pago' }}</BotonCasa>
     </form>
   </div>
 </template>
-
-<style scoped>
-.campo {
-  border: 1px solid var(--color-borde);
-  background: var(--color-superficie);
-  border-radius: 9999px;
-  padding: 0.65rem 1.25rem;
-  outline: none;
-}
-.campo:focus {
-  border-color: var(--color-azul);
-}
-</style>

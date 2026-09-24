@@ -20,6 +20,7 @@ interface CuerpoLead {
   paisOrigen?: string
   paisResidencia?: string
   ciudad?: string
+  empresa?: string
   aQuienAyudas?: string
   haceCuantoVivesFuera?: number | string
 }
@@ -47,7 +48,7 @@ export default defineEventHandler(async (event) => {
     await env.DB.prepare(
       `UPDATE usuarios SET nombre = ?, apellido = ?, edad = ?, fecha_nacimiento = ?, genero = ?,
         movil = ?, pais_origen = ?, pais_residencia = ?, ciudad = ?, a_quien_ayudas = ?,
-        hace_cuanto_vives_fuera = ? WHERE id = ?`
+        hace_cuanto_vives_fuera = ?, empresa = ? WHERE id = ?`
     )
       .bind(
         body.nombre,
@@ -61,6 +62,7 @@ export default defineEventHandler(async (event) => {
         body.ciudad ?? '',
         body.aQuienAyudas ?? '',
         String(body.haceCuantoVivesFuera ?? ''),
+        body.empresa ?? '',
         usuarioId
       )
       .run()
@@ -68,8 +70,8 @@ export default defineEventHandler(async (event) => {
     const resultado = await env.DB.prepare(
       `INSERT INTO usuarios
         (nombre, apellido, edad, fecha_nacimiento, genero, email, movil, pais_origen,
-         pais_residencia, ciudad, a_quien_ayudas, hace_cuanto_vives_fuera)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+         pais_residencia, ciudad, a_quien_ayudas, hace_cuanto_vives_fuera, empresa)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
       .bind(
         body.nombre,
@@ -83,7 +85,8 @@ export default defineEventHandler(async (event) => {
         body.paisResidencia ?? '',
         body.ciudad ?? '',
         body.aQuienAyudas ?? '',
-        String(body.haceCuantoVivesFuera ?? '')
+        String(body.haceCuantoVivesFuera ?? ''),
+        body.empresa ?? ''
       )
       .run()
     usuarioId = resultado.meta.last_row_id as number

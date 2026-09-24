@@ -1,4 +1,6 @@
 <script setup lang="ts">
+useSeoMeta({ title: 'Cuestionario de Bienestar — C.A.S.A.' })
+
 const { sesion, cargarSesion } = useAuth()
 const verificando = ref(true)
 
@@ -12,7 +14,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="!verificando && sesion.autenticado">
+  <div v-if="!verificando && sesion.autenticado" class="px-[30px] py-[30px]">
+    <h1 class="titulo-seccion mb-[30px] text-center">Cuestionario de Bienestar</h1>
     <TestBienestar />
   </div>
 </template>

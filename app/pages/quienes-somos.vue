@@ -14,37 +14,29 @@ const equipo = Array.from({ length: 7 }, (_, i) => ({
 </script>
 
 <template>
-  <div class="flex flex-col gap-10 px-6 py-10 md:px-10">
-    <section
-      class="relative flex min-h-[260px] flex-col justify-end overflow-hidden rounded-[var(--radius-card)] p-10 text-white"
-    >
-      <div class="absolute inset-0 bg-[var(--color-azul-alto)]" />
-      <img
-        src="/images/bio/home-bio.png"
-        alt=""
-        class="absolute inset-0 h-full w-full object-cover opacity-30"
-        loading="lazy"
-      />
-      <div class="relative flex flex-col gap-2">
-        <h1 class="text-3xl font-bold text-[var(--color-naranja)] md:text-4xl">Quiénes somos</h1>
-        <p class="text-sm text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
+  <div>
+    <section class="p-[30px]">
+      <ImagenPlaceholder aspecto="h-[440px] w-full" etiqueta="Imagen principal de Quiénes Somos (pendiente del Figma)" />
     </section>
 
-    <p class="max-w-4xl text-sm leading-relaxed text-[var(--color-texto-suave)]">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vulputate ut felis nec fringilla. Aliquam
-      orci neque, luctus sed efficitur ut, finibus consequat sem. Curabitur suscipit, arcu fermentum rhoncus
-      laoreet, metus quam mattis odio, vel aliquam tellus eros a ante. Mauris ultrices eleifend dolor ut efficitur.
-    </p>
+    <section class="px-[36px] py-[30px]">
+      <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.75]">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vulputate ut felis nec fringilla. Aliquam
+        orci neque, luctus sed efficitur ut, finibus consequat sem. Curabitur suscipit, arcu fermentum rhoncus
+        laoreet, metus quam mattis odio, vel aliquam tellus eros a ante. Mauris ultrices eleifend dolor ut efficitur.
+      </p>
+    </section>
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <ProfileCard
-        v-for="persona in equipo"
-        :key="persona.nombre"
-        :nombre="persona.nombre"
-        :cargo="persona.cargo"
-        :descripcion="persona.descripcion"
-      />
-    </div>
+    <section class="border-t border-[#dcdcdc] px-[30px] py-[50px]">
+      <div class="grid gap-[40px] sm:grid-cols-2 xl:grid-cols-3">
+        <ProfileCard
+          v-for="persona in equipo"
+          :key="persona.nombre"
+          :nombre="persona.nombre"
+          :cargo="persona.cargo"
+          :descripcion="persona.descripcion"
+        />
+      </div>
+    </section>
   </div>
 </template>

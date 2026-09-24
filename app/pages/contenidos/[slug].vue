@@ -50,96 +50,69 @@ async function enviarOpinion() {
 </script>
 
 <template>
-  <div v-if="!verificando && sesion.suscrito" class="grid gap-8 px-6 py-10 md:grid-cols-[1fr_360px] md:px-10">
-    <div class="flex flex-col gap-6">
-      <div class="relative overflow-hidden rounded-[var(--radius-card)]">
-        <ImagenPlaceholder aspecto="aspect-video" :etiqueta="video!.titulo" />
-        <button
-          type="button"
-          :aria-label="`Reproducir ${video!.titulo}`"
-          class="absolute inset-0 flex items-center justify-center"
-        >
-          <span class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-[var(--color-azul)] shadow-lg">
-            <IconoNav nombre="play" />
-          </span>
-        </button>
+  <div v-if="!verificando && sesion.suscrito">
+    <div class="grid gap-[30px] p-[30px] lg:grid-cols-[minmax(0,634px)_minmax(0,405px)] lg:justify-between">
+      <div class="flex flex-col gap-[20px]">
+        <div class="relative flex h-[563px] items-center justify-center overflow-hidden rounded-[30px]">
+          <img src="/images/figma/hero-home.png" alt="" class="absolute inset-0 size-full object-cover" />
+          <div class="absolute inset-0 bg-black/20" />
+          <button type="button" :aria-label="`Reproducir ${video!.titulo}`" class="relative text-white">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+              <circle cx="20" cy="20" r="18" />
+              <path d="m16.5 13 11 7-11 7Z" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex h-[95px] items-center justify-center rounded-[30px] bg-white text-[16px] font-semibold text-[var(--color-gris-dk)]">
+          Patrocinio
+        </div>
       </div>
 
-      <div class="flex flex-col gap-3">
-        <p class="kicker text-[var(--color-azul)]">{{ video!.numero }}</p>
-        <h1 class="text-3xl font-bold text-[var(--color-azul)]">{{ video!.titulo }}</h1>
-        <p class="text-[var(--color-texto-suave)]">{{ video!.descripcion }}</p>
-        <a
-          href="#"
-          class="inline-flex w-fit items-center gap-2 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-6 py-3 text-sm font-medium text-white"
-        >
-          Descargar PDF ↗
-        </a>
+      <div class="flex flex-col items-start gap-[20px]">
+        <p class="titulo-seccion">{{ video!.numero }}</p>
+        <h1 class="text-[36px] font-bold leading-none text-[var(--color-secundario)]">{{ video!.titulo }}</h1>
+        <p class="text-[16px] font-bold text-[var(--color-gris-dk)] [line-height:1.05]">{{ video!.descripcion }}</p>
+        <BotonCasa href="#">Descargar PDF</BotonCasa>
       </div>
+    </div>
 
-      <div class="flex items-center justify-center rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-6 text-sm text-[var(--color-texto-suave)]">
-        Patrocinio
-      </div>
-
+    <div class="grid gap-[30px] border-t border-[#dcdcdc] p-[30px] lg:grid-cols-[minmax(0,634px)_minmax(0,405px)] lg:justify-between">
       <NuxtLink
         v-if="siguiente"
         :to="`/contenidos/${siguiente.slug}`"
-        class="flex items-center gap-4 rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-4"
+        class="flex items-center gap-[25px] self-start rounded-[30px] bg-white p-[30px]"
       >
-        <ImagenPlaceholder aspecto="aspect-video w-40" :etiqueta="siguiente.titulo" />
-        <div class="flex flex-col gap-2">
-          <p class="text-xs text-[var(--color-texto-suave)]">Próximo video</p>
-          <p class="text-lg font-bold text-[var(--color-azul)]">{{ siguiente.titulo }}</p>
-          <span class="inline-flex w-fit items-center gap-1 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-4 py-2 text-sm font-medium text-white">
-            Ver video ↗
-          </span>
+        <img src="/images/figma/video-card.png" alt="" class="h-[147px] w-[251px] shrink-0 rounded-[20px] object-cover" />
+        <div class="flex flex-col items-start gap-[10px]">
+          <p class="text-[16px] leading-none text-[var(--color-gris-dk)]">Próximo video</p>
+          <p class="text-[24px] font-bold leading-none text-[var(--color-gris-dk)]">{{ siguiente.titulo }}</p>
+          <BotonCasa>Ver video</BotonCasa>
         </div>
       </NuxtLink>
+
+      <div class="flex flex-col gap-[20px]">
+        <h2 class="titulo-seccion">Comparte</h2>
+        <div class="flex flex-col gap-[20px] rounded-[30px] bg-white p-[25px]">
+          <template v-if="!enviado">
+            <label class="flex flex-col gap-[20px]">
+              <span class="etiqueta-casa">¿Qué te sirvió de este contenido?</span>
+              <textarea v-model="queSirvio" rows="2" placeholder="Escribe aquí" class="campo-casa" />
+            </label>
+            <label class="flex flex-col gap-[20px]">
+              <span class="etiqueta-casa">¿Qué quieres profundizar?</span>
+              <textarea v-model="queProfundizar" rows="2" placeholder="Escribe aquí" class="campo-casa" />
+            </label>
+            <label class="flex flex-col gap-[20px]">
+              <span class="etiqueta-casa">Compártenos otro tema que te interese</span>
+              <textarea v-model="otroTema" rows="2" placeholder="Escribe aquí" class="campo-casa" />
+            </label>
+            <BotonCasa :disabled="enviando" @click="enviarOpinion">{{ enviando ? 'Enviando...' : 'Enviar opinión' }}</BotonCasa>
+          </template>
+          <p v-else class="text-[16px] text-[var(--color-gris-dk)]">
+            {{ error ?? '¡Gracias por tu opinión!' }}
+          </p>
+        </div>
+      </div>
     </div>
-
-    <aside class="flex flex-col gap-4 self-start rounded-[var(--radius-card)] bg-[var(--color-superficie)] p-6">
-      <h2 class="text-lg font-bold text-[var(--color-azul)]">Comparte</h2>
-
-      <template v-if="!enviado">
-        <label class="flex flex-col gap-2 text-sm">
-          <span>1. ¿Qué te sirvió de este contenido?</span>
-          <textarea v-model="queSirvio" rows="2" placeholder="Escribe aquí" class="campo" />
-        </label>
-        <label class="flex flex-col gap-2 text-sm">
-          <span>2. ¿Qué quieres profundizar?</span>
-          <textarea v-model="queProfundizar" rows="2" placeholder="Escribe aquí" class="campo" />
-        </label>
-        <label class="flex flex-col gap-2 text-sm">
-          <span>3. Compártenos otro tema que te interese</span>
-          <textarea v-model="otroTema" rows="2" placeholder="Escribe aquí" class="campo" />
-        </label>
-        <button
-          type="button"
-          :disabled="enviando"
-          class="inline-flex w-fit items-center gap-2 rounded-[var(--radius-editorial)] bg-[var(--color-naranja)] px-5 py-2.5 text-sm font-bold text-white disabled:opacity-50"
-          @click="enviarOpinion"
-        >
-          {{ enviando ? 'Enviando...' : 'Enviar opinión' }} →
-        </button>
-      </template>
-      <p v-else class="text-sm text-[var(--color-texto-suave)]">
-        {{ error ?? '¡Gracias por tu opinión!' }}
-      </p>
-    </aside>
   </div>
 </template>
-
-<style scoped>
-.campo {
-  border: 1px solid var(--color-borde);
-  background: var(--color-fondo);
-  border-radius: 0.5rem;
-  padding: 0.6rem 0.9rem;
-  outline: none;
-  resize: none;
-  font-size: 0.875rem;
-}
-.campo:focus {
-  border-color: var(--color-azul);
-}
-</style>

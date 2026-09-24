@@ -15,7 +15,7 @@ const emit = defineEmits<{
   <div class="flex flex-col gap-6 text-center items-center max-w-xl mx-auto">
     <p class="kicker text-[var(--color-tinta-suave)]">Tu resultado</p>
 
-    <p class="text-5xl font-bold text-[var(--color-terracota)]">
+    <p class="text-5xl font-bold text-[var(--color-secundario)]">
       {{ resultado.puntajeIecd }}<span class="text-2xl text-[var(--color-tinta-suave)]">/44</span>
     </p>
 
@@ -55,7 +55,7 @@ const emit = defineEmits<{
       class="mt-2 text-sm underline text-[var(--color-tinta-suave)]"
       @click="emit('reiniciar')"
     >
-      Volver a hacer el test
+      Volver a hacer el cuestionario
     </button>
   </div>
 </template>
