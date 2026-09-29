@@ -20,11 +20,24 @@ export const TIENDAS_COLOMBIA = [
   { nombre: 'Librería Lerner', logo: '/images/tienda/libreria-lerner.png', url: '' },
 ]
 
-export const TIENDAS_FUERA_COLOMBIA = [
+// Ecuador y resto de Latinoamérica (van en la misma columna que Colombia).
+export const TIENDAS_LATINOAMERICA = [
   { nombre: 'LibriMundi', logo: '/images/tienda/librimundi.png', url: '' },
   { nombre: 'Librería Española', logo: '/images/tienda/libreria-espanola.png', url: '' },
   { nombre: 'Mr. Books', logo: '/images/tienda/mr-books.png', url: '' },
   { nombre: 'Buscalibre', logo: '/images/tienda/buscalibre.png', url: '' },
+]
+
+// Librerías de Estados Unidos y Canadá (logos blancos enviados por el cliente el 28 sep).
+// El texto de la columna todavía no llega: mientras esté vacío solo se muestran los logos.
+export const TEXTO_USA = ''
+
+export const TIENDAS_USA = [
+  { nombre: 'Amazon', logo: '/images/tienda/usa-amazon.png', url: '' },
+  { nombre: 'Barnes & Noble', logo: '/images/tienda/usa-barnes-noble.png', url: '' },
+  { nombre: 'Books-A-Million', logo: '/images/tienda/usa-books-a-million.png', url: '' },
+  { nombre: 'Bookshop.org', logo: '/images/tienda/usa-bookshop.png', url: '' },
+  { nombre: 'Walmart', logo: '/images/tienda/usa-walmart.png', url: '' },
 ]
 
 export const TIENDAS_EBOOK = [

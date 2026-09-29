@@ -63,7 +63,7 @@
   .campo-casa {
     width: 100%;
     height: 48px;
-    border: 1px solid var(--color-gris-md);
+    border: 1px solid var(--color-primario);
     border-radius: 20px;
     background: transparent;
     padding: 0 20px;
@@ -72,8 +72,10 @@
     outline: none;
   }
   .campo-casa::placeholder {
-    color: var(--color-gris-md);
+    color: var(--color-secundario);
+    opacity: 0.85;
   }
+  .campo-casa:hover,
   .campo-casa:focus {
     border-color: var(--color-secundario);
   }
@@ -87,13 +89,13 @@
   select.campo-casa {
     appearance: none;
     padding-right: 52px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23bfbfbf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%230078cc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 20px center;
   }
   select.campo-casa:invalid,
   select.campo-casa.vacio {
-    color: var(--color-gris-md);
+    color: var(--color-secundario);
   }
   .etiqueta-casa {
     font-size: 16px;

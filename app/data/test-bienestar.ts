@@ -181,7 +181,7 @@ export const PREGUNTAS: PreguntaTest[] = [
   },
   {
     id: 11,
-    texto: '¿Sientes que deberías hacer más por su familiar?',
+    texto: '¿Sientes que deberías hacer más por tu familiar?',
     tipo: 'escala-0-4',
     puntua: true,
     pilar: 'COMPRENDER',
@@ -231,13 +231,15 @@ export interface FranjaResultado {
   max: number
   resultado: string
   interpretacion: string
+  /** Color del resultado (propuesta: verde → amarillo → naranja → rojo; a confirmar con el cliente) */
+  color: string
 }
 
 export const FRANJAS_IECD: FranjaResultado[] = [
-  { min: 0, max: 10, resultado: 'Estoy en equilibrio', interpretacion: 'Bajo esfuerzo percibido' },
-  { min: 11, max: 21, resultado: 'Necesito organizar mejor mi cuidado', interpretacion: 'Esfuerzo leve/moderado' },
-  { min: 22, max: 32, resultado: 'Me siento sobrecargado', interpretacion: 'Esfuerzo elevado' },
-  { min: 33, max: 44, resultado: 'Necesito apoyo', interpretacion: 'Esfuerzo muy elevado' },
+  { min: 0, max: 10, resultado: 'Estoy en equilibrio', interpretacion: 'Bajo esfuerzo percibido', color: '#2f9e5b' },
+  { min: 11, max: 21, resultado: 'Necesito organizar mejor mi cuidado', interpretacion: 'Esfuerzo leve/moderado', color: '#e09c00' },
+  { min: 22, max: 32, resultado: 'Me siento sobrecargado', interpretacion: 'Esfuerzo elevado', color: '#f26b1d' },
+  { min: 33, max: 44, resultado: 'Necesito apoyo', interpretacion: 'Esfuerzo muy elevado', color: '#d92d20' },
 ]
 
 export function obtenerFranja(puntaje: number): FranjaResultado {

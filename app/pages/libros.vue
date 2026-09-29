@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LIBRO, TIENDAS_COLOMBIA, TIENDAS_FUERA_COLOMBIA, TIENDAS_EBOOK } from '~/data/libro'
+import { LIBRO, TIENDAS_COLOMBIA, TIENDAS_LATINOAMERICA, TIENDAS_USA, TEXTO_USA, TIENDAS_EBOOK } from '~/data/libro'
 
 useSeoMeta({
   title: 'Libros — C.A.S.A.',
@@ -8,8 +8,8 @@ useSeoMeta({
 
 // Figma: dos filas en zigzag — imagen del libro en tarjeta blanca (509×419) y texto + botón al lado.
 const libros = [
-  { titulo: 'Libro 1', imagen: '/images/figma/libro-1.png', invertido: false, recorte: false },
-  { titulo: 'Libro 2', imagen: '/images/figma/libro-2.png', invertido: true, recorte: true },
+  { titulo: 'Colombia y Latinoamérica', imagen: '/images/libros/colombia-latinoamerica.jpg', invertido: false },
+  { titulo: 'Estados Unidos y Canadá', imagen: '/images/libros/estados-unidos-canada.jpg', invertido: true },
 ]
 </script>
 
@@ -25,12 +25,11 @@ const libros = [
         :key="libro.titulo"
         class="grid items-center gap-[40px] lg:grid-cols-2"
       >
-        <div class="flex h-[419px] items-center justify-center overflow-hidden rounded-[30px] bg-white p-[30px]" :class="libro.invertido ? 'lg:order-2' : ''">
+        <div class="flex h-[419px] items-center justify-center overflow-hidden rounded-[30px] bg-white" :class="libro.invertido ? 'lg:order-2' : ''">
           <img
             :src="libro.imagen"
             :alt="libro.titulo"
-            class="max-h-full w-auto max-w-full object-contain"
-            :class="libro.recorte ? 'h-[125%] max-w-none object-cover' : ''"
+            class="size-full object-cover"
             loading="lazy"
           />
         </div>
@@ -50,7 +49,7 @@ const libros = [
      <div class="flex flex-col gap-[40px] rounded-[30px] bg-[var(--color-terciario)] p-[50px] text-white">
       <div class="grid gap-[40px] md:grid-cols-2">
         <div class="flex flex-col items-center gap-[15px] text-center">
-          <h2 class="text-[24px] font-bold leading-none text-[var(--color-primario)]">En Colombia:</h2>
+          <h2 class="text-[24px] font-bold leading-none text-[var(--color-primario)]">Colombia y Latinoamérica:</h2>
           <p class="text-[16px]">
             ¡Ahora soy papá de mis papás! está en las principales cadenas de librerías de Colombia, así como en
             los puntos Brit de los aeropuertos y en la mayoría de las librerías independientes desde la costa
@@ -68,24 +67,37 @@ const libros = [
               <img :src="tienda.logo" :alt="tienda.nombre" class="max-h-12 w-auto object-contain" />
             </component>
           </div>
-        </div>
-
-        <div class="flex flex-col items-center gap-[15px] text-center">
-          <h2 class="text-[24px] font-bold leading-none text-[var(--color-primario)]">Fuera de Colombia:</h2>
-          <p class="text-[16px]">
+          <p class="mt-[15px] text-[16px]">
             En Ecuador está disponible en LibriMundi, Librería Española y Mr. Books, y en toda la región a través
             de Buscalibre.
           </p>
           <div class="flex flex-wrap items-center justify-center gap-8">
             <component
               :is="tienda.url ? 'a' : 'span'"
-              v-for="tienda in TIENDAS_FUERA_COLOMBIA"
+              v-for="tienda in TIENDAS_LATINOAMERICA"
               :key="tienda.nombre"
               :href="tienda.url || undefined"
               target="_blank"
               rel="noopener"
             >
               <img :src="tienda.logo" :alt="tienda.nombre" class="max-h-12 w-auto object-contain" />
+            </component>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center gap-[15px] text-center">
+          <h2 class="text-[24px] font-bold leading-none text-[var(--color-primario)]">Estados Unidos y Canadá:</h2>
+          <p v-if="TEXTO_USA" class="text-[16px]">{{ TEXTO_USA }}</p>
+          <div class="flex flex-wrap items-center justify-center gap-8">
+            <component
+              :is="tienda.url ? 'a' : 'span'"
+              v-for="tienda in TIENDAS_USA"
+              :key="tienda.nombre"
+              :href="tienda.url || undefined"
+              target="_blank"
+              rel="noopener"
+            >
+              <img :src="tienda.logo" :alt="tienda.nombre" class="max-h-10 w-auto max-w-[150px] object-contain" />
             </component>
           </div>
         </div>

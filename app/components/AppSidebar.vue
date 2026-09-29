@@ -12,7 +12,7 @@ const items = [
     grupo: 'Nosotros',
     links: [
       { to: '/quienes-somos', label: 'Quiénes Somos', icon: 'mano' },
-      { to: '/#comuniquemonos', label: 'Comuniquémonos', icon: 'comment' },
+      { to: '/comuniquemonos', label: 'Comuniquémonos', icon: 'comment' },
     ],
   },
 ] as const
@@ -38,9 +38,8 @@ const items = [
             v-for="link in grupo.links"
             :key="link.to"
             :to="link.to"
-            class="flex items-center gap-[10px] px-[30px] py-[20px] text-[16px] font-semibold text-[var(--color-gris-md)] transition-colors hover:text-[var(--color-gris-dk)]"
-            :active-class="link.to.includes('#') ? '' : '!text-[var(--color-gris-dk)]'"
-            :exact-active-class="link.to.includes('#') ? '' : undefined"
+            class="flex items-center gap-[10px] px-[30px] py-[20px] text-[16px] font-semibold text-[var(--color-gris-md)] transition-colors hover:text-[var(--color-primario)]"
+            active-class="!text-[var(--color-gris-dk)]"
           >
             <IconoMenu :nombre="link.icon" />
             {{ link.label }}

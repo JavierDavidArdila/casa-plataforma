@@ -12,7 +12,7 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
 <template>
   <div>
     <!-- Hero -->
-    <section class="grid gap-[30px] p-[30px] lg:grid-cols-[395px_634px] lg:justify-between">
+    <section class="grid gap-[30px] p-[30px] lg:grid-cols-[395px_634px] lg:justify-center lg:gap-[60px]">
       <div class="flex flex-col items-start justify-center gap-[20px] py-6">
         <h1 class="text-[36px] font-bold leading-none text-[var(--color-secundario)]">Bienvenido a C.A.S.A.</h1>
         <p class="max-w-[395px] text-[16px] font-bold leading-none text-[var(--color-gris-dk)] [line-height:1.05]">
@@ -59,25 +59,20 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
       <div class="grid gap-[40px] md:grid-cols-2">
         <div class="flex items-center gap-[30px] overflow-hidden rounded-[30px] bg-white p-[30px]">
           <div class="h-[212px] w-[178px] shrink-0">
-            <img src="/images/figma/libro-1.png" alt="Libro 01" class="size-full object-cover" loading="lazy" />
+            <img src="/images/libros/colombia-latinoamerica-card.jpg" alt="Colombia y Latinoamérica" class="size-full object-cover" loading="lazy" />
           </div>
           <div class="flex min-w-0 flex-1 flex-col items-start gap-[15px]">
-            <p class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">Libro 01</p>
+            <p class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">Colombia y Latinoamérica</p>
             <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.05]">{{ lorem }}</p>
             <BotonCasa to="/libros">Conoce más</BotonCasa>
           </div>
         </div>
         <div class="flex items-center gap-[30px] overflow-hidden rounded-[30px] bg-white p-[30px]">
-          <div class="relative h-[212px] w-[178px] shrink-0 overflow-hidden">
-            <img
-              src="/images/figma/libro-2.png"
-              alt="Libro 02"
-              class="absolute left-[-83%] top-[-12.85%] h-[125.7%] w-[266%] max-w-none"
-              loading="lazy"
-            />
+          <div class="h-[212px] w-[178px] shrink-0">
+            <img src="/images/libros/estados-unidos-canada-card.jpg" alt="Estados Unidos y Canadá" class="size-full object-cover" loading="lazy" />
           </div>
           <div class="flex min-w-0 flex-1 flex-col items-start gap-[15px]">
-            <p class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">Libro 02</p>
+            <p class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">Estados Unidos y Canadá</p>
             <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.05]">{{ lorem }}</p>
             <BotonCasa to="/libros">Conoce más</BotonCasa>
           </div>
@@ -98,7 +93,14 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
       </div>
     </section>
 
-    <!-- Comuniquémonos -->
-    <ComuniquemonosForm />
+    <!-- Regístrate -->
+    <section class="flex flex-col items-center gap-[20px] border-t border-[#dcdcdc] px-[30px] py-[60px] text-center">
+      <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Regístrate</h2>
+      <p class="max-w-[520px] text-[16px] text-[var(--color-gris-dk)] [line-height:1.2]">
+        Cuéntanos un poco de ti, haz el Cuestionario de Bienestar y recibe contenidos pensados para quienes cuidan a
+        sus padres a distancia.
+      </p>
+      <BotonCasa to="/registrarse">Registrarme</BotonCasa>
+    </section>
   </div>
 </template>

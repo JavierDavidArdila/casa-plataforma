@@ -32,7 +32,7 @@ function estaSeleccionada(opcionValor: string | number) {
 
 <template>
   <div class="flex flex-col gap-6">
-    <h2 class="text-2xl md:text-3xl font-bold text-[var(--color-tinta)]">
+    <h2 class="text-2xl md:text-3xl font-bold text-[var(--color-secundario)]">
       {{ pregunta.texto }}
     </h2>
 
@@ -47,8 +47,8 @@ function estaSeleccionada(opcionValor: string | number) {
         class="text-left rounded-[var(--radius-editorial)] border-2 px-5 py-4 transition-colors duration-150"
         :class="
           estaSeleccionada(opcion.valor)
-            ? 'border-[var(--color-ocre)] bg-[var(--color-ocre)]/10 text-[var(--color-tinta)]'
-            : 'border-[var(--color-linea)] hover:border-[var(--color-ocre)]'
+            ? 'border-[var(--color-primario)] bg-[var(--color-primario)]/25 text-[var(--color-tinta)]'
+            : 'border-[var(--color-primario)] hover:border-[var(--color-secundario)]'
         "
         @click="
           pregunta.tipo === 'seleccion-multiple'
