@@ -6,6 +6,11 @@ defineProps<{
   resultado: ResultadoTest
 }>()
 
+// Cuando exista el envío real del resultado por correo (autoresponder), poner en true
+// para que el mensaje lo prometa. Mientras tanto no se afirma algo que no ocurre.
+const ENVIA_CORREO_RESULTADO = false
+const dijoPorAhoraNo = ref(false)
+
 const emit = defineEmits<{
   reiniciar: []
 }>()
@@ -32,7 +37,22 @@ const emit = defineEmits<{
       </p>
     </div>
 
-    <div class="mt-6 flex w-full flex-col items-center gap-4 rounded-[var(--radius-editorial)] border border-[var(--color-linea)] p-6">
+    <div
+      v-if="dijoPorAhoraNo"
+      class="mt-6 flex w-full flex-col items-center gap-4 rounded-[var(--radius-editorial)] border border-[var(--color-primario)] bg-white p-6"
+    >
+      <p class="text-xl font-bold text-[var(--color-secundario)]">¡Gracias por hacer el Cuestionario de Bienestar!</p>
+      <p v-if="ENVIA_CORREO_RESULTADO">Te enviaremos tu resultado a tu correo electrónico.</p>
+      <p v-else>Cuando quieras entrar a la plataforma, aquí estaremos.</p>
+      <NuxtLink
+        to="/"
+        class="rounded-[10px] bg-[var(--color-primario)] px-[30px] py-[15px] text-[14px] font-bold leading-none text-white hover:bg-[var(--color-primario-alto)]"
+      >
+        Ir al inicio
+      </NuxtLink>
+    </div>
+
+    <div v-else class="mt-6 flex w-full flex-col items-center gap-4 rounded-[var(--radius-editorial)] border border-[var(--color-linea)] p-6">
       <p class="font-semibold">¿Quieres entrar a la plataforma y ver los contenidos para tu área de atención?</p>
       <div class="flex gap-3">
         <NuxtLink
@@ -41,12 +61,13 @@ const emit = defineEmits<{
         >
           Sí, quiero entrar
         </NuxtLink>
-        <NuxtLink
-          to="/"
+        <button
+          type="button"
           class="rounded-[var(--radius-editorial)] border border-[var(--color-linea)] px-6 py-2.5 font-medium text-[var(--color-tinta-suave)]"
+          @click="dijoPorAhoraNo = true"
         >
           No, por ahora no
-        </NuxtLink>
+        </button>
       </div>
     </div>
 

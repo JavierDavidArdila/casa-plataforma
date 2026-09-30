@@ -77,7 +77,7 @@ export const PREGUNTAS: PreguntaTest[] = [
   {
     id: 2,
     texto: '¿Cuál es tu mayor aporte para quien cuidas a distancia?',
-    tipo: 'seleccion-unica',
+    tipo: 'seleccion-multiple',
     puntua: false,
     opciones: [
       { valor: 'apoyo-logistico', etiqueta: 'Apoyo logístico' },

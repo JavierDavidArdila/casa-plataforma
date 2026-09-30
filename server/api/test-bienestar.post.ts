@@ -73,7 +73,7 @@ export default defineEventHandler(async (event) => {
     .bind(
       usuario?.id ?? null,
       String(respuestas['1'] ?? ''),
-      String(respuestas['2'] ?? ''),
+      Array.isArray(respuestas['2']) ? JSON.stringify(respuestas['2']) : String(respuestas['2'] ?? ''),
       JSON.stringify(respuestas['3'] ?? []),
       String(respuestas['4'] ?? ''),
       Number(respuestas['5']) || 0,
