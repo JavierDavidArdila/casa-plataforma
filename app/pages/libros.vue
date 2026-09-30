@@ -16,7 +16,7 @@ const libros = [
 <template>
   <div>
     <section class="p-[30px]">
-      <ImagenPlaceholder aspecto="h-[440px] w-full" etiqueta="Imagen principal de Libros (pendiente del Figma)" />
+      <img src="/images/figma/hero-libros.jpg" alt="Libros" class="h-[440px] w-full rounded-[30px] object-cover" />
     </section>
 
     <section class="flex flex-col gap-[60px] border-t border-[#dcdcdc] px-[30px] py-[50px]">

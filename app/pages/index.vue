@@ -82,7 +82,7 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
 
     <!-- Quiénes somos -->
     <section class="grid gap-[30px] border-t border-[#dcdcdc] p-[30px] lg:grid-cols-[634px_395px] lg:justify-between">
-      <ImagenPlaceholder aspecto="h-[405px] w-full" etiqueta="Imagen de Quiénes somos (pendiente del Figma)" />
+      <img src="/images/figma/hero-quienes-somos.jpg" alt="Quiénes somos" class="h-[405px] w-full rounded-[30px] object-cover" loading="lazy" />
       <div class="flex flex-col items-start justify-center gap-[20px] py-6">
         <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Quiénes somos</h2>
         <p class="text-[16px] font-bold text-[var(--color-gris-dk)] [line-height:1.05]">

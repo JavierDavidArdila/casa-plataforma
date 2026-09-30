@@ -16,7 +16,7 @@ function formatearFecha(fecha: string) {
 <template>
   <div>
     <section class="p-[30px]">
-      <ImagenPlaceholder aspecto="h-[440px] w-full" etiqueta="Imagen principal de Prensa (pendiente del Figma)" />
+      <img src="/images/figma/hero-prensa.jpg" alt="Prensa" class="h-[440px] w-full rounded-[30px] object-cover" />
     </section>
 
     <section

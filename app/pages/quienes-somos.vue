@@ -16,7 +16,7 @@ const equipo = Array.from({ length: 7 }, (_, i) => ({
 <template>
   <div>
     <section class="p-[30px]">
-      <ImagenPlaceholder aspecto="h-[440px] w-full" etiqueta="Imagen principal de Quiénes Somos (pendiente del Figma)" />
+      <img src="/images/figma/hero-quienes-somos.jpg" alt="Quiénes somos" class="h-[440px] w-full rounded-[30px] object-cover" />
     </section>
 
     <section class="px-[36px] py-[30px]">

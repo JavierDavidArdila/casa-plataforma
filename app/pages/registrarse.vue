@@ -24,7 +24,7 @@ const paises = [
 const paisesResidencia = ['Estados Unidos', 'Canadá']
 // Indicativo del teléfono: necesario para poder escribirles por WhatsApp.
 const indicativos = [
-  { valor: '+1', etiqueta: '+1 EE. UU. / Canadá' },
+  { valor: '+1', etiqueta: '+1 EE. UU. y Canadá' },
   { valor: '+57', etiqueta: '+57 Colombia' },
   { valor: '+52', etiqueta: '+52 México' },
   { valor: '+54', etiqueta: '+54 Argentina' },
@@ -79,7 +79,7 @@ async function enviar() {
         <input v-model="form.apellido" required placeholder="Apellido*" aria-label="Apellido" class="campo-casa" />
         <input v-model="form.email" type="email" required placeholder="Email*" aria-label="Email" class="campo-casa" />
         <div class="flex gap-[10px]">
-          <select v-model="form.indicativo" aria-label="Indicativo del país" class="campo-casa !w-[150px] shrink-0 !pl-[14px] !pr-[36px] !text-[14px]">
+          <select v-model="form.indicativo" aria-label="Indicativo del país" class="campo-casa !w-[190px] shrink-0 !pl-[14px] !pr-[36px] !text-[13px]">
             <option v-for="i in indicativos" :key="i.etiqueta" :value="i.valor">{{ i.etiqueta }}</option>
           </select>
           <input v-model="form.movil" type="tel" inputmode="tel" required placeholder="Teléfono*" aria-label="Teléfono (sin indicativo)" class="campo-casa min-w-0 flex-1" />

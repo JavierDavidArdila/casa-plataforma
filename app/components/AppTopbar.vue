@@ -42,15 +42,11 @@ async function salir() {
       </template>
       <template v-else>
         <NuxtLink to="/iniciar-sesion" class="flex items-center gap-[10px] px-[30px] py-[10px]">
-          <span class="flex size-[38px] items-center justify-center rounded-[35px] border border-[var(--color-gris-md)] text-[var(--color-gris-dk)]">
-            <IconoNav nombre="persona" :size="20" />
-          </span>
+          <img src="/images/brand/icon-login.svg" alt="" width="38" height="38" class="size-[38px] shrink-0" />
           <span class="text-[16px] font-semibold leading-none text-black">Iniciar sesión</span>
         </NuxtLink>
         <NuxtLink to="/registrarse" class="flex items-center gap-[10px] px-[30px] py-[10px]">
-          <span class="flex size-[38px] items-center justify-center rounded-[35px] border border-[var(--color-gris-md)] text-[var(--color-gris-dk)]">
-            <IconoNav nombre="casa" :size="20" />
-          </span>
+          <img src="/images/brand/icon-registrarse.svg" alt="" width="38" height="38" class="size-[38px] shrink-0" />
           <span class="text-[16px] font-semibold leading-none text-black">Registrarse</span>
         </NuxtLink>
       </template>
