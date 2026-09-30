@@ -4,16 +4,15 @@
 // esto se reemplaza por la confirmación que llegue vía webhook.
 
 import { COOKIE_SESION, generarCodigoUsuario, obtenerUsuarioDeSesion } from '../utils/auth'
-
-interface CloudflareEnv {
-  DB: D1Database
-}
+import { modoPago, type EntornoPagos } from '../utils/pagos'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ incluyeLibro?: boolean }>(event).catch(() => ({}))
 
-  const env = event.context.cloudflare?.env as CloudflareEnv | undefined
+  const env = event.context.cloudflare?.env as EntornoPagos | undefined
   if (!env?.DB) throw createError({ statusCode: 500, statusMessage: 'Base de datos no disponible' })
+  // Con Hotmart activo, la suscripción solo la activa el aviso firmado de Hotmart.
+  if (modoPago(env) === 'hotmart') throw createError({ statusCode: 403, statusMessage: 'El pago se confirma a través de Hotmart' })
 
   const token = getCookie(event, COOKIE_SESION)
   const usuario = await obtenerUsuarioDeSesion(env.DB, token)
