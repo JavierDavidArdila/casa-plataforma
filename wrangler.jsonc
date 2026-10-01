@@ -8,6 +8,12 @@
     "binding": "ASSETS",
     "not_found_handling": "404-page"
   },
+  "r2_buckets": [
+    {
+      "binding": "VIDEOS",
+      "bucket_name": "casa-videos"
+    }
+  ],
   "d1_databases": [
     {
       "binding": "DB",

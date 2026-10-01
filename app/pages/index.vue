@@ -6,6 +6,20 @@ useSeoMeta({
 
 const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus sodales justo,'
 
+// Servido desde R2 (bucket casa-videos) por server/routes/videos; no es un asset del build.
+const urlVideoBienvenida = '/videos/bienvenida.mp4?v=2'
+const reproduciendo = ref(false)
+const videoEl = ref<HTMLVideoElement | null>(null)
+
+function precargar() {
+  if (videoEl.value && videoEl.value.preload !== 'auto') videoEl.value.preload = 'auto'
+}
+
+function reproducir() {
+  reproduciendo.value = true
+  videoEl.value?.play().catch(() => {})
+}
+
 const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado 0${n}`, descripcion: lorem }))
 </script>
 
@@ -23,14 +37,34 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
       </div>
 
       <div class="relative flex h-[405px] items-center justify-center overflow-hidden rounded-[30px] px-[50px] py-[30px]">
-        <img src="/images/figma/hero-home.png" alt="" class="absolute inset-0 size-full object-cover" />
-        <div class="absolute inset-0 bg-black/20" />
-        <button type="button" aria-label="Reproducir video introductorio" class="relative text-white">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
-            <circle cx="20" cy="20" r="18" />
-            <path d="m16.5 13 11 7-11 7Z" />
-          </svg>
-        </button>
+        <!-- El <video> vive siempre en la página (solo metadatos hasta el clic) para que, al
+             tocar play, el arranque sea inmediato; al acercar el puntero se pide que precargue. -->
+        <video
+          ref="videoEl"
+          :src="urlVideoBienvenida"
+          poster="/images/bienvenida-poster.jpg"
+          class="absolute inset-0 size-full bg-black object-cover"
+          :controls="reproduciendo"
+          playsinline
+          preload="metadata"
+        />
+        <template v-if="!reproduciendo">
+          <div class="pointer-events-none absolute inset-0 bg-black/20" />
+          <button
+            type="button"
+            aria-label="Reproducir video de bienvenida"
+            class="relative text-white"
+            @pointerenter="precargar"
+            @focus="precargar"
+            @touchstart.passive="precargar"
+            @click="reproducir"
+          >
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+              <circle cx="20" cy="20" r="18" />
+              <path d="m16.5 13 11 7-11 7Z" />
+            </svg>
+          </button>
+        </template>
       </div>
     </section>
 
