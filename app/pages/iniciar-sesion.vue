@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { AVISO_REGISTRO_ACTIVIDAD } from '~/data/opinion-acceso'
+
 useSeoMeta({ title: 'Iniciar sesión — C.A.S.A.' })
 
 const usuario = ref('')
@@ -21,23 +23,29 @@ async function entrar() {
   }
 }
 
-const mostrarPrensa = ref(false)
-const codigoPrensa = ref('')
-const enviandoPrensa = ref(false)
-const errorPrensa = ref<string | null>(null)
+const mostrarClave = ref(false)
+const codigoClave = ref('')
+const enviandoClave = ref(false)
+const errorClave = ref<string | null>(null)
 
-async function entrarPrensa() {
-  enviandoPrensa.value = true
-  errorPrensa.value = null
+async function entrarClave() {
+  enviandoClave.value = true
+  errorClave.value = null
   try {
-    await $fetch('/api/acceso-prensa', { method: 'POST', body: { codigo: codigoPrensa.value } })
+    let origen: unknown
+    try {
+      origen = JSON.parse(sessionStorage.getItem('casa-origen') ?? 'null') ?? undefined
+    } catch {
+      origen = undefined
+    }
+    await $fetch('/api/acceso', { method: 'POST', body: { codigo: codigoClave.value, origen } })
     const { cargarSesion } = useAuth()
     await cargarSesion()
     await navigateTo('/contenidos')
   } catch (e) {
-    errorPrensa.value = (e as { statusMessage?: string })?.statusMessage || 'No pudimos validar el código. Inténtalo de nuevo.'
+    errorClave.value = (e as { statusMessage?: string })?.statusMessage || 'No pudimos validar el código. Inténtalo de nuevo.'
   } finally {
-    enviandoPrensa.value = false
+    enviandoClave.value = false
   }
 }
 </script>
@@ -72,17 +80,17 @@ async function entrarPrensa() {
       <button
         type="button"
         class="text-[16px] font-bold text-[var(--color-secundario)] underline"
-        :aria-expanded="mostrarPrensa"
-        @click="mostrarPrensa = !mostrarPrensa"
+        :aria-expanded="mostrarClave"
+        @click="mostrarClave = !mostrarClave"
       >
-        Acceso de prensa
+        Tengo una clave de acceso
       </button>
 
-      <form v-if="mostrarPrensa" class="flex w-full flex-col items-center gap-[30px]" @submit.prevent="entrarPrensa">
+      <form v-if="mostrarClave" class="flex w-full flex-col items-center gap-[30px]" @submit.prevent="entrarClave">
         <label class="flex w-full flex-col gap-[10px]">
-          <span class="etiqueta-casa">Tu clave de acceso (está en la tarjeta)</span>
+          <span class="etiqueta-casa">Tu clave de acceso (está en tu tarjeta)</span>
           <input
-            v-model="codigoPrensa"
+            v-model="codigoClave"
             type="text"
             required
             maxlength="20"
@@ -93,8 +101,9 @@ async function entrarPrensa() {
             class="campo-casa uppercase tracking-[2px]"
           />
         </label>
-        <p v-if="errorPrensa" class="w-full text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ errorPrensa }}</p>
-        <BotonCasa type="submit" :disabled="enviandoPrensa">{{ enviandoPrensa ? 'Validando...' : 'Entrar' }}</BotonCasa>
+        <p class="w-full text-[12px] text-[var(--color-gris-dk)]">{{ AVISO_REGISTRO_ACTIVIDAD }}</p>
+        <p v-if="errorClave" class="w-full text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ errorClave }}</p>
+        <BotonCasa type="submit" :disabled="enviandoClave">{{ enviandoClave ? 'Validando...' : 'Entrar' }}</BotonCasa>
       </form>
     </div>
   </div>

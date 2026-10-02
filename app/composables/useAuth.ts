@@ -4,6 +4,9 @@ export interface EstadoSesion {
   codigoUsuario?: string | null
   nombre?: string
   tieneCuenta?: boolean
+  tipoAcceso?: 'prensa' | 'invitado' | null
+  venceEn?: string | null
+  opinionesEnviadas?: string[]
 }
 
 export function useAuth() {

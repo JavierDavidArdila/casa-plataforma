@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { VIDEOS } from '~/data/videos'
+import { OPINION_ACCESO } from '~/data/opinion-acceso'
 
 useSeoMeta({ title: 'Contenidos — C.A.S.A.' })
 
@@ -11,6 +12,12 @@ onMounted(async () => {
   verificando.value = false
 })
 
+const faltan = computed(() => VIDEOS.length - (sesion.value.opinionesEnviadas ?? []).length)
+const diasRestantes = computed(() => {
+  if (!sesion.value.venceEn) return null
+  return Math.max(0, Math.ceil((new Date(sesion.value.venceEn).getTime() - Date.now()) / 86_400_000))
+})
+
 const rutaSuscripcion = computed(() => (sesion.value.tieneCuenta ? '/pago' : sesion.value.autenticado ? '/crear-cuenta' : '/registrarse'))
 </script>
 
@@ -20,6 +27,12 @@ const rutaSuscripcion = computed(() => (sesion.value.tieneCuenta ? '/pago' : ses
     <p class="text-[16px] text-[var(--color-gris-dk)]">
       4 videos, uno por cada pilar del cuidado a distancia: Comprender, Acompañar, Sostener y Aliviar.
     </p>
+
+    <div v-if="sesion.tipoAcceso" class="rounded-[10px] border border-[var(--color-primario)] bg-white px-5 py-4 text-[16px] text-[var(--color-gris-dk)]">
+      <p class="font-bold">{{ faltan > 0 ? OPINION_ACCESO.avisoFaltantes(faltan) : OPINION_ACCESO.completo }}</p>
+      <p v-if="faltan > 0">Mira cada video y cuéntanos qué te pareció: si te gustó o no, y un mensaje.</p>
+      <p v-if="diasRestantes !== null" class="text-[14px]">Tu acceso vence en {{ diasRestantes }} {{ diasRestantes === 1 ? 'día' : 'días' }}.</p>
+    </div>
 
     <div v-if="!sesion.suscrito" class="rounded-[10px] border border-[var(--color-primario)] bg-white px-5 py-4 text-[16px] text-[var(--color-gris-dk)]">
       Estás viendo trailers.

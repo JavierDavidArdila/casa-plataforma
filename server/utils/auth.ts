@@ -77,3 +77,26 @@ export async function generarCodigoUsuario(db: D1Database): Promise<string> {
   }
   throw new Error('No se pudo generar un código de usuario único tras varios intentos')
 }
+
+// Datos del acceso de invitado/prensa al que pertenece la sesión (null si es un usuario normal).
+export interface ContextoAcceso {
+  usuarioId: number
+  accesoId: number
+  codigoId: number
+  tipo: string
+  venceEn: string
+}
+
+export async function obtenerContextoAcceso(db: D1Database, token: string | undefined): Promise<ContextoAcceso | null> {
+  if (!token) return null
+  const fila = await db
+    .prepare(
+      `SELECT s.usuario_id, s.acceso_id, s.expira_en, a.codigo_id, a.tipo
+       FROM sesiones s JOIN accesos_log a ON a.id = s.acceso_id
+       WHERE s.token = ? AND s.acceso_id IS NOT NULL`
+    )
+    .bind(token)
+    .first<{ usuario_id: number; acceso_id: number; expira_en: string; codigo_id: number; tipo: string }>()
+  if (!fila || new Date(fila.expira_en).getTime() < Date.now()) return null
+  return { usuarioId: fila.usuario_id, accesoId: fila.acceso_id, codigoId: fila.codigo_id, tipo: fila.tipo, venceEn: fila.expira_en }
+}

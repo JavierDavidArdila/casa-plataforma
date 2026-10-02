@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { obtenerVideo, obtenerSiguienteVideo } from '~/data/videos'
+import { OPINION_ACCESO } from '~/data/opinion-acceso'
 
 const route = useRoute()
 const slug = String(route.params.slug)
@@ -23,6 +24,36 @@ onMounted(async () => {
     await navigateTo('/contenidos')
   }
 })
+
+// Invitados y prensa: opinión por video (¿te gustó? + mensaje) en lugar de "Comparte".
+const meGusto = ref<boolean | null>(null)
+const mensajeOpinion = ref('')
+const enviandoOpinion = ref(false)
+const opinionEnviada = ref(false)
+const errorOpinion = ref<string | null>(null)
+
+const yaOpino = computed(() => opinionEnviada.value || (sesion.value.opinionesEnviadas ?? []).includes(slug))
+
+async function enviarOpinionAcceso() {
+  if (meGusto.value === null) {
+    errorOpinion.value = 'Cuéntanos si te gustó o no.'
+    return
+  }
+  enviandoOpinion.value = true
+  errorOpinion.value = null
+  try {
+    await $fetch('/api/opinion', {
+      method: 'POST',
+      body: { video: slug, meGusto: meGusto.value, mensaje: mensajeOpinion.value },
+    })
+    opinionEnviada.value = true
+    await cargarSesion()
+  } catch (e) {
+    errorOpinion.value = (e as { statusMessage?: string })?.statusMessage || 'No pudimos guardar tu opinión. Inténtalo de nuevo.'
+  } finally {
+    enviandoOpinion.value = false
+  }
+}
 
 const queSirvio = ref('')
 const queProfundizar = ref('')
@@ -91,6 +122,33 @@ async function enviarOpinion() {
       </NuxtLink>
 
       <div class="flex flex-col gap-[20px]">
+        <template v-if="sesion.tipoAcceso">
+          <h2 class="titulo-seccion">{{ OPINION_ACCESO.titulo }}</h2>
+          <div class="flex flex-col gap-[20px] rounded-[30px] bg-white p-[25px]">
+            <p v-if="opinionEnviada" class="text-[16px] text-[var(--color-gris-dk)]">{{ OPINION_ACCESO.gracias }}</p>
+            <template v-else>
+              <p v-if="yaOpino" class="text-[14px] font-semibold text-[var(--color-gris-dk)]">Ya opinaste sobre este video; si vuelves a enviar, reemplazamos tu opinión.</p>
+              <fieldset class="flex flex-col gap-[12px]">
+                <legend class="etiqueta-casa">{{ OPINION_ACCESO.preguntaMeGusto }}</legend>
+                <div class="flex flex-wrap gap-[12px]">
+                  <label class="flex cursor-pointer items-center gap-[8px] text-[16px] text-[var(--color-gris-dk)]">
+                    <input v-model="meGusto" type="radio" name="me-gusto" :value="true" /> {{ OPINION_ACCESO.etiquetaSi }}
+                  </label>
+                  <label class="flex cursor-pointer items-center gap-[8px] text-[16px] text-[var(--color-gris-dk)]">
+                    <input v-model="meGusto" type="radio" name="me-gusto" :value="false" /> {{ OPINION_ACCESO.etiquetaNo }}
+                  </label>
+                </div>
+              </fieldset>
+              <label class="flex flex-col gap-[12px]">
+                <span class="etiqueta-casa">{{ OPINION_ACCESO.etiquetaMensaje }}</span>
+                <textarea v-model="mensajeOpinion" rows="4" maxlength="2000" :placeholder="OPINION_ACCESO.placeholderMensaje" class="campo-casa" />
+              </label>
+              <p v-if="errorOpinion" class="text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ errorOpinion }}</p>
+              <BotonCasa :disabled="enviandoOpinion" @click="enviarOpinionAcceso">{{ enviandoOpinion ? 'Enviando...' : OPINION_ACCESO.boton }}</BotonCasa>
+            </template>
+          </div>
+        </template>
+        <template v-else>
         <h2 class="titulo-seccion">Comparte</h2>
         <div class="flex flex-col gap-[20px] rounded-[30px] bg-white p-[25px]">
           <template v-if="!enviado">
@@ -112,6 +170,7 @@ async function enviarOpinion() {
             {{ error ?? '¡Gracias por tu opinión!' }}
           </p>
         </div>
+        </template>
       </div>
     </div>
   </div>
