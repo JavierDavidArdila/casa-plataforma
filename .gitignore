@@ -8,3 +8,4 @@ dist
 *.log
 *:Zone.Identifier
 correos/
+scripts/salida/
