@@ -11,6 +11,8 @@ export default defineNuxtConfig({
     public: {
       // Clave gratuita de https://web3forms.com — usada por el formulario "Comuniquémonos".
       web3formsKey: '',
+      // URL canónica del sitio (raíz, sin www ni workers.dev). Se puede sobreescribir con NUXT_PUBLIC_SITE_URL.
+      siteUrl: 'https://casacuidadoadistancia.co',
     },
   },
 

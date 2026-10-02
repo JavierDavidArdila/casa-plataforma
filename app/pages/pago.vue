@@ -3,7 +3,7 @@
 // - "simulado": no hay pasarela conectada; el botón activa la suscripción sin cobrar.
 // - "hotmart": se paga en el checkout de Hotmart; la suscripción la activa el aviso
 //   firmado de Hotmart (/api/hotmart) y esta página solo espera a que llegue.
-useSeoMeta({ title: 'Suscripción — C.A.S.A.' })
+useSeoPagina({ title: 'Suscripción — C.A.S.A.', description: 'Suscripción a la plataforma C.A.S.A.', indexable: false })
 
 interface EstadoPago {
   modo: 'simulado' | 'hotmart'

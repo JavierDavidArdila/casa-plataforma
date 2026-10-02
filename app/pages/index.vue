@@ -1,7 +1,37 @@
 <script setup lang="ts">
-useSeoMeta({
+useSeoPagina({
   title: 'C.A.S.A. — Del Cuidado a Distancia',
-  description: 'Plataforma C.A.S.A.: Cuestionario de Bienestar, contenidos y acompañamiento para quienes cuidan a distancia.',
+  description: 'El primer Programa de Bienestar para cuidadores a distancia: Cuestionario de Bienestar, videos y acompañamiento para quienes cuidan a sus padres desde lejos.',
+})
+
+// Datos estructurados (Organization + WebSite) con la URL canónica de la raíz.
+const sitioUrl = String(useRuntimeConfig().public.siteUrl).replace(/\/$/, '')
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Organization',
+            '@id': `${sitioUrl}/#organizacion`,
+            name: 'C.A.S.A. — Del Cuidado a Distancia',
+            url: `${sitioUrl}/`,
+            logo: `${sitioUrl}/images/brand/casa-logo.png`,
+          },
+          {
+            '@type': 'WebSite',
+            '@id': `${sitioUrl}/#sitio`,
+            url: `${sitioUrl}/`,
+            name: 'C.A.S.A. — Del Cuidado a Distancia',
+            inLanguage: 'es-CO',
+            publisher: { '@id': `${sitioUrl}/#organizacion` },
+          },
+        ],
+      }),
+    },
+  ],
 })
 
 const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus sodales justo,'

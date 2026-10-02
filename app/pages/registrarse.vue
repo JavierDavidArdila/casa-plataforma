@@ -1,5 +1,8 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'Regístrate — C.A.S.A.' })
+useSeoPagina({
+  title: 'Regístrate — C.A.S.A.',
+  description: 'Regístrate en la plataforma C.A.S.A. para hacer el Cuestionario de Bienestar y acceder a los contenidos del programa.',
+})
 
 const form = reactive({
   nombre: '',

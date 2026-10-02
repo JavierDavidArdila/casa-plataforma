@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AVISO_REGISTRO_ACTIVIDAD } from '~/data/opinion-acceso'
 
-useSeoMeta({ title: 'Iniciar sesión — C.A.S.A.' })
+useSeoPagina({ title: 'Iniciar sesión — C.A.S.A.', description: 'Ingresa a la plataforma C.A.S.A.', indexable: false })
 
 const usuario = ref('')
 const password = ref('')

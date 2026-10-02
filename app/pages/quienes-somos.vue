@@ -1,6 +1,7 @@
 <script setup lang="ts">
-useSeoMeta({
+useSeoPagina({
   title: 'Quiénes Somos — C.A.S.A.',
+  imagen: '/images/figma/hero-quienes-somos.jpg',
   description: 'Conoce al equipo detrás de la Plataforma C.A.S.A., del cuidado a distancia.',
 })
 

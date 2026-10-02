@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { REGLAS_CLAVE, claveValida } from '#shared/utils/clave'
 
-useSeoMeta({ title: 'Crear cuenta — C.A.S.A.' })
+useSeoPagina({ title: 'Crear cuenta — C.A.S.A.', description: 'Crea tu cuenta en la plataforma C.A.S.A.', indexable: false })
 
 const password = ref('')
 const confirmar = ref('')

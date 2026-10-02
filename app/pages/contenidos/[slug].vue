@@ -12,7 +12,7 @@ if (!video) {
 
 const siguiente = obtenerSiguienteVideo(slug)
 
-useSeoMeta({ title: `${video.titulo} — Contenidos — C.A.S.A.` })
+useSeoPagina({ title: `${video.titulo} — Contenidos — C.A.S.A.`, description: video.descripcion, indexable: false })
 
 const { sesion, cargarSesion } = useAuth()
 const verificando = ref(true)

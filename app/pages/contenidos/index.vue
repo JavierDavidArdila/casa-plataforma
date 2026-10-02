@@ -2,7 +2,10 @@
 import { VIDEOS } from '~/data/videos'
 import { OPINION_ACCESO } from '~/data/opinion-acceso'
 
-useSeoMeta({ title: 'Contenidos — C.A.S.A.' })
+useSeoPagina({
+  title: 'Contenidos — C.A.S.A.',
+  description: 'Primera temporada: 4 videos, uno por cada pilar del cuidado a distancia (Comprender, Acompañar, Sostener y Aliviar).',
+})
 
 const { sesion, cargarSesion } = useAuth()
 const verificando = ref(true)

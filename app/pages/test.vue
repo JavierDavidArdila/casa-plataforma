@@ -1,5 +1,8 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'Cuestionario de Bienestar — C.A.S.A.' })
+useSeoPagina({
+  title: 'Cuestionario de Bienestar — C.A.S.A.',
+  description: 'Responde el Cuestionario de Bienestar y conoce cómo estás viviendo el cuidado a distancia de tus padres, con recomendaciones según tu resultado.',
+})
 
 const { sesion, cargarSesion } = useAuth()
 const verificando = ref(true)

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { LIBRO, TIENDAS_COLOMBIA, TIENDAS_LATINOAMERICA, TIENDAS_USA, TEXTO_USA, TIENDAS_EBOOK } from '~/data/libro'
 
-useSeoMeta({
+useSeoPagina({
   title: 'Libros — C.A.S.A.',
   description: LIBRO.intro,
+  imagen: '/images/figma/hero-libros.jpg',
 })
 
 // Figma: dos filas en zigzag — imagen del libro en tarjeta blanca (509×419) y texto + botón al lado.

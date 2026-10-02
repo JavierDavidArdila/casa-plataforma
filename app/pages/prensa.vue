@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { PRENSA, agruparPrensaPorMedio } from '~/data/prensa'
 
-useSeoMeta({
+useSeoPagina({
   title: 'Prensa — C.A.S.A.',
+  imagen: '/images/figma/hero-prensa.jpg',
   description: 'Entrevistas y apariciones en medios de Fernando Roca Correa sobre cuidado familiar y bienestar de los cuidadores.',
 })
 
