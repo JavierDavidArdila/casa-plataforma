@@ -1,10 +1,12 @@
 // Paso "Crear cuenta": el usuario ya hizo el test y decidió entrar a la
 // plataforma. Requiere sesión activa (viene de /api/lead). Le pone
 // contraseña a su registro; el código de usuario se asigna después, al
-// confirmar el pago (ver /api/pago).
+// confirmar el pago (ver /api/pago), salvo para los primeros CUPO_GRATIS inscritos:
+// ellos quedan activos al crear la cuenta, sin pago.
 
 import { claveValida } from '../../shared/utils/clave'
-import { COOKIE_SESION, hashPassword, obtenerUsuarioDeSesion } from '../utils/auth'
+import { CUPO_GRATIS } from '../../shared/utils/cupo'
+import { COOKIE_SESION, generarCodigoUsuario, hashPassword, obtenerUsuarioDeSesion } from '../utils/auth'
 
 interface CloudflareEnv {
   DB: D1Database
@@ -31,5 +33,21 @@ export default defineEventHandler(async (event) => {
     .bind(hash, salt, usuario.id)
     .run()
 
-  return { ok: true }
+  // Cupo gratuito: la condición va dentro del UPDATE para que dos registros simultáneos
+  // no sobrepasen el cupo.
+  let gratis = false
+  let codigoUsuario = (usuario.codigo_usuario as string | null) ?? null
+  if (!usuario.suscrito) {
+    const codigo = codigoUsuario ?? (await generarCodigoUsuario(env.DB))
+    const r = await env.DB.prepare(
+      `UPDATE usuarios SET suscrito = 1, acceso_gratis = 1, acceso_gratis_en = datetime('now'), codigo_usuario = ?
+       WHERE id = ? AND suscrito = 0 AND (SELECT COUNT(*) FROM usuarios WHERE acceso_gratis = 1) < ?`
+    )
+      .bind(codigo, usuario.id, CUPO_GRATIS)
+      .run()
+    gratis = (r.meta.changes ?? 0) > 0
+    if (gratis) codigoUsuario = codigo
+  }
+
+  return { ok: true, gratis, suscrito: gratis || Boolean(usuario.suscrito), codigoUsuario }
 })

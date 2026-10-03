@@ -2,6 +2,7 @@
 // qué modo mostrar (Hotmart o simulado) y, en modo Hotmart, para confirmar si el
 // aviso de pago ya llegó (también activa a quien pagó antes de crear su cuenta).
 
+import { CUPO_GRATIS } from '../../shared/utils/cupo'
 import { COOKIE_SESION, obtenerUsuarioDeSesion } from '../utils/auth'
 import { activarSuscripcion, compraVigente, modoPago, urlCheckout, type EntornoPagos } from '../utils/pagos'
 
@@ -21,7 +22,11 @@ export default defineEventHandler(async (event) => {
     suscrito = true
   }
 
+  const { total } = (await env.DB.prepare('SELECT COUNT(*) AS total FROM usuarios WHERE acceso_gratis = 1').first<{ total: number }>()) ?? { total: 0 }
+
   return {
+    cupoGratisAgotado: total >= CUPO_GRATIS,
+    gratis: Boolean(usuario.acceso_gratis),
     modo,
     suscrito,
     codigoUsuario: suscrito ? codigoUsuario : null,

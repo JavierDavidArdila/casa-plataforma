@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import {
+  ANIOS_1_A_50, CIUDADES_CANADA, CIUDADES_USA, GENEROS, OTRA_CIUDAD, PAISES_ORIGEN, PAISES_RESIDENCIA, PERSONAS_CUIDADAS,
+} from '~/data/ubicaciones'
 useSeoPagina({
   title: 'Regístrate — C.A.S.A.',
   description: 'Regístrate en la plataforma C.A.S.A. para hacer el Cuestionario de Bienestar y acceder a los contenidos del programa.',
@@ -7,6 +10,9 @@ useSeoPagina({
 const form = reactive({
   nombre: '',
   apellido: '',
+  edad: '',
+  fechaNacimiento: '',
+  genero: '',
   email: '',
   indicativo: '+1',
   movil: '',
@@ -14,17 +20,21 @@ const form = reactive({
   empresa: '',
   paisOrigen: '',
   paisResidencia: '',
-  aQuienAyudas: '',
+  ciudad: '',
+  estadoOtro: '',
+  ciudadOtra: '',
+  paisOtro: '',
+  aQuienAyudas: [] as string[],
   haceCuantoVivesFuera: '',
+  aniosCuidando: '',
 })
 
-const paises = [
-  'Argentina', 'Bolivia', 'Brasil', 'Canadá', 'Chile', 'Colombia', 'Costa Rica', 'Cuba', 'Ecuador', 'El Salvador',
-  'España', 'Estados Unidos', 'Guatemala', 'Honduras', 'México', 'Nicaragua', 'Panamá', 'Paraguay', 'Perú',
-  'Puerto Rico', 'República Dominicana', 'Uruguay', 'Venezuela', 'Otro',
-]
-// La plataforma es para quienes viven en Estados Unidos o Canadá.
-const paisesResidencia = ['Estados Unidos', 'Canadá']
+const ciudades = computed(() => (form.paisResidencia === 'Canadá' ? CIUDADES_CANADA : CIUDADES_USA))
+const pideEstadoYCiudad = computed(() => form.ciudad === OTRA_CIUDAD)
+watch(() => form.paisResidencia, () => {
+  form.ciudad = ''
+})
+
 // Indicativo del teléfono: necesario para poder escribirles por WhatsApp.
 const indicativos = [
   { valor: '+1', etiqueta: '+1 EE. UU. y Canadá' },
@@ -50,19 +60,39 @@ const indicativos = [
   { valor: '+598', etiqueta: '+598 Uruguay' },
   { valor: '+58', etiqueta: '+58 Venezuela' },
 ]
-const aQuienAyudasOpciones = ['Mi papá', 'Mi mamá', 'Mis papás', 'Otro familiar', 'Otra persona']
-const aniosFueraOpciones = ['Menos de 1 año', '1 a 3 años', '4 a 6 años', '7 a 10 años', 'Más de 10 años']
 
 const enviando = ref(false)
 const error = ref<string | null>(null)
 
+function alternarPersona(persona: string) {
+  const i = form.aQuienAyudas.indexOf(persona)
+  if (i === -1) form.aQuienAyudas.push(persona)
+  else form.aQuienAyudas.splice(i, 1)
+}
+
 async function enviar() {
-  enviando.value = true
   error.value = null
+  if (!form.aQuienAyudas.length) {
+    error.value = 'Elige al menos una persona a quien ayudas o cuidas a distancia.'
+    return
+  }
+  enviando.value = true
   try {
-    const { indicativo, movil, ...resto } = form
+    const { indicativo, movil, estadoOtro, ciudadOtra, paisOtro, ciudad, paisResidencia, ...resto } = form
     const numero = movil.replace(/[^\d]/g, '').replace(/^0+/, '')
-    await $fetch('/api/lead', { method: 'POST', body: { ...resto, movil: `${indicativo} ${numero}` } })
+    // Canadá / EE. UU.: ciudad de la lista o "Estado: Ciudad" digitado. Otro: país y ciudad digitados.
+    const esOtroPais = paisResidencia === 'Otro'
+    const ciudadFinal = esOtroPais ? ciudadOtra.trim() : ciudad === OTRA_CIUDAD ? `${estadoOtro.trim()}: ${ciudadOtra.trim()}` : ciudad
+    await $fetch('/api/lead', {
+      method: 'POST',
+      body: {
+        ...resto,
+        movil: `${indicativo} ${numero}`,
+        paisResidencia: esOtroPais ? paisOtro.trim() : paisResidencia,
+        ciudad: ciudadFinal,
+        aQuienAyudas: form.aQuienAyudas.join(', '),
+      },
+    })
     await navigateTo('/test')
   } catch {
     error.value = 'No pudimos guardar tus datos. Revisa el formulario e intenta de nuevo.'
@@ -80,30 +110,64 @@ async function enviar() {
       <div class="flex w-full flex-col gap-[25px]">
         <input v-model="form.nombre" required placeholder="Nombre*" aria-label="Nombre" class="campo-casa" />
         <input v-model="form.apellido" required placeholder="Apellido*" aria-label="Apellido" class="campo-casa" />
+        <input v-model="form.edad" type="number" min="1" max="120" inputmode="numeric" required placeholder="Edad* (escribe el número)" aria-label="Edad" class="campo-casa" />
+        <label class="flex flex-col gap-[8px]">
+          <span class="px-[20px] text-[14px] text-[var(--color-secundario)]">Fecha de nacimiento* (selecciona en el calendario)</span>
+          <input v-model="form.fechaNacimiento" type="date" required aria-label="Fecha de nacimiento" class="campo-casa" />
+        </label>
+        <select v-model="form.genero" required aria-label="Género" class="campo-casa" :class="{ vacio: !form.genero }">
+          <option value="" disabled>Género*</option>
+          <option v-for="g in GENEROS" :key="g" :value="g">{{ g }}</option>
+        </select>
         <input v-model="form.email" type="email" required placeholder="Email*" aria-label="Email" class="campo-casa" />
         <div class="flex gap-[10px]">
           <select v-model="form.indicativo" aria-label="Indicativo del país" class="campo-casa !w-[190px] shrink-0 !pl-[14px] !pr-[36px] !text-[13px]">
             <option v-for="i in indicativos" :key="i.etiqueta" :value="i.valor">{{ i.etiqueta }}</option>
           </select>
-          <input v-model="form.movil" type="tel" inputmode="tel" required placeholder="Teléfono*" aria-label="Teléfono (sin indicativo)" class="campo-casa min-w-0 flex-1" />
+          <input v-model="form.movil" type="tel" inputmode="tel" required placeholder="Teléfono móvil*" aria-label="Teléfono móvil (sin indicativo)" class="campo-casa min-w-0 flex-1" />
         </div>
         <input v-model="form.empresa" placeholder="Empresa" aria-label="Empresa" class="campo-casa" />
 
         <select v-model="form.paisOrigen" required aria-label="País de origen" class="campo-casa" :class="{ vacio: !form.paisOrigen }">
-          <option value="" disabled>País de origen</option>
-          <option v-for="pais in paises" :key="pais" :value="pais">{{ pais }}</option>
+          <option value="" disabled>País de origen*</option>
+          <option v-for="pais in PAISES_ORIGEN" :key="pais" :value="pais">{{ pais }}</option>
         </select>
         <select v-model="form.paisResidencia" required aria-label="País de residencia" class="campo-casa" :class="{ vacio: !form.paisResidencia }">
-          <option value="" disabled>País de residencia</option>
-          <option v-for="pais in paisesResidencia" :key="pais" :value="pais">{{ pais }}</option>
+          <option value="" disabled>País de residencia*</option>
+          <option v-for="pais in PAISES_RESIDENCIA" :key="pais" :value="pais">{{ pais === 'Otro' ? 'Otro, cuál' : pais }}</option>
         </select>
-        <select v-model="form.aQuienAyudas" required aria-label="¿A quién ayudas, cuidas o has cuidado a distancia?" class="campo-casa" :class="{ vacio: !form.aQuienAyudas }">
-          <option value="" disabled>¿A quién ayudas, cuidas o has cuidado a distancia?</option>
-          <option v-for="opcion in aQuienAyudasOpciones" :key="opcion" :value="opcion">{{ opcion }}</option>
-        </select>
+
+        <template v-if="form.paisResidencia === 'Otro'">
+          <input v-model="form.paisOtro" required placeholder="País*" aria-label="País de residencia (otro)" class="campo-casa" />
+          <input v-model="form.ciudadOtra" required placeholder="Ciudad*" aria-label="Ciudad" class="campo-casa" />
+        </template>
+        <template v-else-if="form.paisResidencia">
+          <select v-model="form.ciudad" required aria-label="Ciudad" class="campo-casa" :class="{ vacio: !form.ciudad }">
+            <option value="" disabled>Ciudad*</option>
+            <option v-for="c in ciudades" :key="c" :value="c">{{ c }}</option>
+            <option :value="OTRA_CIUDAD">Otra, cuál</option>
+          </select>
+          <template v-if="pideEstadoYCiudad">
+            <input v-model="form.estadoOtro" required placeholder="Estado*" aria-label="Estado" class="campo-casa" />
+            <input v-model="form.ciudadOtra" required placeholder="Ciudad*" aria-label="Ciudad (otra)" class="campo-casa" />
+          </template>
+        </template>
+
+        <fieldset class="flex flex-col gap-[10px] px-[20px]">
+          <legend class="etiqueta-casa mb-[8px]">¿A quién ayudas, cuidas o has cuidado a distancia?*</legend>
+          <label v-for="persona in PERSONAS_CUIDADAS" :key="persona" class="flex cursor-pointer items-center gap-[10px] text-[16px] text-[var(--color-gris-dk)]">
+            <input type="checkbox" :checked="form.aQuienAyudas.includes(persona)" class="size-[16px] accent-[var(--color-primario)]" @change="alternarPersona(persona)" />
+            {{ persona }}
+          </label>
+        </fieldset>
+
         <select v-model="form.haceCuantoVivesFuera" required aria-label="¿Hace cuántos años vives fuera de tu país?" class="campo-casa" :class="{ vacio: !form.haceCuantoVivesFuera }">
-          <option value="" disabled>¿Hace cuántos años vives fuera de tu país?</option>
-          <option v-for="opcion in aniosFueraOpciones" :key="opcion" :value="opcion">{{ opcion }}</option>
+          <option value="" disabled>¿Hace cuántos años vives fuera de tu país?*</option>
+          <option v-for="n in ANIOS_1_A_50" :key="n" :value="n">{{ n }} {{ n === '1' ? 'año' : 'años' }}</option>
+        </select>
+        <select v-model="form.aniosCuidando" required aria-label="¿Cuánto tiempo llevas apoyando o cuidando a la distancia?" class="campo-casa" :class="{ vacio: !form.aniosCuidando }">
+          <option value="" disabled>¿Cuánto tiempo llevas apoyando o cuidando a la distancia?*</option>
+          <option v-for="n in ANIOS_1_A_50" :key="n" :value="n">{{ n }} {{ n === '1' ? 'año' : 'años' }}</option>
         </select>
 
         <label class="flex items-start gap-[10px] text-[14px] text-[var(--color-gris-dk)]">

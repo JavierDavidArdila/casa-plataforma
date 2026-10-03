@@ -108,8 +108,13 @@ async function enviarOpinion() {
     </div>
 
     <div class="grid gap-[30px] border-t border-[#dcdcdc] p-[30px] lg:grid-cols-[minmax(0,634px)_minmax(0,405px)] lg:justify-between">
+      <div v-if="slug === 'sostener' && !sesion.referidosEnviados" class="flex flex-col items-start gap-[10px] self-start rounded-[30px] bg-white p-[30px]">
+        <p class="text-[24px] font-bold leading-none text-[var(--color-gris-dk)]">¡Felicitaciones, llegaste a Sostener!</p>
+        <p class="text-[16px] text-[var(--color-gris-dk)]">Antes de cerrar con Aliviar, comparte C.A.S.A. con tres familiares o amigos.</p>
+        <BotonCasa to="/referidos">Compartir con tres personas</BotonCasa>
+      </div>
       <NuxtLink
-        v-if="siguiente"
+        v-else-if="siguiente"
         :to="`/contenidos/${siguiente.slug}`"
         class="flex items-center gap-[25px] self-start rounded-[30px] bg-white p-[30px]"
       >

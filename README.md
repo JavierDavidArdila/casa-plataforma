@@ -42,6 +42,12 @@ de bienestar) → resultado → "¿Ingresar a la plataforma?" → `/crear-cuenta
 código de usuario de 6 dígitos → `/contenidos` (video por suscripción).
 `/iniciar-sesion` para volver a entrar con el código de usuario.
 
+Inscripción y referidos (Word del cliente, oct 2026): `/registrarse` captura los datos ampliados
+(listas en `app/data/ubicaciones.ts`). Los primeros `CUPO_GRATIS` (100, en `shared/utils/cupo.ts`) que crean su cuenta quedan
+activos sin pagar (`usuarios.acceso_gratis`); del siguiente en adelante se muestra `/pago`. `/referidos` (tras el video
+SOSTENER) guarda tres referidos y cómo llegó el usuario en `referidos_envios` y `referidos`. Migración: `migrations/0007_*.sql`.
+Preguntas abiertas para el cliente: `PENDIENTES-CLIENTE.md`.
+
 Diseños de referencia (moodboard, Principal 1/2, Iniciar sesión) en `diseno/`.
 
 Pendiente / no incluido todavía:

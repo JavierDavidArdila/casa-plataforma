@@ -7,6 +7,7 @@ export interface EstadoSesion {
   tipoAcceso?: 'prensa' | 'invitado' | null
   venceEn?: string | null
   opinionesEnviadas?: string[]
+  referidosEnviados?: boolean
 }
 
 export function useAuth() {

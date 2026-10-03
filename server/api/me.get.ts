@@ -22,8 +22,14 @@ export default defineEventHandler(async (event) => {
     opinionesEnviadas = results.map((r) => r.video)
   }
 
+  const referidos = await env.DB.prepare('SELECT 1 AS ok FROM referidos_envios WHERE usuario_id = ?')
+    .bind(usuario.id)
+    .first()
+    .catch(() => null)
+
   return {
     autenticado: true,
+    referidosEnviados: Boolean(referidos),
     suscrito: Boolean(usuario.suscrito),
     codigoUsuario: usuario.codigo_usuario ?? null,
     nombre: usuario.nombre,

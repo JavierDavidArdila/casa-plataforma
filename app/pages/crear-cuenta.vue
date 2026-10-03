@@ -22,6 +22,7 @@ async function crear() {
   enviando.value = true
   try {
     await $fetch('/api/cuenta', { method: 'POST', body: { password: password.value } })
+    // Dentro del cupo gratuito la suscripción ya queda activa; /pago muestra el código de usuario.
     await navigateTo('/pago')
   } catch {
     error.value = 'No pudimos crear tu cuenta. Si no has hecho el cuestionario, empieza por ahí.'
@@ -35,7 +36,7 @@ async function crear() {
   <div class="flex flex-col items-center gap-[30px] px-[30px] py-[30px]">
     <h1 class="titulo-seccion">Crea tu cuenta</h1>
     <p class="max-w-[497px] text-center text-[16px] text-[var(--color-gris-dk)]">
-      Con esto podrás iniciar sesión más adelante. El siguiente paso es activar tu suscripción.
+      Con esto podrás iniciar sesión más adelante. El siguiente paso es activar tu suscripción (los primeros 100 inscritos entran sin costo).
     </p>
 
     <form class="flex w-full max-w-[497px] flex-col items-center gap-[30px]" @submit.prevent="crear">
@@ -49,7 +50,7 @@ async function crear() {
         <input v-model="confirmar" type="password" required placeholder="Confirmar contraseña" aria-label="Confirmar contraseña" class="campo-casa" />
         <p v-if="error" class="text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ error }}</p>
       </div>
-      <BotonCasa type="submit" :disabled="enviando">{{ enviando ? 'Creando...' : 'Continuar al pago' }}</BotonCasa>
+      <BotonCasa type="submit" :disabled="enviando">{{ enviando ? 'Creando...' : 'Continuar' }}</BotonCasa>
     </form>
   </div>
 </template>

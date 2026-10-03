@@ -23,6 +23,7 @@ interface CuerpoLead {
   empresa?: string
   aQuienAyudas?: string
   haceCuantoVivesFuera?: number | string
+  aniosCuidando?: number | string
   aceptaComunicaciones?: boolean
 }
 
@@ -51,7 +52,7 @@ export default defineEventHandler(async (event) => {
     await env.DB.prepare(
       `UPDATE usuarios SET nombre = ?, apellido = ?, edad = ?, fecha_nacimiento = ?, genero = ?,
         movil = ?, pais_origen = ?, pais_residencia = ?, ciudad = ?, a_quien_ayudas = ?,
-        hace_cuanto_vives_fuera = ?, empresa = ?,
+        hace_cuanto_vives_fuera = ?, anios_cuidando = ?, empresa = ?,
         acepta_comunicaciones = ?, acepta_comunicaciones_en = ? WHERE id = ?`
     )
       .bind(
@@ -66,6 +67,7 @@ export default defineEventHandler(async (event) => {
         body.ciudad ?? '',
         body.aQuienAyudas ?? '',
         String(body.haceCuantoVivesFuera ?? ''),
+        String(body.aniosCuidando ?? ''),
         body.empresa ?? '',
         acepta,
         acepta ? new Date().toISOString() : null,
@@ -76,9 +78,9 @@ export default defineEventHandler(async (event) => {
     const resultado = await env.DB.prepare(
       `INSERT INTO usuarios
         (nombre, apellido, edad, fecha_nacimiento, genero, email, movil, pais_origen,
-         pais_residencia, ciudad, a_quien_ayudas, hace_cuanto_vives_fuera, empresa,
+         pais_residencia, ciudad, a_quien_ayudas, hace_cuanto_vives_fuera, anios_cuidando, empresa,
          acepta_comunicaciones, acepta_comunicaciones_en)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
       .bind(
         body.nombre,
@@ -93,6 +95,7 @@ export default defineEventHandler(async (event) => {
         body.ciudad ?? '',
         body.aQuienAyudas ?? '',
         String(body.haceCuantoVivesFuera ?? ''),
+        String(body.aniosCuidando ?? ''),
         body.empresa ?? '',
         acepta,
         acepta ? new Date().toISOString() : null

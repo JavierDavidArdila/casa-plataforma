@@ -7,6 +7,8 @@ useSeoPagina({ title: 'Suscripción — C.A.S.A.', description: 'Suscripción a 
 
 interface EstadoPago {
   modo: 'simulado' | 'hotmart'
+  cupoGratisAgotado: boolean
+  gratis: boolean
   suscrito: boolean
   codigoUsuario: string | null
   checkoutUrl: string | null
@@ -107,6 +109,7 @@ onBeforeUnmount(() => clearTimeout(temporizador))
 
     <template v-else-if="codigoUsuario">
       <h1 class="titulo-seccion">¡Listo! Tu suscripción está activa</h1>
+      <p v-if="estado?.gratis" class="text-[14px] text-[var(--color-gris-dk)]">Eres uno de los 100 primeros inscritos: tu acceso es sin costo.</p>
       <p class="text-[16px] text-[var(--color-gris-dk)]">Este es tu número de usuario. Lo necesitas para iniciar sesión.</p>
       <p class="rounded-[30px] bg-white px-[40px] py-[20px] text-[36px] font-bold tracking-widest text-[var(--color-secundario)]">
         {{ codigoUsuario }}
@@ -123,6 +126,9 @@ onBeforeUnmount(() => clearTimeout(temporizador))
     <!-- Pago real con Hotmart -->
     <template v-else-if="estado.modo === 'hotmart'">
       <h1 class="titulo-seccion">Activa tu suscripción</h1>
+      <p v-if="estado.cupoGratisAgotado" class="max-w-[497px] text-center text-[14px] text-[var(--color-gris-dk)]">
+        Los 100 primeros inscritos ya completaron su acceso gratuito; desde ahora la suscripción tiene costo.
+      </p>
 
       <div v-if="esperandoConfirmacion" class="flex max-w-[497px] flex-col items-center gap-[15px] text-center">
         <p class="text-[16px] font-bold text-[var(--color-gris-dk)]">Estamos confirmando tu pago…</p>
