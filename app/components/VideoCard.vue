@@ -10,6 +10,8 @@ withDefaults(
     to?: string
     textoBoton?: string
     bloqueado?: boolean
+    /** Sin enlace todavía: el botón se muestra deshabilitado. */
+    deshabilitado?: boolean
   }>(),
   { textoBoton: 'Ver video', imagen: '/images/figma/video-card.png' }
 )
@@ -29,7 +31,7 @@ withDefaults(
     <div class="flex w-full flex-1 flex-col items-start justify-end gap-[15px] rounded-b-[30px] bg-white p-[30px]">
       <p class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">{{ titulo }}</p>
       <p v-if="descripcion" class="text-[16px] leading-none text-[var(--color-gris-dk)] [line-height:1.05]">{{ descripcion }}</p>
-      <BotonCasa :href="href" :to="to">{{ textoBoton }}</BotonCasa>
+      <BotonCasa :href="href" :to="to" :disabled="deshabilitado">{{ textoBoton }}</BotonCasa>
     </div>
   </div>
 </template>

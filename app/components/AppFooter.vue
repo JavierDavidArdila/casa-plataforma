@@ -21,8 +21,6 @@ const redes = [
       <div class="flex w-[272px] max-w-full flex-col gap-[15px] text-[12px]">
         <p class="font-bold text-[var(--color-secundario)]">Legal</p>
         <a href="#" class="hover:underline">Términos y condiciones</a>
-        <a href="#" class="hover:underline">Políticas de Privacidad</a>
-        <a href="#" class="hover:underline">Políticas de Reembolso</a>
       </div>
     </div>
 

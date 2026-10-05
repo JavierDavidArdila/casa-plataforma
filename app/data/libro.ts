@@ -28,9 +28,28 @@ export const TIENDAS_LATINOAMERICA = [
   { nombre: 'Buscalibre', logo: '/images/tienda/buscalibre.png', url: '' },
 ]
 
+// Textos de cada edición (Word "Textos plataforma Web C.A.S.A.", 30 sep 2026).
+// `resumen` va en la tarjeta del Home; `parrafos`, en la página de Libros.
+export const EDICION_COLOMBIA = {
+  resumen: 'Preparación y prevención: el único libro guía escrito en Iberoamérica desde la experiencia real de un cuidador.',
+  segundaEdicion: 'Ya está en su segunda edición.',
+}
+
+export const EDICION_USA = {
+  resumen:
+    '¿Cómo cuidar de los padres durante su vejez, incluso desde la distancia? La edición especial para Norteamérica, creada para los cuidadores hispanos que tienen a sus padres en sus países de origen.',
+  parrafos: [
+    '¿Cómo cuidar de los padres durante su vejez, incluso desde la distancia?',
+    'Esta gran pregunta que encierra grandes emociones, responsabilidades morales y desafíos físicos y económicos, tiene respuesta en la edición especial para Norteamérica. Esta guía para cuidar a la distancia fue creada para los cuidadores hispanos que tienen a sus padres en sus países de origen.',
+    'Como lo dice el reconocido periodista Jorge Ramos en el prólogo de este libro: “los que alguna vez decidimos irnos de nuestro país tenemos un doble reto: abrirnos nuevos caminos y cuidar de los que dejamos atrás. Y eso es muy difícil. No solo porque cada vez hay más restricciones para que los inmigrantes viajen libremente sino porque cuidar a alguien desde otro país requiere mucho cariño, dinero, creatividad y fuerza de voluntad”.',
+    'En ¡Ahora soy papá de mis papás!, Fernando Roca reúne el conocimiento y experiencia de profesionales de la salud y del cuidado gerontológico, con las vivencias de una treintena de personas que un día emigraron a Estados Unidos y Canadá y que se han visto en la necesidad de acompañar la vejez de sus padres, ya sea porque viven con ellos o porque los dejaron en sus países de origen.',
+    '¿Cómo repartir los cuidados? ¿Qué hacer en caso de Alzheimer? ¿Cómo lidiar de lejos con los conflictos familiares en torno al cuidado? ¿Qué recursos existen para atender las exigencias de esta etapa?',
+    'Estas y muchas más dudas son resueltas con ayuda de expertos a través de una prosa entretenida y un optimismo contagioso que, si bien no niega las dificultades naturales de este proceso, abre un panorama positivo para acompañar a la distancia con más amor y eficiencia a quienes un día nos llevaron de la mano.',
+  ],
+}
+
 // Librerías de Estados Unidos y Canadá (logos blancos enviados por el cliente el 28 sep).
-// El texto de la columna todavía no llega: mientras esté vacío solo se muestran los logos.
-export const TEXTO_USA = ''
+export const TEXTO_USA = 'Ya está a la venta. Disponible en tiendas y plataformas.'
 
 export const TIENDAS_USA = [
   { nombre: 'Amazon', logo: '/images/tienda/usa-amazon.png', url: '' },

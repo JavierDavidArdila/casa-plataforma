@@ -1,23 +1,35 @@
 <script setup lang="ts">
+import { PAISES } from '~/data/paises'
+
 const config = useRuntimeConfig()
 
 const nombre = ref('')
 const apellido = ref('')
 const email = ref('')
 const telefono = ref('')
+// Nombre del país cuyo indicativo antecede al teléfono (varios países comparten +1).
+const paisIndicativo = ref('Estados Unidos')
+const pais = ref('')
 const empresa = ref('')
 const asunto = ref('')
 const mensaje = ref('')
 const honeypot = ref('')
 
+// Lista del Word del 30 sep 2026.
 const asuntos = [
-  'Contenidos de la plataforma',
-  'Libro',
-  'Conferencias y cursos',
-  'Mentorías de familia',
-  'Prensa / medios',
-  'Otro',
+  'Contenido de la plataforma',
+  'Libros',
+  'Terapia psicológica personalizada',
+  'Alianzas comerciales',
+  'Otros',
 ]
+
+const indicativo = computed(() => PAISES.find((p) => p.nombre === paisIndicativo.value)?.indicativo ?? '')
+
+// Al elegir el país, el indicativo lo sigue (se puede cambiar a mano después).
+watch(pais, (nuevo) => {
+  if (nuevo) paisIndicativo.value = nuevo
+})
 
 const estado = ref<'inactivo' | 'enviando' | 'exito' | 'error'>('inactivo')
 const claveConfigurada = computed(() => Boolean(config.public.web3formsKey))
@@ -39,7 +51,8 @@ async function enviarFormulario() {
         from_name: `${nombre.value} ${apellido.value}`.trim(),
         name: `${nombre.value} ${apellido.value}`.trim(),
         email: email.value,
-        telefono: telefono.value,
+        telefono: `${indicativo.value} ${telefono.value.trim()}`,
+        pais: pais.value,
         empresa: empresa.value,
         asunto: asunto.value,
         message: mensaje.value,
@@ -52,6 +65,7 @@ async function enviarFormulario() {
       apellido.value = ''
       email.value = ''
       telefono.value = ''
+      pais.value = ''
       empresa.value = ''
       asunto.value = ''
       mensaje.value = ''
@@ -66,7 +80,7 @@ async function enviarFormulario() {
 
 <template>
   <section id="comuniquemonos" class="scroll-mt-6 border-t border-[#dcdcdc] p-[50px] text-[var(--color-gris-dk)]">
-    <div class="grid gap-[50px] lg:grid-cols-[497px_497px] lg:justify-between">
+    <div class="grid gap-[50px] lg:grid-cols-[minmax(0,497px)_minmax(0,497px)] lg:justify-between">
       <div class="flex flex-col gap-[30px]">
         <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Comuniquémonos</h2>
         <p class="text-[16px] leading-[1.75]">
@@ -83,8 +97,17 @@ async function enviarFormulario() {
           <input v-model="apellido" type="text" required placeholder="Apellido*" class="campo-casa" />
         </div>
         <input v-model="email" type="email" required placeholder="Email*" class="campo-casa" />
-        <input v-model="telefono" type="tel" required placeholder="Teléfono*" class="campo-casa" />
-        <input v-model="empresa" type="text" placeholder="Empresa" class="campo-casa" />
+        <select v-model="pais" required aria-label="País" class="campo-casa" :class="{ vacio: !pais }">
+          <option value="" disabled>País*</option>
+          <option v-for="p in PAISES" :key="p.nombre" :value="p.nombre">{{ p.nombre }}</option>
+        </select>
+        <div class="flex gap-[10px]">
+          <select v-model="paisIndicativo" aria-label="Indicativo del país" class="campo-casa !w-[190px] shrink-0 !pl-[14px] !pr-[36px] !text-[13px]">
+            <option v-for="p in PAISES" :key="p.nombre" :value="p.nombre">{{ p.indicativo }} {{ p.nombre }}</option>
+          </select>
+          <input v-model="telefono" type="tel" inputmode="tel" required placeholder="Teléfono*" aria-label="Teléfono (sin indicativo)" class="campo-casa min-w-0 flex-1" />
+        </div>
+        <input v-model="empresa" type="text" placeholder="Empresa (opcional)" class="campo-casa" />
         <select v-model="asunto" required class="campo-casa" :class="{ vacio: !asunto }">
           <option value="" disabled>Selecciona el asunto</option>
           <option v-for="opcion in asuntos" :key="opcion" :value="opcion">{{ opcion }}</option>

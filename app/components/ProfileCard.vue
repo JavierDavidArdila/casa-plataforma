@@ -2,6 +2,7 @@
 defineProps<{
   nombre: string
   cargo?: string
+  foto?: string
   descripcion?: string
   href?: string
 }>()
@@ -9,7 +10,8 @@ defineProps<{
 
 <template>
   <div class="flex min-h-[370px] flex-col items-center gap-[15px] rounded-[30px] bg-white p-[30px] text-center">
-    <div class="flex size-[100px] items-center justify-center rounded-full bg-[var(--color-fondo)] text-[var(--color-gris-md)]">
+    <img v-if="foto" :src="foto" :alt="nombre" class="size-[100px] rounded-full object-cover" loading="lazy" />
+    <div v-else class="flex size-[100px] items-center justify-center rounded-full bg-[var(--color-fondo)] text-[var(--color-gris-md)]">
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
         <circle cx="12" cy="8" r="4" />
         <path d="M4 20a8 8 0 0 1 16 0" />

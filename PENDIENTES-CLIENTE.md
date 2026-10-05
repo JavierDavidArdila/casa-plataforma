@@ -16,3 +16,17 @@ Salen del Word "INSCRIBETE 100 usuarios y VIP" (2 oct 2026).
    ¿se elimina del test o se mantiene en ambos?
 6. **Pendientes del Word sin construir:** PDF descargable de COMPRENDER con su video por correo, y las notificaciones por correo
    de la pasarela (compra y confirmación o rechazo del pago).
+
+## Del Word "Textos plataforma Web C.A.S.A." (30 sep, recibido 5 oct 2026)
+
+7. **Pilar 2: ¿APRENDER o ACOMPAÑAR?** El texto nuevo del Home dice "Comprender, Aprender, Sostener y Aliviar" y "Contenido 2.
+   APRENDER", pero los resultados del test siguen diciendo ACOMPAÑAR. Los textos de bienvenida y Quiénes Somos van como los
+   escribió el cliente (Aprender); las tarjetas de contenidos y el test siguen con "Acompañar" hasta que se confirme.
+8. **Entrevista Jorge Ramos (Prensa).** Se enlazó el video de Al Punto/Univisión que estaba en ahorasoypapademispapas.com
+   (youtube cUYoAXlBMWU). Confirmar que es la entrevista correcta ("encuentro de hijos que hablaban de sus mamás").
+9. **Fotos del equipo (Quiénes Somos).** Solo hay foto de Fernando; faltan las de Luz María, Oscar Javier y Alejandra.
+10. **Términos y condiciones.** El Word "enviado antes" no está en `correos/`; el enlace del footer sigue en `#`.
+11. **Archivos de diseño de Oscar Javier** (cambios de títulos y distribución de Primera temporada y Prensa): no llegaron
+    al correo; pedirlos para comparar.
+12. **Fotos finales de los libros**: el correo del 5 oct dice "adjuntas" pero no venían; se mantienen las del 29 sep (de WhatsApp).
+13. **URLs de las librerías** (Colombia, Ecuador, USA y E-Book) siguen sin enlace.

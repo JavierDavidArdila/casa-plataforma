@@ -126,7 +126,7 @@ async function enviar() {
           </select>
           <input v-model="form.movil" type="tel" inputmode="tel" required placeholder="Teléfono móvil*" aria-label="Teléfono móvil (sin indicativo)" class="campo-casa min-w-0 flex-1" />
         </div>
-        <input v-model="form.empresa" placeholder="Empresa" aria-label="Empresa" class="campo-casa" />
+        <input v-model="form.empresa" placeholder="Empresa (opcional)" aria-label="Empresa (opcional)" class="campo-casa" />
 
         <select v-model="form.paisOrigen" required aria-label="País de origen" class="campo-casa" :class="{ vacio: !form.paisOrigen }">
           <option value="" disabled>País de origen*</option>

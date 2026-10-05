@@ -34,7 +34,9 @@ useHead({
   ],
 })
 
-const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus sodales justo,'
+import { VIDEOS } from '~/data/videos'
+import { EDICION_COLOMBIA, EDICION_USA } from '~/data/libro'
+import { PRENSA } from '~/data/prensa'
 
 // Servido desde R2 (bucket casa-videos) por server/routes/videos; no es un asset del build.
 const urlVideoBienvenida = '/videos/bienvenida.mp4?v=2'
@@ -50,23 +52,45 @@ function reproducir() {
   videoEl.value?.play().catch(() => {})
 }
 
-const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado 0${n}`, descripcion: lorem }))
+// Textos de la Primera temporada (Word del 30 sep 2026), en el orden de VIDEOS.
+const DESCRIPCIONES_TEMPORADA1 = [
+  'Aquí entenderás mejor tu realidad y tus límites. Luego descarga el material de apoyo para poner todo en práctica.',
+  'A cuidarte a ti mismo(a). Y descarga el material de apoyo para practicar cómo cuidarte.',
+  'Aprenderás a manejar tus emociones para continuar cuidando. Y con el material de apoyo descargable lo harás más práctico.',
+  'En este espacio aprenderás nuevamente a darle espacio a la vida y a ponerlo en blanco y negro con el material de apoyo descargable.',
+]
+const videosTemporada1 = VIDEOS.map((video, i) => ({
+  titulo: `Contenido ${i + 1}. ${video.titulo.toUpperCase()}`,
+  descripcion: DESCRIPCIONES_TEMPORADA1[i] ?? video.descripcion,
+  boton: `Ve a ${video.titulo.toUpperCase()}`,
+}))
 </script>
 
 <template>
   <div>
     <!-- Hero -->
-    <section class="grid gap-[30px] p-[30px] lg:grid-cols-[395px_634px] lg:justify-center lg:gap-[60px]">
-      <div class="flex flex-col items-start justify-center gap-[20px] py-6">
-        <h1 class="text-[36px] font-bold leading-none text-[var(--color-secundario)]">Bienvenido a C.A.S.A.</h1>
-        <p class="max-w-[395px] text-[16px] font-bold leading-none text-[var(--color-gris-dk)] [line-height:1.05]">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus sodales justo, ac suscipit nulla
-          aliquam et. Integer ac pharetra magna, id ultricies est
+    <!-- Columnas flexibles (minmax) para que el texto nunca se salga hacia el menú en pantallas medianas,
+         y padding lateral para que el video no quede pegado al borde. -->
+    <section class="grid gap-[30px] px-[30px] py-[30px] lg:grid-cols-[minmax(0,420px)_minmax(0,634px)] lg:justify-center lg:gap-[50px] lg:px-[50px]">
+      <div class="flex min-w-0 flex-col items-start justify-center gap-[14px] py-6 text-[16px] text-[var(--color-gris-dk)] [line-height:1.3]">
+        <h1 class="text-[36px] font-bold leading-none text-[var(--color-secundario)]">Bienvenidos a C.A.S.A.</h1>
+        <p class="font-bold">Tu C.A.S.A. está abierta y te da la bienvenida a su primera temporada.</p>
+        <p>C.A.S.A. es el primer Programa de Bienestar para cuidadores a distancia para hispanos.</p>
+        <p>
+          Aprenderás herramientas prácticas para tu autocuidado, estés donde estés, con nuestra metodología basada en
+          cuatro pilares de la Psicología del cuidado: Comprender, Aprender, Sostener y Aliviar.
         </p>
+        <p>
+          Ya no estás solo(a). Ahora serás parte de esta comunidad donde todos aprendemos, compartimos y nos cuidamos.
+          Porque amar y cuidar a la distancia sí es posible.
+        </p>
+        <p class="font-bold text-[var(--color-secundario)]">La distancia se mide en kilómetros. El cuidado, en presencia.</p>
+        <p>Comienza contestando el Cuestionario que te indicará en qué nivel de Bienestar estás.</p>
+        <p class="font-bold">Bienvenido(a) a la Primera Temporada. Esta es tu C.A.S.A.</p>
         <BotonCasa to="/test">Hacer cuestionario de bienestar</BotonCasa>
       </div>
 
-      <div class="relative flex h-[405px] items-center justify-center overflow-hidden rounded-[30px] px-[50px] py-[30px]">
+      <div class="relative flex h-[405px] min-w-0 items-center justify-center overflow-hidden rounded-[30px] px-[50px] py-[30px]">
         <!-- El <video> vive siempre en la página (solo metadatos hasta el clic) para que, al
              tocar play, el arranque sea inmediato; al acercar el puntero se pide que precargue. -->
         <video
@@ -101,10 +125,10 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
     <!-- Primera temporada -->
     <section class="flex flex-col gap-[18px] border-t border-[#dcdcdc] px-[30px] py-[50px]">
       <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Primera temporada</h2>
-      <div class="flex items-stretch gap-[40px] overflow-x-auto pb-2">
-        <NuxtLink v-for="video in videosTemporada1" :key="video.titulo" to="/contenidos" class="flex w-[242px] shrink-0">
-          <VideoCard :titulo="video.titulo" :descripcion="video.descripcion" />
-        </NuxtLink>
+      <div class="grid items-stretch gap-[30px] sm:grid-cols-2 2xl:grid-cols-4">
+        <div v-for="video in videosTemporada1" :key="video.titulo" class="flex">
+          <VideoCard :titulo="video.titulo" :descripcion="video.descripcion" to="/contenidos" :texto-boton="video.boton" />
+        </div>
       </div>
     </section>
 
@@ -112,8 +136,15 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
     <section class="flex flex-col gap-[18px] border-t border-[#dcdcdc] px-[30px] py-[50px]">
       <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Prensa</h2>
       <div class="grid gap-[40px] md:grid-cols-2">
-        <VideoCard titulo="TV" :descripcion="lorem" to="/prensa" texto-boton="Conoce más" />
-        <VideoCard titulo="Radio" :descripcion="lorem" to="/prensa" texto-boton="Conoce más" />
+        <VideoCard
+          v-for="entrada in PRENSA"
+          :key="entrada.titulo"
+          :titulo="entrada.titulo"
+          :descripcion="entrada.descripcion"
+          :imagen="entrada.imagen"
+          to="/prensa"
+          texto-boton="Conoce más"
+        />
       </div>
     </section>
 
@@ -127,7 +158,7 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
           </div>
           <div class="flex min-w-0 flex-1 flex-col items-start gap-[15px]">
             <p class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">Colombia y Latinoamérica</p>
-            <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.05]">{{ lorem }}</p>
+            <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.2]">{{ EDICION_COLOMBIA.resumen }}</p>
             <BotonCasa to="/libros">Conoce más</BotonCasa>
           </div>
         </div>
@@ -137,7 +168,7 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
           </div>
           <div class="flex min-w-0 flex-1 flex-col items-start gap-[15px]">
             <p class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">Estados Unidos y Canadá</p>
-            <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.05]">{{ lorem }}</p>
+            <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.2]">{{ EDICION_USA.resumen }}</p>
             <BotonCasa to="/libros">Conoce más</BotonCasa>
           </div>
         </div>
@@ -145,13 +176,14 @@ const videosTemporada1 = [1, 2, 3, 4, 5, 6].map((n) => ({ titulo: `Video Cuidado
     </section>
 
     <!-- Quiénes somos -->
-    <section class="grid gap-[30px] border-t border-[#dcdcdc] p-[30px] lg:grid-cols-[634px_395px] lg:justify-between">
+    <section class="grid gap-[30px] border-t border-[#dcdcdc] p-[30px] lg:grid-cols-[minmax(0,634px)_minmax(0,395px)] lg:justify-between">
       <img src="/images/figma/hero-quienes-somos.jpg" alt="Quiénes somos" class="h-[405px] w-full rounded-[30px] object-cover" loading="lazy" />
       <div class="flex flex-col items-start justify-center gap-[20px] py-6">
         <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Quiénes somos</h2>
-        <p class="text-[16px] font-bold text-[var(--color-gris-dk)] [line-height:1.05]">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus sodales justo, ac suscipit nulla
-          aliquam et. Integer ac pharetra magna, id ultricies est
+        <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.3]">
+          Somos los creadores de la metodología de cuidado emocional para quienes cuidan a distancia C.A.S.A. con sus
+          pilares Comprender, Aprender, Sostener y Aliviar, y los productores de la plataforma virtual de educación que
+          inicia su primera temporada.
         </p>
         <BotonCasa to="/quienes-somos">Conoce más</BotonCasa>
       </div>

@@ -1,43 +1,49 @@
 <script setup lang="ts">
+const intro =
+  'Somos los creadores de la metodología de cuidado emocional para quienes cuidan a distancia C.A.S.A. con sus pilares Comprender, Aprender, Sostener y Aliviar, y los productores de la plataforma virtual de educación que inicia su primera temporada.'
+
 useSeoPagina({
   title: 'Quiénes Somos — C.A.S.A.',
   imagen: '/images/figma/hero-quienes-somos.jpg',
-  description: 'Conoce al equipo detrás de la Plataforma C.A.S.A., del cuidado a distancia.',
+  description: intro,
 })
 
-// TODO: reemplazar por el equipo real (nombre, cargo, foto, bio corta y link)
-// cuando el negocio lo defina — de momento son tarjetas placeholder.
-const equipo = Array.from({ length: 7 }, (_, i) => ({
-  nombre: `Persona 0${i + 1}`,
-  cargo: 'Título persona',
-  descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus sodales justo,',
-}))
+// Textos del Word del 30 sep 2026. Solo la foto de Fernando está disponible (del sitio
+// ahorasoypapademispapas.com); las demás muestran el avatar genérico hasta que lleguen.
+const equipo = [
+  {
+    nombre: 'Fernando Roca Correa',
+    descripcion: 'Cuidador, conferencista, mentor familiar, autor de ¡Ahora soy papá de mis papás! y creador del programa C.A.S.A.',
+    foto: '/images/equipo/fernando-roca.jpg',
+  },
+  { nombre: 'Luz María Arbeláez', descripcion: 'Psicóloga y comunicadora. Asesora científica del programa C.A.S.A.' },
+  { nombre: 'Oscar Javier Ávila', descripcion: 'Diseñador gráfico encargado de crear la imagen del proyecto.' },
+  { nombre: 'Alejandra Sánchez', descripcion: 'Diseñadora interactiva, creó las animaciones y el material gráfico del programa.' },
+]
 </script>
 
 <template>
   <div>
-    <section class="p-[30px]">
-      <img src="/images/figma/hero-quienes-somos.jpg" alt="Quiénes somos" class="h-[440px] w-full rounded-[30px] object-cover" />
-    </section>
+    <HeroCasa imagen="/images/figma/hero-quienes-somos.jpg" alt="Quiénes somos" />
 
     <section class="px-[36px] py-[30px]">
-      <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.75]">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vulputate ut felis nec fringilla. Aliquam
-        orci neque, luctus sed efficitur ut, finibus consequat sem. Curabitur suscipit, arcu fermentum rhoncus
-        laoreet, metus quam mattis odio, vel aliquam tellus eros a ante. Mauris ultrices eleifend dolor ut efficitur.
-      </p>
+      <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.75]">{{ intro }}</p>
     </section>
 
-    <section class="border-t border-[#dcdcdc] px-[30px] py-[50px]">
-      <div class="grid gap-[40px] sm:grid-cols-2 xl:grid-cols-3">
+    <section class="flex flex-col gap-[40px] border-t border-[#dcdcdc] px-[30px] py-[50px]">
+      <div class="grid gap-[40px] sm:grid-cols-2 xl:grid-cols-4">
         <ProfileCard
           v-for="persona in equipo"
           :key="persona.nombre"
           :nombre="persona.nombre"
-          :cargo="persona.cargo"
           :descripcion="persona.descripcion"
+          :foto="persona.foto"
         />
       </div>
+      <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.5]">
+        Y otro grupo importante de profesionales del desarrollo interactivo y la producción audiovisual, como David y
+        Andrés Hernández.
+      </p>
     </section>
   </div>
 </template>

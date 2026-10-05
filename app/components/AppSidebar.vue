@@ -51,8 +51,9 @@ const items = [
         href="https://ahorasoypapademispapas.david-ardila.workers.dev"
         target="_blank"
         rel="noopener"
-        class="flex w-full items-center gap-[10px] px-[30px] py-[20px]"
+        class="flex w-full flex-col items-start gap-[10px] px-[30px] py-[20px]"
       >
+        <span class="text-[12px] leading-normal text-[var(--color-gris-md)]">Con el respaldo de</span>
         <img
           src="/images/brand/assp-logo.png"
           alt="¡Ahora soy papá de mis papás!"
@@ -60,9 +61,6 @@ const items = [
           height="50"
           class="size-[50px] shrink-0 object-contain"
         />
-        <span class="whitespace-nowrap text-[12px] leading-normal text-[var(--color-gris-md)]">
-          Con el respaldo de<br />Ahora Soy Papás de mi Papás
-        </span>
       </a>
     </div>
   </aside>

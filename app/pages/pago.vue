@@ -22,7 +22,8 @@ const MAX_INTENTOS = 45 // ~3 minutos
 
 const cargando = ref(true)
 const estado = ref<EstadoPago | null>(null)
-const incluyeLibro = ref(false)
+// El cliente pidió (30 sep) no ofrecer por ahora el libro junto con la suscripción.
+const incluyeLibro = false
 const enviando = ref(false)
 const error = ref<string | null>(null)
 const esperandoConfirmacion = ref(false)
@@ -78,7 +79,7 @@ async function confirmarPagoSimulado() {
   enviando.value = true
   error.value = null
   try {
-    await $fetch('/api/pago', { method: 'POST', body: { incluyeLibro: incluyeLibro.value } })
+    await $fetch('/api/pago', { method: 'POST', body: { incluyeLibro } })
     await consultar()
   } catch {
     error.value = 'No pudimos activar tu suscripción. Si no has creado tu cuenta, empieza por ahí.'
@@ -163,10 +164,6 @@ onBeforeUnmount(() => clearTimeout(temporizador))
           <span class="text-[16px] font-bold">Suscripción C.A.S.A.</span>
           <span class="text-[16px] font-bold">$—</span>
         </div>
-        <label class="flex items-center gap-2 text-[16px]">
-          <input v-model="incluyeLibro" type="checkbox" class="accent-[var(--color-primario)]" />
-          Incluir libro "¡Ahora soy papá de mis papás!" (opcional)
-        </label>
       </div>
 
       <p v-if="error" class="text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ error }}</p>

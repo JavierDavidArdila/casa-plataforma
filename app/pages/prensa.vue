@@ -1,39 +1,29 @@
 <script setup lang="ts">
-import { PRENSA, agruparPrensaPorMedio } from '~/data/prensa'
+import { PRENSA, PRENSA_INTRO } from '~/data/prensa'
 
 useSeoPagina({
   title: 'Prensa — C.A.S.A.',
   imagen: '/images/figma/hero-prensa.jpg',
-  description: 'Entrevistas y apariciones en medios de Fernando Roca Correa sobre cuidado familiar y bienestar de los cuidadores.',
+  description: PRENSA_INTRO,
 })
-
-const grupos = agruparPrensaPorMedio(PRENSA)
-
-function formatearFecha(fecha: string) {
-  return new Date(fecha).toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric' })
-}
 </script>
 
 <template>
   <div>
-    <section class="p-[30px]">
-      <img src="/images/figma/hero-prensa.jpg" alt="Prensa" class="h-[440px] w-full rounded-[30px] object-cover" />
-    </section>
+    <HeroCasa imagen="/images/figma/hero-prensa.jpg" alt="Prensa" />
 
-    <section
-      v-for="grupo in grupos"
-      :key="grupo.grupo"
-      class="flex flex-col gap-[18px] border-t border-[#dcdcdc] px-[30px] py-[50px]"
-    >
-      <h2 class="titulo-seccion">{{ grupo.grupo }}</h2>
+    <section class="flex flex-col gap-[18px] border-t border-[#dcdcdc] px-[30px] py-[50px]">
+      <h1 class="titulo-seccion">Prensa</h1>
+      <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.2]">{{ PRENSA_INTRO }}</p>
       <div class="flex flex-wrap items-stretch gap-[40px]">
-        <div v-for="entrada in grupo.entradas" :key="entrada.url" class="flex w-[242px]">
+        <div v-for="entrada in PRENSA" :key="entrada.titulo" class="flex w-[300px]">
           <VideoCard
-            :titulo="entrada.titular"
-            :descripcion="(entrada.subtitulo ? entrada.subtitulo + ' · ' : '') + formatearFecha(entrada.fecha)"
+            :titulo="entrada.titulo"
+            :descripcion="entrada.descripcion"
             :imagen="entrada.imagen"
             :href="entrada.url"
-            texto-boton="Conoce más"
+            :deshabilitado="!entrada.url"
+            :texto-boton="entrada.url ? 'Conoce más' : 'Próximamente'"
           />
         </div>
       </div>

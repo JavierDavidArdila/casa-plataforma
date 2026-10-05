@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LIBRO, TIENDAS_COLOMBIA, TIENDAS_LATINOAMERICA, TIENDAS_USA, TEXTO_USA, TIENDAS_EBOOK } from '~/data/libro'
+import { LIBRO, EDICION_COLOMBIA, EDICION_USA, TIENDAS_COLOMBIA, TIENDAS_LATINOAMERICA, TIENDAS_USA, TEXTO_USA, TIENDAS_EBOOK } from '~/data/libro'
 
 useSeoPagina({
   title: 'Libros — C.A.S.A.',
@@ -8,17 +8,28 @@ useSeoPagina({
 })
 
 // Figma: dos filas en zigzag — imagen del libro en tarjeta blanca (509×419) y texto + botón al lado.
+// Colombia: intro + temas, y aparte el párrafo "Disponible en edición…" con la segunda edición.
+// Estados Unidos y Canadá: texto propio de la edición especial para Norteamérica.
+const temas = LIBRO.bullets.join(' · ') + '.'
 const libros = [
-  { titulo: 'Colombia y Latinoamérica', imagen: '/images/libros/colombia-latinoamerica.jpg', invertido: false },
-  { titulo: 'Estados Unidos y Canadá', imagen: '/images/libros/estados-unidos-canada.jpg', invertido: true },
+  {
+    titulo: 'Colombia y Latinoamérica',
+    imagen: '/images/libros/colombia-latinoamerica.jpg',
+    invertido: false,
+    parrafos: [`${LIBRO.intro} ${temas}`, `${LIBRO.cierre} ${EDICION_COLOMBIA.segundaEdicion}`],
+  },
+  {
+    titulo: 'Estados Unidos y Canadá',
+    imagen: '/images/libros/estados-unidos-canada.jpg',
+    invertido: true,
+    parrafos: EDICION_USA.parrafos,
+  },
 ]
 </script>
 
 <template>
   <div>
-    <section class="p-[30px]">
-      <img src="/images/figma/hero-libros.jpg" alt="Libros" class="h-[440px] w-full rounded-[30px] object-cover" />
-    </section>
+    <HeroCasa imagen="/images/figma/hero-libros.jpg" alt="Libros" />
 
     <section class="flex flex-col gap-[60px] border-t border-[#dcdcdc] px-[30px] py-[50px]">
       <div
@@ -36,10 +47,8 @@ const libros = [
         </div>
         <div class="flex flex-col items-start gap-[15px]" :class="libro.invertido ? 'lg:order-1' : ''">
           <h2 class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">{{ libro.titulo }}</h2>
-          <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.2]">
-            {{ LIBRO.intro }}
-            <template v-for="(item, i) in LIBRO.bullets" :key="item">{{ item }}{{ i < LIBRO.bullets.length - 1 ? ' · ' : '.' }}</template>
-            {{ LIBRO.cierre }}
+          <p v-for="parrafo in libro.parrafos" :key="parrafo" class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.2]">
+            {{ parrafo }}
           </p>
           <BotonCasa :href="LIBRO.comprarHref">Comprar libro</BotonCasa>
         </div>
@@ -88,8 +97,8 @@ const libros = [
 
         <div class="flex flex-col items-center gap-[15px] text-center">
           <h2 class="text-[24px] font-bold leading-none text-[var(--color-primario)]">Estados Unidos y Canadá:</h2>
-          <p v-if="TEXTO_USA" class="text-[16px]">{{ TEXTO_USA }}</p>
-          <div class="flex flex-wrap items-center justify-center gap-8">
+          <p class="text-[16px]">{{ TEXTO_USA }}</p>
+          <div class="flex flex-col items-center gap-8">
             <component
               :is="tienda.url ? 'a' : 'span'"
               v-for="tienda in TIENDAS_USA"
@@ -106,7 +115,7 @@ const libros = [
 
       <div class="flex flex-col items-center gap-[15px] border-t border-white/20 pt-[40px] text-center">
         <p class="text-[16px] font-bold text-white">
-          En versión E-Book se encuentra en Amazon, Apple y Google a nivel mundial.
+          En versión E-Book se encuentran en Amazon, Apple y Google a nivel mundial.
         </p>
         <div class="flex flex-wrap items-center justify-center gap-10">
           <component
