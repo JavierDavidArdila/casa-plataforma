@@ -15,7 +15,7 @@ async function entrar() {
     await $fetch('/api/login', { method: 'POST', body: { usuario: usuario.value, password: password.value } })
     const { cargarSesion } = useAuth()
     await cargarSesion()
-    await navigateTo('/contenidos')
+    await navigateTo('/contenidos/comprender')
   } catch {
     error.value = 'Usuario o contraseña incorrectos.'
   } finally {
@@ -41,7 +41,7 @@ async function entrarClave() {
     await $fetch('/api/acceso', { method: 'POST', body: { codigo: codigoClave.value, origen } })
     const { cargarSesion } = useAuth()
     await cargarSesion()
-    await navigateTo('/contenidos')
+    await navigateTo('/contenidos/comprender')
   } catch (e) {
     errorClave.value = (e as { statusMessage?: string })?.statusMessage || 'No pudimos validar el código. Inténtalo de nuevo.'
   } finally {

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://casacuidadoadistancia.co/sitemap.xml
+Sitemap: https://casacuidadoadistancia.com/sitemap.xml

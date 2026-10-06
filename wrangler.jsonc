@@ -14,6 +14,12 @@
       "bucket_name": "casa-videos"
     }
   ],
+  // Correos transaccionales (Cloudflare Email Service). El dominio debe estar habilitado en Email Sending.
+  "send_email": [
+    {
+      "name": "EMAIL"
+    }
+  ],
   "d1_databases": [
     {
       "binding": "DB",

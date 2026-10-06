@@ -52,17 +52,12 @@ function reproducir() {
   videoEl.value?.play().catch(() => {})
 }
 
-// Textos de la Primera temporada (Word del 30 sep 2026), en el orden de VIDEOS.
-const DESCRIPCIONES_TEMPORADA1 = [
-  'Aquí entenderás mejor tu realidad y tus límites. Luego descarga el material de apoyo para poner todo en práctica.',
-  'A cuidarte a ti mismo(a). Y descarga el material de apoyo para practicar cómo cuidarte.',
-  'Aprenderás a manejar tus emociones para continuar cuidando. Y con el material de apoyo descargable lo harás más práctico.',
-  'En este espacio aprenderás nuevamente a darle espacio a la vida y a ponerlo en blanco y negro con el material de apoyo descargable.',
-]
 const videosTemporada1 = VIDEOS.map((video, i) => ({
   titulo: `Contenido ${i + 1}. ${video.titulo.toUpperCase()}`,
-  descripcion: DESCRIPCIONES_TEMPORADA1[i] ?? video.descripcion,
-  boton: `Ve a ${video.titulo.toUpperCase()}`,
+  descripcion: video.texto,
+  boton: `${video.disponible ? 'Ve a' : 'Pronto'} ${video.titulo.toUpperCase()}`,
+  to: video.disponible ? `/contenidos/${video.slug}` : undefined,
+  disponible: video.disponible,
 }))
 </script>
 
@@ -124,10 +119,15 @@ const videosTemporada1 = VIDEOS.map((video, i) => ({
 
     <!-- Primera temporada -->
     <section class="flex flex-col gap-[18px] border-t border-[#dcdcdc] px-[30px] py-[50px]">
-      <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Primera temporada</h2>
+      <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Primera Temporada</h2>
+      <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.3]">
+        Cuatro pilares del bienestar, cuatro capítulos con contenido (video capacitación + archivo ejercicio descargable +
+        apoyo por canal de WhatsApp), uno por cada pilar del cuidado a distancia: Comprender, Acompañar, Sostener y
+        Aliviar. <strong>¡Inicia ya con el primero: Comprender!</strong>
+      </p>
       <div class="grid items-stretch gap-[30px] sm:grid-cols-2 2xl:grid-cols-4">
         <div v-for="video in videosTemporada1" :key="video.titulo" class="flex">
-          <VideoCard :titulo="video.titulo" :descripcion="video.descripcion" to="/contenidos" :texto-boton="video.boton" />
+          <VideoCard :titulo="video.titulo" :descripcion="video.descripcion" :to="video.to" :deshabilitado="!video.disponible" :texto-boton="video.boton" />
         </div>
       </div>
     </section>
@@ -185,7 +185,6 @@ const videosTemporada1 = VIDEOS.map((video, i) => ({
           pilares Comprender, Aprender, Sostener y Aliviar, y los productores de la plataforma virtual de educación que
           inicia su primera temporada.
         </p>
-        <BotonCasa to="/quienes-somos">Conoce más</BotonCasa>
       </div>
     </section>
 

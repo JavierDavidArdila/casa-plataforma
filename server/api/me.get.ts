@@ -33,6 +33,7 @@ export default defineEventHandler(async (event) => {
     suscrito: Boolean(usuario.suscrito),
     codigoUsuario: usuario.codigo_usuario ?? null,
     nombre: usuario.nombre,
+    apellido: usuario.apellido ?? null,
     tieneCuenta: Boolean(usuario.password_hash),
     tipoAcceso: acceso?.tipo ?? null,
     venceEn: acceso?.venceEn ?? null,

@@ -1,4 +1,4 @@
-// El dominio canónico es https://casacuidadoadistancia.co. El host `*.workers.dev` sigue activo
+// El dominio canónico es https://casacuidadoadistancia.com. El host `*.workers.dev` sigue activo
 // para pruebas, pero no debe indexarse: se marca con X-Robots-Tag (y no se bloquea en robots.txt,
 // para que los buscadores puedan ver el noindex).
 export default defineEventHandler((event) => {

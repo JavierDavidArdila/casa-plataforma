@@ -3,6 +3,7 @@ export interface EstadoSesion {
   suscrito?: boolean
   codigoUsuario?: string | null
   nombre?: string
+  apellido?: string
   tieneCuenta?: boolean
   tipoAcceso?: 'prensa' | 'invitado' | null
   venceEn?: string | null

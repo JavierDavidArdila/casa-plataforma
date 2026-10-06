@@ -12,8 +12,15 @@ export default defineNuxtConfig({
       // Clave gratuita de https://web3forms.com — usada por el formulario "Comuniquémonos".
       web3formsKey: '',
       // URL canónica del sitio (raíz, sin www ni workers.dev). Se puede sobreescribir con NUXT_PUBLIC_SITE_URL.
-      siteUrl: 'https://casacuidadoadistancia.co',
+      siteUrl: 'https://casacuidadoadistancia.com',
     },
+  },
+
+  // Deshabilitadas por ahora (pedido del cliente, 5 oct 2026): el listado de Contenidos y Quiénes Somos.
+  // Solo queda abierto el contenido COMPRENDER (/contenidos/comprender).
+  routeRules: {
+    '/contenidos': { redirect: { to: '/', statusCode: 302 } },
+    '/quienes-somos': { redirect: { to: '/', statusCode: 302 } },
   },
 
   nitro: {
@@ -40,6 +47,9 @@ export default defineNuxtConfig({
         },
       ],
       link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/favicon-192.png' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {

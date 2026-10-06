@@ -115,7 +115,7 @@ onBeforeUnmount(() => clearTimeout(temporizador))
       <p class="rounded-[30px] bg-white px-[40px] py-[20px] text-[36px] font-bold tracking-widest text-[var(--color-secundario)]">
         {{ codigoUsuario }}
       </p>
-      <BotonCasa to="/contenidos">Ir a Contenidos</BotonCasa>
+      <BotonCasa to="/contenidos/comprender">Ir a Comprender</BotonCasa>
     </template>
 
     <template v-else-if="!estado">

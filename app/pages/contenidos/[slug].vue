@@ -9,6 +9,9 @@ const video = obtenerVideo(slug)
 if (!video) {
   throw createError({ statusCode: 404, statusMessage: 'Video no encontrado' })
 }
+if (!video.disponible) {
+  await navigateTo('/', { redirectCode: 302 })
+}
 
 const siguiente = obtenerSiguienteVideo(slug)
 
@@ -21,9 +24,43 @@ onMounted(async () => {
   await cargarSesion()
   verificando.value = false
   if (!sesion.value.suscrito) {
-    await navigateTo('/contenidos')
+    await navigateTo('/')
+    return
+  }
+  try {
+    const p = await $fetch<{ visto: boolean; guia: boolean; preguntas: boolean; correoEnviado: boolean }>(`/api/contenido/${slug}/progreso`)
+    visto.value = p.visto
+    guiaDescargada.value = p.guia
+    enviado.value = p.preguntas
+    correoEnviado.value = p.correoEnviado
+  } catch {
+    // Sin progreso guardado (o tabla aún no creada): empieza desde el video.
   }
 })
+
+// Recorrido del contenido (pedido del cliente, 5 oct 2026):
+// 1) ver el video completo → 2) descargar la guía PDF → 3) responder las 3 preguntas → correo de felicitación.
+const urlVideo = `/api/contenido/${slug}/video`
+const urlGuia = `/api/contenido/${slug}/guia`
+const visto = ref(false)
+const guiaDescargada = ref(false)
+const videoNoDisponible = ref(false)
+
+async function alTerminarVideo() {
+  if (visto.value) return
+  visto.value = true
+  await $fetch(`/api/contenido/${slug}/visto`, { method: 'POST' }).catch(() => {})
+}
+
+// Si el video todavía no está cargado en el servidor, no dejamos al usuario sin poder seguir.
+function alFallarVideo() {
+  videoNoDisponible.value = true
+  visto.value = true
+}
+
+function alDescargarGuia() {
+  guiaDescargada.value = true
+}
 
 // Invitados y prensa: opinión por video (¿te gustó? + mensaje) en lugar de "Comparte".
 const meGusto = ref<boolean | null>(null)
@@ -60,20 +97,27 @@ const queProfundizar = ref('')
 const otroTema = ref('')
 const enviando = ref(false)
 const enviado = ref(false)
+const correoEnviado = ref(false)
 const error = ref<string | null>(null)
 
+const preguntasCompletas = computed(() => Boolean(queSirvio.value.trim() && queProfundizar.value.trim() && otroTema.value.trim()))
+
 async function enviarOpinion() {
+  if (!preguntasCompletas.value) {
+    error.value = 'Responde las tres preguntas para terminar.'
+    return
+  }
   enviando.value = true
   error.value = null
   try {
-    await $fetch('/api/comparte', {
+    const r = await $fetch<{ correoEnviado?: boolean }>('/api/comparte', {
       method: 'POST',
       body: { video: video!.slug, queSirvio: queSirvio.value, queProfundizar: queProfundizar.value, otroTema: otroTema.value },
     })
+    correoEnviado.value = Boolean(r?.correoEnviado)
     enviado.value = true
   } catch {
-    error.value = 'No pudimos guardar tu opinión, pero gracias por compartirla.'
-    enviado.value = true
+    error.value = 'No pudimos guardar tus respuestas. Inténtalo de nuevo.'
   } finally {
     enviando.value = false
   }
@@ -84,15 +128,20 @@ async function enviarOpinion() {
   <div v-if="!verificando && sesion.suscrito">
     <div class="grid gap-[30px] p-[30px] lg:grid-cols-[minmax(0,634px)_minmax(0,405px)] lg:justify-between">
       <div class="flex flex-col gap-[20px]">
-        <div class="relative flex h-[563px] items-center justify-center overflow-hidden rounded-[30px]">
-          <img src="/images/figma/hero-home.png" alt="" class="absolute inset-0 size-full object-cover" />
-          <div class="absolute inset-0 bg-black/20" />
-          <button type="button" :aria-label="`Reproducir ${video!.titulo}`" class="relative text-white">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
-              <circle cx="20" cy="20" r="18" />
-              <path d="m16.5 13 11 7-11 7Z" />
-            </svg>
-          </button>
+        <div class="relative overflow-hidden rounded-[30px] bg-black">
+          <video
+            :src="urlVideo"
+            controls
+            playsinline
+            preload="metadata"
+            controlslist="nodownload"
+            class="aspect-video w-full"
+            @ended="alTerminarVideo"
+            @error="alFallarVideo"
+          />
+          <p v-if="videoNoDisponible" class="absolute inset-0 flex items-center justify-center bg-black/70 p-6 text-center text-[16px] font-semibold text-white">
+            El video estará disponible muy pronto. Mientras tanto, puedes descargar la guía.
+          </p>
         </div>
         <div class="flex h-[95px] items-center justify-center rounded-[30px] bg-white text-[16px] font-semibold text-[var(--color-gris-dk)]">
           Patrocinio
@@ -102,8 +151,25 @@ async function enviarOpinion() {
       <div class="flex flex-col items-start gap-[20px]">
         <p class="titulo-seccion">{{ video!.numero }}</p>
         <h1 class="text-[36px] font-bold leading-none text-[var(--color-secundario)]">{{ video!.titulo }}</h1>
-        <p class="text-[16px] font-bold text-[var(--color-gris-dk)] [line-height:1.05]">{{ video!.descripcion }}</p>
-        <BotonCasa href="#">Descargar PDF</BotonCasa>
+        <p class="text-[16px] font-bold text-[var(--color-gris-dk)] [line-height:1.2]">{{ video!.texto }}</p>
+
+        <ol class="flex w-full flex-col gap-[12px] rounded-[30px] bg-white p-[25px] text-[16px] text-[var(--color-gris-dk)]">
+          <li class="flex flex-col gap-[10px]">
+            <span :class="visto ? 'font-bold text-[var(--color-secundario)]' : 'font-bold'">{{ visto ? '✓' : '1.' }} Mira el video completo</span>
+          </li>
+          <li class="flex flex-col items-start gap-[10px]">
+            <span :class="guiaDescargada ? 'font-bold text-[var(--color-secundario)]' : visto ? 'font-bold' : 'text-[var(--color-gris-md)]'">
+              {{ guiaDescargada ? '✓' : '2.' }} Descarga la guía y haz el ejercicio
+            </span>
+            <BotonCasa v-if="visto" :href="urlGuia" @click="alDescargarGuia">Descargar PDF</BotonCasa>
+            <BotonCasa v-else disabled>Descargar PDF</BotonCasa>
+          </li>
+          <li>
+            <span :class="enviado ? 'font-bold text-[var(--color-secundario)]' : guiaDescargada ? 'font-bold' : 'text-[var(--color-gris-md)]'">
+              {{ enviado ? '✓' : '3.' }} Responde tres preguntas
+            </span>
+          </li>
+        </ol>
       </div>
     </div>
 
@@ -113,18 +179,15 @@ async function enviarOpinion() {
         <p class="text-[16px] text-[var(--color-gris-dk)]">Antes de cerrar con Aliviar, comparte C.A.S.A. con tres familiares o amigos.</p>
         <BotonCasa to="/referidos">Compartir con tres personas</BotonCasa>
       </div>
-      <NuxtLink
-        v-else-if="siguiente"
-        :to="`/contenidos/${siguiente.slug}`"
-        class="flex items-center gap-[25px] self-start rounded-[30px] bg-white p-[30px]"
-      >
+      <div v-else-if="siguiente" class="flex items-center gap-[25px] self-start rounded-[30px] bg-white p-[30px]">
         <img src="/images/figma/video-card.png" alt="" class="h-[147px] w-[251px] shrink-0 rounded-[20px] object-cover" />
         <div class="flex flex-col items-start gap-[10px]">
-          <p class="text-[16px] leading-none text-[var(--color-gris-dk)]">Próximo video</p>
+          <p class="text-[16px] leading-none text-[var(--color-gris-dk)]">Próximo contenido</p>
           <p class="text-[24px] font-bold leading-none text-[var(--color-gris-dk)]">{{ siguiente.titulo }}</p>
-          <BotonCasa>Ver video</BotonCasa>
+          <BotonCasa v-if="siguiente.disponible" :to="`/contenidos/${siguiente.slug}`">Ver video</BotonCasa>
+          <BotonCasa v-else disabled>Pronto {{ siguiente.titulo.toUpperCase() }}</BotonCasa>
         </div>
-      </NuxtLink>
+      </div>
 
       <div class="flex flex-col gap-[20px]">
         <template v-if="sesion.tipoAcceso">
@@ -156,7 +219,10 @@ async function enviarOpinion() {
         <template v-else>
         <h2 class="titulo-seccion">Comparte</h2>
         <div class="flex flex-col gap-[20px] rounded-[30px] bg-white p-[25px]">
-          <template v-if="!enviado">
+          <p v-if="!guiaDescargada && !enviado" class="text-[16px] text-[var(--color-gris-dk)]">
+            Cuando termines el video y descargues la guía, responde aquí tres preguntas para completar {{ video!.titulo }}.
+          </p>
+          <template v-else-if="!enviado">
             <label class="flex flex-col gap-[20px]">
               <span class="etiqueta-casa">¿Qué te sirvió de este contenido?</span>
               <textarea v-model="queSirvio" rows="2" placeholder="Escribe aquí" class="campo-casa" />
@@ -169,11 +235,14 @@ async function enviarOpinion() {
               <span class="etiqueta-casa">Compártenos otro tema que te interese</span>
               <textarea v-model="otroTema" rows="2" placeholder="Escribe aquí" class="campo-casa" />
             </label>
-            <BotonCasa :disabled="enviando" @click="enviarOpinion">{{ enviando ? 'Enviando...' : 'Enviar opinión' }}</BotonCasa>
+            <p v-if="error" class="text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ error }}</p>
+            <BotonCasa :disabled="enviando" @click="enviarOpinion">{{ enviando ? 'Enviando...' : 'Enviar respuestas' }}</BotonCasa>
           </template>
-          <p v-else class="text-[16px] text-[var(--color-gris-dk)]">
-            {{ error ?? '¡Gracias por tu opinión!' }}
-          </p>
+          <div v-else class="flex flex-col items-start gap-[12px] text-[16px] text-[var(--color-gris-dk)]">
+            <p class="text-[24px] font-bold leading-none text-[var(--color-primario)]">¡Felicidades!</p>
+            <p>Terminaste {{ video!.titulo }}. {{ correoEnviado ? 'Te enviamos un correo de felicitación con tu certificado.' : '' }}</p>
+            <BotonCasa :to="`/certificado/${slug}`">Ver mi certificado</BotonCasa>
+          </div>
         </div>
         </template>
       </div>

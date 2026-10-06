@@ -23,7 +23,7 @@ const error = ref<string | null>(null)
 onMounted(async () => {
   await cargarSesion()
   verificando.value = false
-  if (!sesion.value.suscrito) await navigateTo('/contenidos')
+  if (!sesion.value.suscrito) await navigateTo('/')
 })
 
 async function enviar() {
@@ -50,7 +50,7 @@ async function enviar() {
     <template v-if="enviado">
       <h1 class="titulo-seccion">Gracias por compartir bienestar con ellos</h1>
       <p class="max-w-[497px] text-center text-[16px] text-[var(--color-gris-dk)]">
-        Seguro te lo agradecerán. Espera en pocos días ver el último contenido de la Primera temporada de C.A.S.A.
+        Seguro te lo agradecerán. Espera en pocos días ver el último contenido de la Primera Temporada de C.A.S.A.
         <strong>Esta es tu C.A.S.A.</strong>
       </p>
       <BotonCasa to="/contenidos/aliviar">Ir a Aliviar</BotonCasa>

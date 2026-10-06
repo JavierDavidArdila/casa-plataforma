@@ -6,9 +6,23 @@ export interface VideoContenido {
   numero: string
   titulo: string
   descripcion: string
+  /** Texto para el usuario (Word del 30 sep 2026). */
+  texto: string
+  /** Publicado: los demás se muestran como "Pronto" y su página redirige al inicio. */
+  disponible: boolean
 }
 
 const ORDEN: Pilar[] = ['COMPRENDER', 'ACOMPANAR', 'SOSTENER', 'ALIVIAR']
+
+// Por ahora solo está publicado COMPRENDER (pedido del cliente, 5 oct 2026).
+const DISPONIBLES: Pilar[] = ['COMPRENDER']
+
+const TEXTOS: Record<Pilar, string> = {
+  COMPRENDER: 'Aquí entenderás mejor tu realidad y tus límites. Luego descarga el material de apoyo para poner todo en práctica.',
+  ACOMPANAR: 'A cuidarte a ti mismo(a). Y descarga el material de apoyo para practicar cómo cuidarte.',
+  SOSTENER: 'Aprenderás a manejar tus emociones para continuar cuidando. Y con el material de apoyo descargable lo harás más práctico.',
+  ALIVIAR: 'En este espacio aprenderás nuevamente a darle espacio a la vida y a ponerlo en blanco y negro con el material de apoyo descargable.',
+}
 
 export const VIDEOS: VideoContenido[] = ORDEN.map((pilar, i) => ({
   slug: pilar.toLowerCase(),
@@ -16,6 +30,8 @@ export const VIDEOS: VideoContenido[] = ORDEN.map((pilar, i) => ({
   numero: `Video 0${i + 1}`,
   titulo: PILARES[pilar].nombre,
   descripcion: PILARES[pilar].descripcion,
+  texto: TEXTOS[pilar],
+  disponible: DISPONIBLES.includes(pilar),
 }))
 
 export function obtenerVideo(slug: string) {

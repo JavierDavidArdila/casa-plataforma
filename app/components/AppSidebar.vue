@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const items = [
-  { grupo: 'Menú', links: [{ to: '/contenidos', label: 'Contenidos', icon: 'videocam' }] },
+  // Contenidos y Quiénes Somos se quitaron del menú por ahora (pedido del cliente, 5 oct 2026).
   {
     grupo: 'Noticias',
     links: [
@@ -11,7 +11,6 @@ const items = [
   {
     grupo: 'Nosotros',
     links: [
-      { to: '/quienes-somos', label: 'Quiénes Somos', icon: 'mano' },
       { to: '/comuniquemonos', label: 'Comuniquémonos', icon: 'comment' },
     ],
   },

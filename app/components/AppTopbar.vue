@@ -33,9 +33,6 @@ async function salir() {
         <span class="px-[30px] text-[16px] font-semibold leading-none text-black">
           Hola{{ sesion.nombre ? `, ${sesion.nombre}` : '' }}<template v-if="sesion.codigoUsuario"> · #{{ sesion.codigoUsuario }}</template>
         </span>
-        <NuxtLink to="/contenidos" class="px-[30px] py-[10px] text-[16px] font-semibold leading-none text-[var(--color-secundario)]">
-          Contenidos
-        </NuxtLink>
         <button type="button" class="px-[30px] py-[10px] text-[16px] font-semibold leading-none text-black" @click="salir">
           Salir
         </button>
