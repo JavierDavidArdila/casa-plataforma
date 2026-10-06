@@ -177,14 +177,21 @@ const videosTemporada1 = VIDEOS.map((video, i) => ({
 
     <!-- Quiénes somos -->
     <section class="grid gap-[30px] border-t border-[#dcdcdc] p-[30px] lg:grid-cols-[minmax(0,634px)_minmax(0,395px)] lg:justify-between">
-      <img src="/images/figma/hero-quienes-somos.jpg" alt="Quiénes somos" class="h-[405px] w-full rounded-[30px] object-cover" loading="lazy" />
-      <div class="flex flex-col items-start justify-center gap-[20px] py-6">
+      <img src="/images/quienes-somos-portada.jpg" alt="Luz María Arbeláez y Fernando Roca Correa conversando en el set de C.A.S.A." class="h-[405px] w-full rounded-[30px] object-cover" loading="lazy" />
+      <div class="flex flex-col items-start justify-center gap-[14px] py-6 text-[16px] text-[var(--color-gris-dk)] [line-height:1.3]">
         <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Quiénes somos</h2>
-        <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.3]">
-          Somos los creadores de la metodología de cuidado emocional para quienes cuidan a distancia C.A.S.A. con sus
-          pilares Comprender, Aprender, Sostener y Aliviar, y los productores de la plataforma virtual de educación que
-          inicia su primera temporada.
+        <p>
+          Somos los creadores de la metodología de cuidado emocional a distancia C.A.S.A. para quienes cuidan a lo lejos,
+          con sus pilares: Comprender, Aprender, Sostener y Aliviar.
         </p>
+        <p>Los creadores y productores de la plataforma virtual de educación que inicia su Primera Temporada son:</p>
+        <ul class="flex flex-col gap-[8px]">
+          <li><strong>Fernando Roca Correa.</strong> Cuidador, conferencista, mentor familiar, autor de ¡Ahora soy papá de mis papás! y creador del programa C.A.S.A.</li>
+          <li><strong>Luz Maria Arbelaez.</strong> Psicóloga y comunicadora. Asesora científica del programa.</li>
+          <li><strong>Oscar Javier Avila.</strong> Diseñador gráfico encargado de crear la imagen del proyecto.</li>
+          <li><strong>Alejandra Sánchez.</strong> Diseñadora interactiva, creó las animaciones y el material gráfico del programa.</li>
+        </ul>
+        <p>Y otro grupo importante de profesionales del desarrollo interactivo y la producción audiovisual, como David Angel y Andrés Hernandez.</p>
       </div>
     </section>
 

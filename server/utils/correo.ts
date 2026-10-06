@@ -20,13 +20,14 @@ export async function enviarFelicitacionContenido(
   const enlace = `${datos.sitioUrl.replace(/\/$/, '')}/certificado/${datos.slug}`
   const nombre = escapar(datos.nombre || 'Hola')
   const texto = [
-    `¡Felicidades, ${datos.nombre}!`,
+    `¡FELICITACIONES, ${datos.nombre}!`,
     '',
-    `Terminaste ${certificado.pilar}, el primer paso de la Primera Temporada de C.A.S.A., el Programa de Bienestar para cuidadores a distancia.`,
-    certificado.logro,
+    ...certificado.correo.flatMap((p) => [p, '']),
+    certificado.siguiente,
     '',
     `Mira y descarga tu certificado: ${enlace}`,
     '',
+    'Comenzaste la Primera Temporada.',
     'Esta es tu C.A.S.A.',
   ].join('\n')
 
@@ -37,11 +38,12 @@ export async function enviarFelicitacionContenido(
 <img src="${datos.sitioUrl.replace(/\/$/, '')}/images/brand/casa-logo.png" alt="C.A.S.A." width="200" style="width:200px;height:auto">
 </td></tr>
 <tr><td style="padding:10px 40px;text-align:center">
-<p style="font-size:28px;font-weight:bold;color:#ffb100;margin:10px 0">¡Felicidades, ${nombre}!</p>
-<p style="font-size:16px;line-height:1.5;margin:10px 0">Terminaste <strong>${certificado.pilar}</strong>, el primer paso de la Primera Temporada de C.A.S.A., el Programa de Bienestar para cuidadores a distancia.</p>
-<p style="font-size:16px;line-height:1.5;margin:10px 0">${escapar(certificado.logro)}</p>
+<p style="font-size:28px;font-weight:bold;color:#ffb100;margin:10px 0">¡FELICITACIONES, ${nombre}!</p>
+${certificado.correo.map((p) => `<p style="font-size:16px;line-height:1.5;margin:10px 0">${escapar(p)}</p>`).join('\n')}
+<p style="font-size:16px;line-height:1.5;margin:10px 0">${escapar(certificado.siguiente)}</p>
 <p style="margin:25px 0"><a href="${enlace}" style="background:#ffb100;color:#ffffff;text-decoration:none;font-weight:bold;padding:14px 28px;border-radius:10px;display:inline-block">Ver mi certificado</a></p>
-<p style="font-size:16px;font-weight:bold;color:#0078cc;margin:10px 0 30px">Esta es tu C.A.S.A.</p>
+<p style="font-size:16px;font-weight:bold;margin:10px 0 0">Comenzaste la Primera Temporada.</p>
+<p style="font-size:16px;font-weight:bold;color:#0078cc;margin:4px 0 30px">Esta es tu C.A.S.A.</p>
 </td></tr>
 </table>
 <p style="font-size:12px;color:#8a8a8a;margin:15px 0">® Todos los derechos reservados por Cuidar es 360 SAS</p>
@@ -51,8 +53,9 @@ export async function enviarFelicitacionContenido(
     await email.send({
       to: datos.para,
       from: REMITENTE,
+      cc: RESPONDER_A,
       replyTo: RESPONDER_A,
-      subject: `¡Felicidades! Terminaste ${certificado.pilar} en C.A.S.A.`,
+      subject: `¡Felicitaciones! Terminaste ${certificado.pilar} en C.A.S.A.`,
       html,
       text: texto,
     })
