@@ -39,7 +39,7 @@ import { EDICION_COLOMBIA, EDICION_USA } from '~/data/libro'
 import { PRENSA } from '~/data/prensa'
 
 // Servido desde R2 (bucket casa-videos) por server/routes/videos; no es un asset del build.
-const urlVideoBienvenida = '/videos/bienvenida.mp4?v=2'
+const urlVideoBienvenida = '/videos/bienvenida.mp4?v=3'
 const reproduciendo = ref(false)
 const videoEl = ref<HTMLVideoElement | null>(null)
 
