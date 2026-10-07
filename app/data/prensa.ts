@@ -19,8 +19,8 @@ export const PRENSA: EntradaPrensa[] = [
   },
   {
     titulo: 'Press Tour Planeta',
-    imagen: '/images/figma/hero-prensa.jpg',
+    imagen: '/images/prensa/press-tour-planeta.jpg',
     descripcion:
-      'Conoce pronto las principales entrevistas que Grupo Planeta organizó con Fernando Roca, autor de ¡Ahora soy papá de mis papás! y C.A.S.A.',
+      'Iniciamos en Despierta América de Univisión con dos cuidadores excepcionales de sus padres: Raúl Martínez González y Karla Martínez, con quienes compartimos cómo cuidarlos de cerca y a la distancia, cómo cuidarnos y tener todos envejecimiento activo.',
   },
 ]
