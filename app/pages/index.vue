@@ -61,6 +61,7 @@ const videosTemporada1 = VIDEOS.map((video, i) => ({
   boton: `${video.disponible ? 'Ve a' : 'Pronto'} ${video.titulo.toUpperCase()}`,
   to: video.disponible ? `/contenidos/${video.slug}` : undefined,
   disponible: video.disponible,
+  imagen: video.imagen,
 }))
 </script>
 
@@ -130,7 +131,7 @@ const videosTemporada1 = VIDEOS.map((video, i) => ({
       </p>
       <div class="grid items-stretch gap-[30px] sm:grid-cols-2 2xl:grid-cols-4">
         <div v-for="video in videosTemporada1" :key="video.titulo" class="flex">
-          <VideoCard :titulo="video.titulo" :descripcion="video.descripcion" :to="video.to" :deshabilitado="!video.disponible" :texto-boton="video.boton" />
+          <VideoCard :titulo="video.titulo" :descripcion="video.descripcion" :imagen="video.imagen" :to="video.to" :deshabilitado="!video.disponible" :texto-boton="video.boton" />
         </div>
       </div>
     </section>

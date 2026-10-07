@@ -10,6 +10,8 @@ export interface VideoContenido {
   texto: string
   /** Publicado: los demás se muestran como "Pronto" y su página redirige al inicio. */
   disponible: boolean
+  /** Imagen de la tarjeta en el home; sin ella se usa la genérica de VideoCard. */
+  imagen?: string
 }
 
 const ORDEN: Pilar[] = ['COMPRENDER', 'ACOMPANAR', 'SOSTENER', 'ALIVIAR']
@@ -24,6 +26,13 @@ const TEXTOS: Record<Pilar, string> = {
   ALIVIAR: 'En este espacio aprenderás nuevamente a darle espacio a la vida y a ponerlo en blanco y negro con el material de apoyo descargable.',
 }
 
+// Imágenes enviadas por el cliente el 7 oct 2026 (la de ACOMPAÑAR llegó como "aprender.jpeg").
+const IMAGENES: Partial<Record<Pilar, string>> = {
+  ACOMPANAR: '/images/contenidos/acompanar.jpg',
+  SOSTENER: '/images/contenidos/sostener.jpg',
+  ALIVIAR: '/images/contenidos/aliviar.jpg',
+}
+
 export const VIDEOS: VideoContenido[] = ORDEN.map((pilar, i) => ({
   slug: pilar.toLowerCase(),
   pilar,
@@ -32,6 +41,7 @@ export const VIDEOS: VideoContenido[] = ORDEN.map((pilar, i) => ({
   descripcion: PILARES[pilar].descripcion,
   texto: TEXTOS[pilar],
   disponible: DISPONIBLES.includes(pilar),
+  imagen: IMAGENES[pilar],
 }))
 
 export function obtenerVideo(slug: string) {
