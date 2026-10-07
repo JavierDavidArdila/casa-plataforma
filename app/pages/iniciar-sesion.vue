@@ -67,7 +67,7 @@ async function entrarClave() {
         </label>
 
         <div class="flex justify-end">
-          <button type="button" class="text-[12px] font-semibold text-[var(--color-gris-dk)]" disabled>Recuperar contraseña</button>
+          <NuxtLink to="/recuperar-clave" class="text-[12px] font-semibold text-[var(--color-gris-dk)] underline">Recuperar contraseña</NuxtLink>
         </div>
 
         <p v-if="error" class="text-[14px] font-semibold text-[var(--color-gris-dk)]">{{ error }}</p>

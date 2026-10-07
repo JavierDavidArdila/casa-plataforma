@@ -100,3 +100,8 @@ export async function obtenerContextoAcceso(db: D1Database, token: string | unde
   if (!fila || new Date(fila.expira_en).getTime() < Date.now()) return null
   return { usuarioId: fila.usuario_id, accesoId: fila.acceso_id, codigoId: fila.codigo_id, tipo: fila.tipo, venceEn: fila.expira_en }
 }
+
+// Recuperar contraseña: en la base solo queda el SHA-256 del token que viaja en el correo.
+export async function hashToken(token: string): Promise<string> {
+  return bufferAHex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(token)))
+}
