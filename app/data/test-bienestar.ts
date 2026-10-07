@@ -16,8 +16,10 @@ export const PILARES: Record<Pilar, { nombre: string; descripcion: string }> = {
     nombre: 'Comprender',
     descripcion: 'Culpa, sensación de insuficiencia, aceptación del nuevo rol.',
   },
+  // El cliente renombró este pilar a "Aprender" (7 oct 2026); la clave ACOMPANAR se queda porque
+  // es la que guardan los resultados del cuestionario en D1.
   ACOMPANAR: {
-    nombre: 'Acompañar',
+    nombre: 'Aprender',
     descripcion: 'Comunicación, tensión emocional, calidad del vínculo.',
   },
   SOSTENER: {

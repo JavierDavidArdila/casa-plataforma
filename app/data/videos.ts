@@ -26,15 +26,16 @@ const TEXTOS: Record<Pilar, string> = {
   ALIVIAR: 'En este espacio aprenderás nuevamente a darle espacio a la vida y a ponerlo en blanco y negro con el material de apoyo descargable.',
 }
 
-// Imágenes enviadas por el cliente el 7 oct 2026 (la de ACOMPAÑAR llegó como "aprender.jpeg").
-const IMAGENES: Partial<Record<Pilar, string>> = {
-  ACOMPANAR: '/images/contenidos/acompanar.jpg',
+// Imágenes enviadas por el cliente el 7 oct 2026.
+const IMAGENES: Record<Pilar, string> = {
+  COMPRENDER: '/images/contenidos/comprender.jpg',
+  ACOMPANAR: '/images/contenidos/aprender.jpg',
   SOSTENER: '/images/contenidos/sostener.jpg',
   ALIVIAR: '/images/contenidos/aliviar.jpg',
 }
 
 export const VIDEOS: VideoContenido[] = ORDEN.map((pilar, i) => ({
-  slug: pilar.toLowerCase(),
+  slug: pilar === 'ACOMPANAR' ? 'aprender' : pilar.toLowerCase(),
   pilar,
   numero: `Video 0${i + 1}`,
   titulo: PILARES[pilar].nombre,

@@ -126,7 +126,7 @@ const videosTemporada1 = VIDEOS.map((video, i) => ({
       <h2 class="text-[24px] font-bold leading-none text-[var(--color-secundario)]">Primera Temporada</h2>
       <p class="text-[16px] text-[var(--color-gris-dk)] [line-height:1.3]">
         Cuatro pilares del bienestar, cuatro capítulos con contenido (video capacitación + archivo ejercicio descargable +
-        apoyo por canal de WhatsApp), uno por cada pilar del cuidado a distancia: Comprender, Acompañar, Sostener y
+        apoyo por canal de WhatsApp), uno por cada pilar del cuidado a distancia: Comprender, Aprender, Sostener y
         Aliviar. <strong>¡Inicia ya con el primero: Comprender!</strong>
       </p>
       <div class="grid items-stretch gap-[30px] sm:grid-cols-2 2xl:grid-cols-4">
