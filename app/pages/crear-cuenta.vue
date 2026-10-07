@@ -22,6 +22,7 @@ async function crear() {
   enviando.value = true
   try {
     await $fetch('/api/cuenta', { method: 'POST', body: { password: password.value } })
+    useEmbudo().registrar('cuenta_ok')
     // Dentro del cupo gratuito la suscripción ya queda activa; /pago muestra el código de usuario.
     await navigateTo('/pago')
   } catch {

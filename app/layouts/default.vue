@@ -3,7 +3,21 @@
 const route = useRoute()
 const { sesion } = useAuth()
 const { paginaVista } = useSeguimiento()
+const { registrar } = useEmbudo()
 let ultimaRuta = ''
+// Embudo anónimo: una página vista por cambio de ruta, para cualquier visitante.
+let ultimaRutaEmbudo = ''
+onMounted(() => {
+  watch(
+    () => route.path,
+    (ruta) => {
+      if (ruta === ultimaRutaEmbudo) return
+      ultimaRutaEmbudo = ruta
+      registrar('pagina')
+    },
+    { immediate: true }
+  )
+})
 watch(
   () => [route.path, sesion.value.tipoAcceso] as const,
   ([ruta, tipo]) => {

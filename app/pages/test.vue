@@ -6,12 +6,15 @@ useSeoPagina({
 
 const { sesion, cargarSesion } = useAuth()
 const verificando = ref(true)
+const { registrar } = useEmbudo()
 
 onMounted(async () => {
   await cargarSesion()
   verificando.value = false
   if (!sesion.value.autenticado) {
     await navigateTo('/registrarse')
+  } else {
+    registrar('test_inicio')
   }
 })
 </script>

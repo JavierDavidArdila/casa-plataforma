@@ -70,7 +70,10 @@ function alternarPersona(persona: string) {
   else form.aQuienAyudas.splice(i, 1)
 }
 
+const { registrar } = useEmbudo()
+
 async function enviar() {
+  registrar('registro_enviado')
   error.value = null
   if (!form.aQuienAyudas.length) {
     error.value = 'Elige al menos una persona a quien ayudas o cuidas a distancia.'
@@ -93,8 +96,10 @@ async function enviar() {
         aQuienAyudas: form.aQuienAyudas.join(', '),
       },
     })
+    registrar('registro_ok')
     await navigateTo('/test')
   } catch {
+    registrar('registro_error')
     error.value = 'No pudimos guardar tus datos. Revisa el formulario e intenta de nuevo.'
   } finally {
     enviando.value = false

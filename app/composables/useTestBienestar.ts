@@ -62,6 +62,7 @@ export function useTestBienestar() {
     enviando.value = true
     errorEnvio.value = null
     const resultado = calcularResultado()
+    useEmbudo().registrar('test_fin')
 
     try {
       await $fetch('/api/test-bienestar', {

@@ -47,8 +47,11 @@ function precargar() {
   if (videoEl.value && videoEl.value.preload !== 'auto') videoEl.value.preload = 'auto'
 }
 
+const { registrar } = useEmbudo()
+
 function reproducir() {
   reproduciendo.value = true
+  registrar('video_bienvenida')
   videoEl.value?.play().catch(() => {})
 }
 
