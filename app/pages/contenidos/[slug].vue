@@ -23,8 +23,10 @@ const verificando = ref(true)
 onMounted(async () => {
   await cargarSesion()
   verificando.value = false
+  // Sin suscripción no se ve nada aquí: en vez de volver al inicio sin explicación, se lleva al
+  // visitante a inscribirse (o a activar la suscripción si ya tiene sesión).
   if (!sesion.value.suscrito) {
-    await navigateTo('/')
+    await navigateTo(sesion.value.autenticado ? '/pago' : '/registrarse')
     return
   }
   try {

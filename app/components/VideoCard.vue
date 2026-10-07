@@ -20,7 +20,13 @@ withDefaults(
 <template>
   <div class="flex w-full flex-col items-center">
     <div class="relative h-[200px] w-full">
-      <img :src="imagen" :alt="titulo" class="size-full rounded-t-[30px] object-cover" loading="lazy" />
+      <NuxtLink v-if="to" :to="to" class="block size-full" tabindex="-1" aria-hidden="true">
+        <img :src="imagen" :alt="titulo" class="size-full rounded-t-[30px] object-cover" loading="lazy" />
+      </NuxtLink>
+      <a v-else-if="href && !deshabilitado" :href="href" class="block size-full" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+        <img :src="imagen" :alt="titulo" class="size-full rounded-t-[30px] object-cover" loading="lazy" />
+      </a>
+      <img v-else :src="imagen" :alt="titulo" class="size-full rounded-t-[30px] object-cover" loading="lazy" />
       <span
         v-if="bloqueado"
         class="absolute right-3 top-3 rounded-full bg-black/60 px-2 py-1 text-[10px] font-semibold text-white"
