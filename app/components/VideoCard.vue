@@ -34,10 +34,10 @@ withDefaults(
         🔒 Solo suscriptores
       </span>
     </div>
-    <div class="flex w-full flex-1 flex-col items-start justify-end gap-[15px] rounded-b-[30px] bg-white p-[30px]">
+    <div class="flex w-full flex-1 flex-col items-start justify-start gap-[15px] rounded-b-[30px] bg-white p-[30px]">
       <p class="text-[16px] font-bold leading-none text-[var(--color-gris-dk)]">{{ titulo }}</p>
       <p v-if="descripcion" class="text-[16px] leading-none text-[var(--color-gris-dk)] [line-height:1.05]">{{ descripcion }}</p>
-      <BotonCasa :href="href" :to="to" :disabled="deshabilitado">{{ textoBoton }}</BotonCasa>
+      <BotonCasa class="mt-auto" :href="href" :to="to" :disabled="deshabilitado">{{ textoBoton }}</BotonCasa>
     </div>
   </div>
 </template>

@@ -68,10 +68,10 @@ const videosTemporada1 = VIDEOS.map((video, i) => ({
 <template>
   <div>
     <!-- Hero -->
-    <!-- Columnas flexibles (minmax) para que el texto nunca se salga hacia el menú en pantallas medianas,
-         y padding lateral para que el video no quede pegado al borde. -->
-    <section class="grid gap-[30px] px-[30px] py-[30px] lg:grid-cols-[minmax(0,420px)_minmax(0,634px)] lg:justify-center lg:gap-[50px] lg:px-[50px]">
-      <div class="flex min-w-0 flex-col items-start justify-center gap-[14px] py-6 text-[16px] text-[var(--color-gris-dk)] [line-height:1.3]">
+    <!-- El video va arriba, a todo el ancho y en 16:9 sin recortar (cuando estaba a un lado en una caja fija
+         se veía cortado); el texto de bienvenida queda debajo. -->
+    <section class="mx-auto flex max-w-[960px] flex-col gap-[30px] px-[30px] py-[30px] lg:px-[50px]">
+      <div class="order-2 flex min-w-0 flex-col items-start gap-[14px] py-2 text-[16px] text-[var(--color-gris-dk)] [line-height:1.3]">
         <h1 class="text-[36px] font-bold leading-none text-[var(--color-secundario)]">Bienvenidos a C.A.S.A.</h1>
         <p class="font-bold">Tu C.A.S.A. está abierta y te da la bienvenida a su primera temporada.</p>
         <p>C.A.S.A. es el primer Programa de Bienestar para cuidadores a distancia para hispanos.</p>
@@ -89,14 +89,14 @@ const videosTemporada1 = VIDEOS.map((video, i) => ({
         <BotonCasa to="/test">Hacer cuestionario de bienestar</BotonCasa>
       </div>
 
-      <div class="relative flex h-[405px] min-w-0 items-center justify-center overflow-hidden rounded-[30px] px-[50px] py-[30px]">
+      <div class="relative order-1 flex aspect-video min-w-0 items-center justify-center overflow-hidden rounded-[30px]">
         <!-- El <video> vive siempre en la página (solo metadatos hasta el clic) para que, al
              tocar play, el arranque sea inmediato; al acercar el puntero se pide que precargue. -->
         <video
           ref="videoEl"
           :src="urlVideoBienvenida"
           poster="/images/bienvenida-poster.jpg"
-          class="absolute inset-0 size-full bg-black object-cover"
+          class="absolute inset-0 size-full bg-black object-contain"
           :controls="reproduciendo"
           playsinline
           preload="metadata"
